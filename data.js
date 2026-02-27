@@ -9,37 +9,42 @@ const allLessonsData = {
     "2": {
         title: "第二課：在黑暗中乘著音樂飛翔",
         level1: [
+            // 3 個部件 (席：部件3縮小)
+            { word: "席", parts: ["images-5/L2/筆順-席-部件-1.png", "images-5/L2/筆順-席-部件-2.png", "images-5/L2/筆順-席-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180, scale: 0.7}] },
             // 3 個部件
-            { word: "席", parts: ["images-5/L2/筆順-席-部件-1.png", "images-5/L2/筆順-席-部件-2.png", "images-5/L2/筆順-席-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
             { word: "徐", parts: ["images-5/L2/筆順-徐-部件-1.png", "images-5/L2/筆順-徐-部件-2.png", "images-5/L2/筆順-徐-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
             // 2 個部件
             { word: "掌", parts: ["images-5/L2/筆順-掌-部件-1.png", "images-5/L2/筆順-掌-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
-            { word: "映", parts: ["images-5/L2/筆順-映-部件-1.png", "images-5/L2/筆順-映-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
-            // 3 個部件
-            { word: "冠", parts: ["images-5/L2/筆順-冠-部件-1.png", "images-5/L2/筆順-冠-部件-2.png", "images-5/L2/筆順-冠-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+            // 2 個部件 (映：部件1縮小)
+            { word: "映", parts: ["images-5/L2/筆順-映-部件-1.png", "images-5/L2/筆順-映-部件-2.png"], pos: [{x: 100, y: 180, scale: 0.7}, {x: 170, y: 180}] },
+            // 3 個部件 (冠：部件3縮小)
+            { word: "冠", parts: ["images-5/L2/筆順-冠-部件-1.png", "images-5/L2/筆順-冠-部件-2.png", "images-5/L2/筆順-冠-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180, scale: 0.7}] },
             // 2 個部件
             { word: "軍", parts: ["images-5/L2/筆順-軍-部件-1.png", "images-5/L2/筆順-軍-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
             // 3 個部件
             { word: "逆", parts: ["images-5/L2/筆順-逆-部件-1.png", "images-5/L2/筆順-逆-部件-2.png", "images-5/L2/筆順-逆-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+            // 2 個部件 (盲：部件2縮小)
+            { word: "盲", parts: ["images-5/L2/筆順-盲-部件-1.png", "images-5/L2/筆順-盲-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180, scale: 0.7}] },
             // 2 個部件
-            { word: "盲", parts: ["images-5/L2/筆順-盲-部件-1.png", "images-5/L2/筆順-盲-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
             { word: "扇", parts: ["images-5/L2/筆順-扇-部件-1.png", "images-5/L2/筆順-扇-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
             // 5 個部件的魔王字
             { word: "遭", parts: ["images-5/L2/筆順-遭-部件-1.png", "images-5/L2/筆順-遭-部件-2.png", "images-5/L2/筆順-遭-部件-3.png", "images-5/L2/筆順-遭-部件-4.png", "images-5/L2/筆順-遭-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
             // 2 個部件
             { word: "盆", parts: ["images-5/L2/筆順-盆-部件-1.png", "images-5/L2/筆順-盆-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
-            // 3 個部件
-            { word: "階", parts: ["images-5/L2/筆順-階-部件-1.png", "images-5/L2/筆順-階-部件-2.png", "images-5/L2/筆順-階-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
-            // 4 個部件
-            { word: "鑽", parts: ["images-5/L2/筆順-鑽-部件-1.png", "images-5/L2/筆順-鑽-部件-2.png", "images-5/L2/筆順-鑽-部件-3.png", "images-5/L2/筆順-鑽-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
+            // 3 個部件 (階：部件1放大)
+            { word: "階", parts: ["images-5/L2/筆順-階-部件-1.png", "images-5/L2/筆順-階-部件-2.png", "images-5/L2/筆順-階-部件-3.png"], pos: [{x: 70, y: 180, scale: 1.3}, {x: 120, y: 180}, {x: 170, y: 180}] },
+            // 4 個部件 (鑽：部件1放大)
+            { word: "鑽", parts: ["images-5/L2/筆順-鑽-部件-1.png", "images-5/L2/筆順-鑽-部件-2.png", "images-5/L2/筆順-鑽-部件-3.png", "images-5/L2/筆順-鑽-部件-4.png"], pos: [{x: 90, y: 130, scale: 1.3}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
             // 3 個部件
             { word: "轟", parts: ["images-5/L2/筆順-轟-部件-1.png", "images-5/L2/筆順-轟-部件-2.png", "images-5/L2/筆順-轟-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
-            // 4 個部件
-            { word: "隆", parts: ["images-5/L2/筆順-隆-部件-1.png", "images-5/L2/筆順-隆-部件-2.png", "images-5/L2/筆順-隆-部件-3.png", "images-5/L2/筆順-隆-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
-            { word: "途", parts: ["images-5/L2/筆順-途-部件-1.png", "images-5/L2/筆順-途-部件-2.png", "images-5/L2/筆順-途-部件-3.png", "images-5/L2/筆順-途-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
-            // 5 個部件的魔王字
-            { word: "鑑", parts: ["images-5/L2/筆順-鑑-部件-1.png", "images-5/L2/筆順-鑑-部件-2.png", "images-5/L2/筆順-鑑-部件-3.png", "images-5/L2/筆順-鑑-部件-4.png", "images-5/L2/筆順-鑑-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
-            { word: "繽", parts: ["images-5/L2/筆順-繽-部件-1.png", "images-5/L2/筆順-繽-部件-2.png", "images-5/L2/筆順-繽-部件-3.png", "images-5/L2/筆順-繽-部件-4.png", "images-5/L2/筆順-繽-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] }
+            // 4 個部件 (隆：部件3、4縮小)
+            { word: "隆", parts: ["images-5/L2/筆順-隆-部件-1.png", "images-5/L2/筆順-隆-部件-2.png", "images-5/L2/筆順-隆-部件-3.png", "images-5/L2/筆順-隆-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180, scale: 0.7}, {x: 150, y: 180, scale: 0.7}] },
+            // 4 個部件 (途：部件1放大)
+            { word: "途", parts: ["images-5/L2/筆順-途-部件-1.png", "images-5/L2/筆順-途-部件-2.png", "images-5/L2/筆順-途-部件-3.png", "images-5/L2/筆順-途-部件-4.png"], pos: [{x: 90, y: 130, scale: 1.3}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
+            // 5 個部件的魔王字 (鑑：部件2、3、4縮小)
+            { word: "鑑", parts: ["images-5/L2/筆順-鑑-部件-1.png", "images-5/L2/筆順-鑑-部件-2.png", "images-5/L2/筆順-鑑-部件-3.png", "images-5/L2/筆順-鑑-部件-4.png", "images-5/L2/筆順-鑑-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180, scale: 0.7}, {x: 130, y: 180, scale: 0.7}, {x: 170, y: 180, scale: 0.7}, {x: 210, y: 180}] },
+            // 5 個部件的魔王字 (繽：部件2、3、4、5縮小)
+            { word: "繽", parts: ["images-5/L2/筆順-繽-部件-1.png", "images-5/L2/筆順-繽-部件-2.png", "images-5/L2/筆順-繽-部件-3.png", "images-5/L2/筆順-繽-部件-4.png", "images-5/L2/筆順-繽-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180, scale: 0.7}, {x: 130, y: 180, scale: 0.7}, {x: 170, y: 180, scale: 0.7}, {x: 210, y: 180, scale: 0.7}] }
         ],
         level2: [], level3: [], level4: []
     },
