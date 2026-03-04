@@ -79,7 +79,7 @@ const allLessonsData = {
             { word: "狂", parts: ["images-5/L3/筆順-狂-部件-1.png", "images-5/L3/筆順-狂-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
             // 🌟 罩：部件2 小一點(0.7)，Preserve standard coordinates
             { word: "罩", parts: ["images-5/L3/筆順-罩-部件-1.png", "images-5/L3/筆順-罩-部件-2.png", "images-5/L3/筆順-罩-部件-3.png", "images-5/L3/筆順-罩-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130, scale: 0.7}, {x: 90, y: 180}, {x: 150, y: 180}] },
-            // 🌟 歉：部件2 3大(1.3)，部件4小一點(Standard 1.0)，部件 5大一點(Standard 1.0) (Reset relative to prev excessive values)
+            // 🌟 歉：部件2 3大(1.3)，部件4小一點(Standard 1.0)，部件 5大一點(Standard 1.0)
             { word: "歉", parts: ["images-5/L3/筆順-歉-部件-1.png", "images-5/L3/筆順-歉-部件-2.png", "images-5/L3/筆順-歉-部件-3.png", "images-5/L3/筆順-歉-部件-4.png", "images-5/L3/筆順-歉-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180, scale: 1.3}, {x: 130, y: 180, scale: 1.3}, {x: 170, y: 180}, {x: 210, y: 180}] }
         ], 
         level2: [], 
@@ -99,7 +99,33 @@ const allLessonsData = {
     },
 
     // ================= 第四課 =================
-    "4": { title: "第四課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] },
+    "4": { 
+        title: "第四課：(請輸入課名)", 
+        level1: [
+            // 🌟 第四課生字全數匯入 (預設安全標準排列)
+            { word: "闆", parts: ["images-5/L4/筆順-闆-部件-1.png", "images-5/L4/筆順-闆-部件-2.png", "images-5/L4/筆順-闆-部件-3.png", "images-5/L4/筆順-闆-部件-4.png", "images-5/L4/筆順-闆-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
+            { word: "販", parts: ["images-5/L4/筆順-販-部件-1.png", "images-5/L4/筆順-販-部件-2.png", "images-5/L4/筆順-販-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+            { word: "攤", parts: ["images-5/L4/筆順-攤-部件-1.png", "images-5/L4/筆順-攤-部件-2.png", "images-5/L4/筆順-攤-部件-3.png", "images-5/L4/筆順-攤-部件-4.png", "images-5/L4/筆順-攤-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
+            { word: "賊", parts: ["images-5/L4/筆順-賊-部件-1.png", "images-5/L4/筆順-賊-部件-2.png", "images-5/L4/筆順-賊-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+            { word: "冤", parts: ["images-5/L4/筆順-冤-部件-1.png", "images-5/L4/筆順-冤-部件-2.png", "images-5/L4/筆順-冤-部件-3.png", "images-5/L4/筆順-冤-部件-4.png", "images-5/L4/筆順-冤-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
+            { word: "枉", parts: ["images-5/L4/筆順-枉-部件-1.png", "images-5/L4/筆順-枉-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
+            { word: "辨", parts: ["images-5/L4/筆順-辨-部件-1.png", "images-5/L4/筆順-辨-部件-2.png", "images-5/L4/筆順-辨-部件-3.png", "images-5/L4/筆順-辨-部件-4.png", "images-5/L4/筆順-辨-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
+            { word: "惡", parts: ["images-5/L4/筆順-惡-部件-1.png", "images-5/L4/筆順-惡-部件-2.png", "images-5/L4/筆順-惡-部件-3.png", "images-5/L4/筆順-惡-部件-4.png", "images-5/L4/筆順-惡-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
+            { word: "武", parts: ["images-5/L4/筆順-武-部件-1.png", "images-5/L4/筆順-武-部件-2.png", "images-5/L4/筆順-武-部件-3.png", "images-5/L4/筆順-武-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
+            { word: "嫌", parts: ["images-5/L4/筆順-嫌-部件-1.png", "images-5/L4/筆順-嫌-部件-2.png", "images-5/L4/筆順-嫌-部件-3.png", "images-5/L4/筆順-嫌-部件-4.png", "images-5/L4/筆順-嫌-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
+            { word: "疑", parts: ["images-5/L4/筆順-疑-部件-1.png", "images-5/L4/筆順-疑-部件-2.png", "images-5/L4/筆順-疑-部件-3.png", "images-5/L4/筆順-疑-部件-4.png", "images-5/L4/筆順-疑-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
+            { word: "押", parts: ["images-5/L4/筆順-押-部件-1.png", "images-5/L4/筆順-押-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
+            { word: "審", parts: ["images-5/L4/筆順-審-部件-1.png", "images-5/L4/筆順-審-部件-2.png", "images-5/L4/筆順-審-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+            { word: "罰", parts: ["images-5/L4/筆順-罰-部件-1.png", "images-5/L4/筆順-罰-部件-2.png", "images-5/L4/筆順-罰-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+            { word: "沾", parts: ["images-5/L4/筆順-沾-部件-1.png", "images-5/L4/筆順-沾-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
+            { word: "貪", parts: ["images-5/L4/筆順-貪-部件-1.png", "images-5/L4/筆順-貪-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
+            { word: "饒", parts: ["images-5/L4/筆順-饒-部件-1.png", "images-5/L4/筆順-饒-部件-2.png", "images-5/L4/筆順-饒-部件-3.png", "images-5/L4/筆順-饒-部件-4.png", "images-5/L4/筆順-饒-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
+            { word: "謀", parts: ["images-5/L4/筆順-謀-部件-1.png", "images-5/L4/筆順-謀-部件-2.png", "images-5/L4/筆順-謀-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] }
+        ], 
+        level2: [], 
+        level3: [], 
+        level4: [] 
+    },
 
     // ================= 第五課 =================
     "5": { title: "第五課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] },
