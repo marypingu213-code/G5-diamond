@@ -3,184 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>課程關卡選擇</title>
+    <title>第一關：部件拼拼樂 (高對比深色版)</title>
     <script src="data.js"></script>
     <style>
-        /* 恢復外層的淺灰藍色，作為大螢幕的邊界緩衝 */
+        /* 讓 body 直接成為黑底，徹底滿版，拿掉多餘的邊界 */
         body { 
             font-family: "Microsoft JhengHei", "Heiti TC", sans-serif; 
-            background-color: #eef2f5; 
+            background-color: #1a1a1a; /* 深鐵灰色，保護眼睛 */
             margin: 0; 
-            padding: 2vh 2vw; /* 讓四周保留一點點好看的邊距 */
+            padding: 0; 
             display: flex; 
-            justify-content: center; 
-            align-items: center; 
+            flex-direction: column; 
             min-height: 100vh; 
-            box-sizing: border-box;
+            box-sizing: border-box; 
         }
-
-        /* 巨無霸遊戲底板：佔據 95% 以上畫面，取代原本的 canvas-16-9 */
+        
+        /* 取代原本的 canvas-16-9，變為自由彈性的大容器 */
         .main-container { 
-            position: relative; 
             width: 100%; 
-            max-width: 1600px; /* 放到超大 */
-            min-height: 92vh; /* 高度幾乎撐滿 */
-            background-color: #fdf5e6; 
-            border-radius: 40px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15); 
+            flex-grow: 1; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            padding: 50px 4%; 
+            padding: 30px 4%; 
             box-sizing: border-box; 
         }
 
-        /* 左上角返回按鈕放大 */
-        .back-btn { 
-            position: absolute; 
-            top: 40px; 
-            left: 40px; 
-            background-color: #fff; 
-            color: #5a4a42; 
-            text-decoration: none; 
-            font-size: clamp(18px, 1.8vw, 26px); 
-            font-weight: bold; 
-            padding: 15px 30px; 
-            border-radius: 50px; 
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1); 
-            transition: 0.2s; 
-            border: 3px solid #e0e0e0;
-            z-index: 10;
-        }
-        .back-btn:hover { background-color: #f8f9fa; transform: scale(1.05); border-color: #bdc3c7;}
-
         .header-area { 
-            text-align: center; 
-            margin-top: 20px;
-            margin-bottom: 50px; 
-            width: 100%;
+            width: 100%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 30px; 
         }
         
         h1 { 
-            color: #5a4a42; 
-            font-size: clamp(36px, 4.5vw, 70px); 
-            margin: 0 0 15px 0; 
-            text-shadow: 2px 3px 5px rgba(0,0,0,0.15); 
-        }
-        .subtitle { 
-            font-size: clamp(22px, 2.5vw, 36px); 
-            color: #7b6855; 
+            color: #FFD700; 
+            font-size: clamp(30px, 3.5vw, 50px); 
             margin: 0; 
-            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8); 
         }
         
-        /* 升級為 Grid 網格，讓四個按鈕均分空間且自動換行 */
-        .level-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 40px; /* 按鈕之間的間距拉大 */
-            width: 100%; 
-            max-width: 1400px;
-            flex-grow: 1; /* 讓按鈕區塊自動填滿剩下的高度 */
-            align-content: center; /* 垂直置中 */
-        }
+        .header-btns { display: flex; gap: 15px; z-index: 50; }
         
-        /* 卡片大幅度放大，增加點擊熱區 */
-        .level-card { 
-            background-color: #ffffff; 
-            border-radius: 30px; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08); 
+        /* 導覽按鈕放大 */
+        .back-btn { 
+            background-color: #333333; 
+            color: #ffffff; 
             text-decoration: none; 
+            font-size: clamp(16px, 1.5vw, 24px); 
+            font-weight: bold; 
+            padding: 12px 25px; 
+            border-radius: 50px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5); 
+            transition: 0.2s; 
+            border: 2px solid #555; 
             display: flex; 
-            flex-direction: column; 
+            align-items: center;
+        }
+        .back-btn:hover { background-color: #555555; transform: scale(1.05); }
+        
+        .home-btn { background-color: #1565c0; border: 2px solid #0d47a1; }
+        .home-btn:hover { background-color: #0d47a1; }
+
+        /* 目標字提示放大 */
+        .target-hint { 
+            font-size: clamp(28px, 3vw, 40px); 
+            color: #ffffff; 
+            background: #222222; 
+            padding: 15px 40px; 
+            border-radius: 50px; 
+            box-shadow: 0 6px 12px rgba(0,0,0,0.5); 
+            display: inline-block; 
+            margin-bottom: 40px; 
+            border: 2px solid #444; 
+        }
+        #target-word { color: #ff9800; font-weight: bold; font-size: 1.2em;}
+
+        /* 遊戲區域放大，間距拉開，讓雙框盡情展開 */
+        .game-wrapper { 
+            display: flex; 
+            justify-content: center; 
+            align-items: stretch; /* 讓兩個框框一樣高 */
+            flex-wrap: wrap; 
+            gap: 5vw; 
+            width: 100%; 
+            max-width: 1600px;
+            flex-grow: 1; 
+        }
+        
+        /* 巨無霸拼圖框 */
+        .box { 
+            flex: 1;
+            min-width: 350px;
+            max-width: 600px; /* 寬度上限大幅放寬 */
+            min-height: 500px; /* 高度變高 */
+            background: #ffffff; 
+            border-radius: 25px; 
+            position: relative; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6); 
+        }
+        
+        .parts-pool { border: 6px dashed #888; background-color: #f8f9fa;} 
+        .drop-zone { border: 6px solid #ff5252; }
+        
+        .box-title { 
+            width: 100%; 
+            padding: 15px 0; 
+            text-align: center; 
+            font-size: clamp(24px, 2vw, 30px); 
+            font-weight: bold; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            z-index: 5; 
+            pointer-events: none; 
+        }
+        .pool-title { background: #444444; color: #ffffff; border-top-left-radius: 18px; border-top-right-radius: 18px; } 
+        .zone-title { background: #d32f2f; color: #ffffff; border-top-left-radius: 18px; border-top-right-radius: 18px; }
+        
+        #pool { 
+            display: flex; 
+            flex-wrap: wrap; 
+            align-content: flex-start; 
+            justify-content: center; 
+            padding-top: 80px; 
+            height: 100%; 
+            box-sizing: border-box; 
+            gap: 15px; /* 部件之間的間距加大 */
+        }
+        
+        /* 部件圖片基礎大小放大 (從130px升級為180px) */
+        .part-img { 
+            width: 180px; 
+            height: 180px; 
+            object-fit: contain; 
+            cursor: grab; 
+            transition: transform 0.1s ease; 
+            z-index: 10; 
+            touch-action: none; 
+        }
+        #pool .part-img { 
+            position: relative !important; 
+            left: auto !important; 
+            top: auto !important; 
+            margin: 10px; 
+            background-color: #ffffff; 
+            border: 3px solid #eaeaea; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .part-img:active { cursor: grabbing; transform: scale(1.15); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+        
+        #zone-guide { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            font-size: clamp(30px, 3vw, 45px); 
+            color: #cccccc; 
+            font-weight: bold; 
+            pointer-events: none; 
+            width: 80%; 
+            text-align: center; 
+        }
+        
+        .status-area { 
+            min-height: 100px; 
+            display: flex; 
             justify-content: center; 
             align-items: center; 
-            transition: all 0.3s ease; 
-            border: 8px solid transparent; /* 邊框加粗 */
+            gap: 3vw; 
+            margin-top: 40px; 
+            width: 100%; 
+        }
+        
+        #message { 
+            font-size: clamp(30px, 3vw, 45px); 
+            color: #4CAF50; 
+            font-weight: bold; 
+            margin: 0; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8); 
+        }
+        
+        #next-btn { 
+            font-size: clamp(24px, 2vw, 36px); 
+            padding: 20px 50px; 
+            background-color: #4CAF50; 
+            color: white; 
+            border: 4px solid #388E3C; 
+            border-radius: 60px; 
             cursor: pointer; 
-            padding: 50px 20px; 
-            text-align: center; 
-            min-height: 350px; /* 卡片長高 */
+            display: none; 
+            box-shadow: 0 8px 0 #2e7d32; 
+            font-weight: bold; 
+            transition: 0.1s;
         }
-        
-        .level-card:hover { 
-            transform: translateY(-15px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
-        }
-        
-        .level-icon { font-size: clamp(70px, 7vw, 120px); margin-bottom: 25px; }
-        .level-title { font-size: clamp(28px, 2.5vw, 40px); font-weight: bold; margin-bottom: 15px; line-height: 1.4; }
-        .level-desc { font-size: clamp(18px, 1.5vw, 24px); color: #666; font-weight: bold; }
-        
-        /* 顏色區分保持不變 */
-        .card-1 { border-color: #ff9999; } .card-1 .level-title { color: #e74c3c; }
-        .card-2 { border-color: #87cefa; } .card-2 .level-title { color: #3498db; }
-        .card-3 { border-color: #98fb98; } .card-3 .level-title { color: #2ecc71; }
-        .card-4 { border-color: #ffd700; } .card-4 .level-title { color: #f39c12; }
+        #next-btn:active { transform: translateY(8px); box-shadow: 0 0 0 #2e7d32; }
 
         @media (max-width: 768px) {
-            .back-btn { position: relative; top: 0; left: 0; margin-bottom: 20px; display: inline-block;}
-            .header-area { margin-top: 10px; margin-bottom: 30px; }
-            .level-card { min-height: 250px; padding: 30px 15px;}
+            .header-area { flex-direction: column; gap: 20px; }
+            .box { min-height: 400px; } 
+            #pool { padding-top: 70px; }
         }
     </style>
 </head>
 <body>
     <div class="main-container">
-        <a href="index.html" class="back-btn">🏠 回到總首頁</a>
-
         <div class="header-area">
-            <h1 id="lesson-title-display">載入中...</h1>
-            <p class="subtitle">準備好挑戰四個關卡了嗎？</p>
+            <h1>🧩 第一關：部件拼拼樂</h1>
+            <div class="header-btns">
+                <a href="index.html" class="back-btn home-btn">🏠 回總大廳</a>
+                <a href="#" id="back-btn" class="back-btn">🔙 回課程選單</a>
+            </div>
         </div>
-        
-        <div class="level-container">
-            <a href="#" id="link-lvl1" class="level-card card-1">
-                <div class="level-icon">🧩</div>
-                <div class="level-title">第一關<br>部件拼拼樂</div>
-                <div class="level-desc">把零件組合成字！</div>
-            </a>
-            <a href="#" id="link-lvl2" class="level-card card-2">
-                <div class="level-icon">👀</div>
-                <div class="level-title">第二關<br>語詞翻翻樂</div>
-                <div class="level-desc">選出正確的字！</div>
-            </a>
-            <a href="#" id="link-lvl3" class="level-card card-3">
-                <div class="level-icon">🕵️‍♂️</div>
-                <div class="level-title">第三關<br>生字大富翁</div>
-                <div class="level-desc">找出正確答案！</div>
-            </a>
-            <a href="#" id="link-lvl4" class="level-card card-4">
-                <div class="level-icon">🚂</div>
-                <div class="level-title">第四關<br>語詞配對</div>
-                <div class="level-desc">找出正確答案！</div>
-            </a>
+        <div class="target-hint">目標：<span id="target-word">字</span></div>
+        <div class="game-wrapper">
+            <div class="box parts-pool" id="pool"><div class="box-title pool-title">1️⃣ 點住並拖曳</div></div>
+            <div class="box drop-zone" id="zone"><div class="box-title zone-title">2️⃣ 放到這裡組裝</div><p id="zone-guide">把部件丟進來</p></div>
         </div>
+        <div class="status-area"><div id="message"></div><button id="next-btn" onclick="nextWord()">我拼好了 ➡️</button></div>
     </div>
 
     <script>
-        window.onload = function() {
-            // 1. 取得網址列的 id (例如 ?id=2)
-            const urlParams = new URLSearchParams(window.location.search);
-            const lessonId = urlParams.get('id');
+        const urlParams = new URLSearchParams(window.location.search);
+        const lessonId = urlParams.get('id') || "1"; 
+        document.getElementById('back-btn').href = `lesson.html?id=${lessonId}`;
+        const wordData = allLessonsData[lessonId] ? allLessonsData[lessonId].level1 : [];
 
-            // 如果找不到這個課程，退回首頁
-            if (!lessonId || !allLessonsData[lessonId]) {
-                alert("找不到課程資料！即將返回首頁。");
-                window.location.href = "index.html";
-                return;
+        let gameWords = [], currentIdx = 0, placedCount = 0;
+        let activePart = null, offsetX = 0, offsetY = 0;
+        
+        // 🌟 這裡配合 CSS 放大，把基礎大小提升到了 180
+        const BASE_PART_SIZE = 180; 
+
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex); currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            } return array;
+        }
+
+        function startGame() { 
+            if(wordData.length === 0) { alert("此課程沒有第一關資料！"); return; }
+            gameWords = shuffle([...wordData]); currentIdx = 0; initGame(); 
+        }
+
+        function initGame() {
+            const pool = document.getElementById('pool'), targetWord = document.getElementById('target-word'), msg = document.getElementById('message'), guide = document.getElementById('zone-guide'), nextBtn = document.getElementById('next-btn');
+            document.querySelectorAll('.part-img').forEach(img => img.remove());
+            msg.innerText = ''; nextBtn.style.display = 'none'; nextBtn.innerText = '我拼好了 ➡️'; nextBtn.onclick = nextWord;
+            placedCount = 0; guide.style.display = 'block';
+            let data = gameWords[currentIdx]; targetWord.innerText = data.word;
+            let shuffledParts = [...data.parts].sort(() => Math.random() - 0.5);
+            
+            shuffledParts.forEach((src) => {
+                let img = document.createElement('img'); img.src = src; img.className = 'part-img'; 
+                img.draggable = false;
+                
+                let partIdx = data.parts.indexOf(src);
+                // 根據放大後的 BASE_PART_SIZE 計算比例
+                if (data.pos[partIdx] && data.pos[partIdx].scale) {
+                    let newSize = BASE_PART_SIZE * data.pos[partIdx].scale;
+                    img.style.width = newSize + 'px';
+                    img.style.height = newSize + 'px';
+                }
+
+                img.addEventListener('pointerdown', handlePointerDown);
+                img.onerror = function() { console.error("圖片遺失: " + src); }; 
+                pool.appendChild(img);
+            });
+        }
+
+        function handlePointerDown(e) {
+            e.preventDefault();
+            activePart = this;
+            activePart.style.zIndex = 1000;
+            activePart.setPointerCapture(e.pointerId);
+
+            let rect = activePart.getBoundingClientRect();
+            
+            if (activePart.parentElement.id === 'pool') {
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+                activePart.style.position = 'fixed';
+                activePart.style.left = rect.left + 'px';
+                activePart.style.top = rect.top + 'px';
+                document.body.appendChild(activePart);
+            } else if (activePart.parentElement.id === 'zone') {
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
             }
 
-            // 2. 把大標題換成這課的名稱
-            const lessonInfo = allLessonsData[lessonId];
-            document.getElementById('lesson-title-display').innerText = lessonInfo.title;
+            activePart.addEventListener('pointermove', handlePointerMove);
+            activePart.addEventListener('pointerup', handlePointerUp);
+        }
 
-            // 3. 把四個關卡的網址都加上 ?id=X 傳遞下去
-            document.getElementById('link-lvl1').href = `level1.html?id=${lessonId}`;
-            document.getElementById('link-lvl2').href = `level2.html?id=${lessonId}`;
-            document.getElementById('link-lvl3').href = `level3.html?id=${lessonId}`;
-            document.getElementById('link-lvl4').href = `level4.html?id=${lessonId}`;
-        };
+        function handlePointerMove(e) {
+            if (!activePart) return;
+            e.preventDefault();
+            
+            if (activePart.parentElement === document.body) {
+                activePart.style.left = (e.clientX - offsetX) + 'px';
+                activePart.style.top = (e.clientY - offsetY) + 'px';
+            } else if (activePart.parentElement.id === 'zone') {
+                let zoneRect = document.getElementById('zone').getBoundingClientRect();
+                let newLeft = e.clientX - zoneRect.left - offsetX;
+                let newTop = e.clientY - zoneRect.top - offsetY;
+                activePart.style.left = newLeft + 'px';
+                activePart.style.top = newTop + 'px';
+            }
+        }
+
+        function handlePointerUp(e) {
+            if (!activePart) return;
+            activePart.releasePointerCapture(e.pointerId);
+            activePart.removeEventListener('pointermove', handlePointerMove);
+            activePart.removeEventListener('pointerup', handlePointerUp);
+            activePart.style.zIndex = 10;
+
+            let zone = document.getElementById('zone');
+            let zoneRect = zone.getBoundingClientRect();
+            let pool = document.getElementById('pool');
+
+            let droppedInZone = ( e.clientX >= zoneRect.left && e.clientX <= zoneRect.right && e.clientY >= zoneRect.top && e.clientY <= zoneRect.bottom );
+
+            if (droppedInZone) {
+                if (activePart.parentElement === document.body) {
+                    zone.appendChild(activePart);
+                    document.getElementById('zone-guide').style.display = 'none';
+                    placedCount++;
+                }
+                activePart.style.position = 'absolute';
+                let newLeft = e.clientX - zoneRect.left - offsetX;
+                let newTop = e.clientY - zoneRect.top - offsetY;
+                activePart.style.left = newLeft + 'px';
+                activePart.style.top = newTop + 'px';
+                
+                checkWin();
+            } else {
+                if (activePart.parentElement === zone) placedCount--;
+                pool.appendChild(activePart);
+                activePart.style.position = 'relative';
+                activePart.style.left = 'auto';
+                activePart.style.top = 'auto';
+                
+                if (placedCount < gameWords[currentIdx].parts.length) { 
+                    document.getElementById('message').innerText = ''; 
+                    document.getElementById('next-btn').style.display = 'none'; 
+                }
+                if (document.querySelectorAll('#zone .part-img').length === 0) {
+                    document.getElementById('zone-guide').style.display = 'block';
+                }
+            }
+            activePart = null;
+        }
+        
+        function checkWin() { if (placedCount === gameWords[currentIdx].parts.length) { document.getElementById('message').innerText = "🌟 請檢查拼得對不對喔！ 🌟"; document.getElementById('next-btn').style.display = 'inline-block'; } }
+        
+        function nextWord() { 
+            currentIdx++; 
+            if (currentIdx < gameWords.length) { 
+                initGame(); 
+            } else { 
+                document.getElementById('message').style.color = "#4CAF50";
+                document.getElementById('message').innerText = "🎉 恭喜！本關卡挑戰成功！"; 
+                let btn = document.getElementById('next-btn');
+                btn.innerText = '🔙 回課程選單';
+                btn.onclick = () => { window.location.href = `lesson.html?id=${lessonId}`; };
+            } 
+        }
+        
+        window.onload = startGame;
     </script>
 </body>
 </html>
