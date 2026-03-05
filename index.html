@@ -6,150 +6,31 @@
     <title>特教國語遊戲網</title>
     <script src="data.js"></script>
     <style>
-        /* 滿版背景與邊距緩衝 */
-        body { 
-            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif; 
-            background-color: #eef2f5; 
-            margin: 0; 
-            padding: 2vh 2vw; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            box-sizing: border-box;
-        }
-
-        /* 巨無霸遊戲底板：佔滿 95% 螢幕 */
-        .main-container { 
-            position: relative; 
-            width: 100%; 
-            max-width: 1600px; 
-            min-height: 92vh; 
-            background-color: #fdf5e6; 
-            border-radius: 40px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 50px 3%; 
-            box-sizing: border-box; 
-        }
-
-        .header-area { 
-            text-align: center; 
-            margin-top: 10px;
-            margin-bottom: 40px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
-
-        h1 { 
-            color: #5a4a42; 
-            font-size: clamp(40px, 5vw, 80px); 
-            margin: 0 0 15px 0; 
-            text-shadow: 2px 3px 5px rgba(0,0,0,0.15); 
-        }
-        
-        .subtitle { 
-            font-size: clamp(22px, 2.5vw, 36px); 
-            color: #7b6855; 
-            margin: 0; 
-            font-weight: bold;
-        }
-
-        /* QR Code 放大並固定右上角 */
-        .qr-box { 
-            position: absolute; 
-            top: 40px; 
-            right: 50px; 
-            background: #fff; 
-            padding: 20px; 
-            border-radius: 20px; 
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1); 
-            text-align: center; 
-            border: 4px dashed #f39c12; 
-            transition: transform 0.3s; 
-            z-index: 100; 
-        }
-        .qr-box:hover { transform: scale(1.05); }
-        .qr-box p { margin: 0 0 10px 0; font-size: 18px; font-weight: bold; color: #e74c3c; letter-spacing: 1px; }
+        /* 原有的 CSS 保留 */
+        body { font-family: "Microsoft JhengHei", "Heiti TC", sans-serif; background-color: #eef2f5; margin: 0; padding: 2vh 2vw; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+        .main-container { position: relative; width: 100%; max-width: 1600px; min-height: 92vh; background-color: #fdf5e6; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center; padding: 50px 3%; box-sizing: border-box; }
+        .header-area { text-align: center; margin-top: 10px; margin-bottom: 40px; display: flex; flex-direction: column; align-items: center; }
+        h1 { color: #5a4a42; font-size: clamp(40px, 5vw, 80px); margin: 0 0 15px 0; text-shadow: 2px 3px 5px rgba(0,0,0,0.15); }
+        .subtitle { font-size: clamp(22px, 2.5vw, 36px); color: #7b6855; margin: 0; font-weight: bold; }
+        .qr-box { position: absolute; top: 40px; right: 50px; background: #fff; padding: 20px; border-radius: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.1); text-align: center; border: 4px dashed #f39c12; transition: transform 0.3s; z-index: 100; }
         .qr-box img { width: 140px; height: 140px; object-fit: contain; }
+        .tool-btn { background-color: #8d6e63; color: white; text-decoration: none; font-size: clamp(18px, 1.8vw, 26px); font-weight: bold; padding: 15px 30px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 6px 10px rgba(0,0,0,0.15); transition: 0.2s; margin-top: 15px; border: 3px solid #6d4c41; }
+        .lesson-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; width: 100%; max-width: 1500px; padding: 10px 30px; box-sizing: border-box; flex-grow: 1; align-content: start; }
+        
+        /* 課程卡片 */
+        .lesson-card { background-color: #ffffff; border-radius: 25px; box-shadow: 0 8px 15px rgba(0,0,0,0.08); text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; border: 5px solid #3498db; cursor: pointer; padding: 20px; min-height: 150px; box-sizing: border-box; }
+        .lesson-card:hover { transform: translateY(-10px); background-color: #eafaf1; border-color: #2ecc71; }
+        .lesson-title { font-size: clamp(26px, 2.2vw, 36px); font-weight: bold; color: #2c3e50; text-align: center; line-height: 1.5; }
 
-        /* 外部連結工具按鈕放大 */
-        .tool-btn { 
-            background-color: #8d6e63; 
-            color: white; 
-            text-decoration: none; 
-            font-size: clamp(18px, 1.8vw, 26px); 
-            font-weight: bold; 
-            padding: 15px 30px; 
-            border-radius: 50px; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 10px; 
-            box-shadow: 0 6px 10px rgba(0,0,0,0.15); 
-            transition: 0.2s; 
-            margin-top: 15px; 
-            border: 3px solid #6d4c41; 
-        }
-        .tool-btn:hover { transform: scale(1.05) translateY(-3px); background-color: #795548; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-
-        /* 課程列表區：改為 Grid 自動延伸網格 */
-        .lesson-list { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-            gap: 35px; 
-            width: 100%; 
-            max-width: 1500px; 
-            padding: 10px 30px; 
-            box-sizing: border-box; 
-            flex-grow: 1;
-            align-content: start;
-        }
-
-        .lesson-card { 
-            background-color: #ffffff; 
-            border-radius: 25px; 
-            box-shadow: 0 8px 15px rgba(0,0,0,0.08); 
-            text-decoration: none; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; 
-            border: 5px solid #3498db; 
-            cursor: pointer; 
-            padding: 20px; 
-            min-height: 150px; 
-            box-sizing: border-box; 
-        }
-
-        .lesson-card:hover { 
-            transform: translateY(-10px); 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15); 
-            background-color: #eafaf1; 
-            border-color: #2ecc71; 
-        }
-
-        .lesson-title { 
-            font-size: clamp(26px, 2.2vw, 36px); 
-            font-weight: bold; 
-            color: #2c3e50; 
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        @media (max-width: 768px) { 
-            .qr-box { display: none; }
-            .header-area { margin-top: 10px; margin-bottom: 30px;}
-            .main-container { padding: 30px 4%; }
-            .lesson-card { min-height: 120px; }
-        }
+        /* 新增：關卡按鈕容器（隱藏在卡片內，點擊才顯示彈窗或展開） */
+        .level-container { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-l { padding: 10px 15px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; font-size: 18px; }
+        .btn-unlocked { background-color: #27ae60; color: white; }
+        .btn-locked { background-color: #95a5a6; color: #ecf0f1; cursor: not-allowed; }
     </style>
 </head>
 <body>
     <div class="main-container">
-        
         <div class="qr-box" title="讓學生用平板掃描這裡">
             <p>📱 掃描進遊戲</p>
             <img id="qr-code-image" src="" alt="自動產生 QR Code">
@@ -158,17 +39,31 @@
         <div class="header-area">
             <h1>🏫 特教國語遊戲網 🎪</h1>
             <p class="subtitle">請選擇今天要挑戰的課程！</p>
-            
-            <a href="https://gsyan888.blogspot.com/p/stroke.html#" target="_blank" class="tool-btn">
-                🐻 熊熊筆順練習網
-            </a>
+            <a href="https://gsyan888.blogspot.com/p/stroke.html#" target="_blank" class="tool-btn">🐻 熊熊筆順練習網</a>
         </div>
         
         <div class="lesson-list" id="lesson-container"></div>
     </div>
 
     <script>
+        // 檢查解鎖狀態的函數
+        function enterLevel(lessonId, levelNum) {
+            // 只有第四關需要檢查
+            if (levelNum === 4) {
+                // 檢查瀏覽器記憶體
+                const isUnlocked = localStorage.getItem(`level4_unlocked_lesson_${lessonId}`);
+                if (isUnlocked !== 'true') {
+                    alert("🔒 這一關還沒解鎖喔！請先完成「第三關：語詞填空」。");
+                    return;
+                }
+            }
+            // 通過檢查則跳轉（假設你的檔案名是 level1.html, level2.html...）
+            // 如果你還是用 lesson.html?id=...，請自行調整
+            window.location.href = `level${levelNum}.html?lesson=${lessonId}`;
+        }
+
         window.onload = function() {
+            // QR Code 產生
             let cleanUrl = window.location.href.split('#')[0].split('?')[0]; 
             document.getElementById('qr-code-image').src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(cleanUrl);
 
@@ -176,15 +71,46 @@
             if (typeof allLessonsData !== 'undefined') {
                 for (let lessonId in allLessonsData) {
                     const lessonInfo = allLessonsData[lessonId];
-                    const card = document.createElement('a');
-                    card.href = `lesson.html?id=${lessonId}`; 
+                    
+                    // 建立課程卡片
+                    const card = document.createElement('div');
                     card.className = 'lesson-card';
                     
                     const title = document.createElement('div');
                     title.className = 'lesson-title';
-                    title.innerText = lessonInfo.title; 
-                    
+                    title.innerText = lessonInfo.title;
                     card.appendChild(title);
+
+                    // 建立關卡選單 (Level 1 ~ 4)
+                    const lvlWrapper = document.createElement('div');
+                    lvlWrapper.className = 'level-container';
+
+                    [1, 2, 3, 4].forEach(num => {
+                        const btn = document.createElement('button');
+                        btn.className = 'btn-l';
+                        btn.innerText = `L${num}`;
+                        
+                        // 判斷是否鎖定（針對 Level 4）
+                        if (num === 4) {
+                            const isLocked = localStorage.getItem(`level4_unlocked_lesson_${lessonId}`) !== 'true';
+                            if (isLocked) {
+                                btn.classList.add('btn-locked');
+                                btn.innerText = `L${num} 🔒`;
+                            } else {
+                                btn.classList.add('btn-unlocked');
+                            }
+                        } else {
+                            btn.classList.add('btn-unlocked');
+                        }
+
+                        btn.onclick = (e) => {
+                            e.stopPropagation(); // 防止觸發卡片的點擊
+                            enterLevel(lessonId, num);
+                        };
+                        lvlWrapper.appendChild(btn);
+                    });
+
+                    card.appendChild(lvlWrapper);
                     container.appendChild(card);
                 }
             }
