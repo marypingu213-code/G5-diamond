@@ -100,9 +100,8 @@ const allLessonsData = {
 
     // ================= 第四課 =================
     "4": { 
-        title: "第四課：(請輸入課名)", 
+        title: "第四課：縣官審石頭", 
         level1: [
-            // 🌟 第四課生字全數匯入 (預設安全標準排列)
             { word: "闆", parts: ["images-5/L4/筆順-闆-部件-1.png", "images-5/L4/筆順-闆-部件-2.png", "images-5/L4/筆順-闆-部件-3.png", "images-5/L4/筆順-闆-部件-4.png", "images-5/L4/筆順-闆-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
             { word: "販", parts: ["images-5/L4/筆順-販-部件-1.png", "images-5/L4/筆順-販-部件-2.png", "images-5/L4/筆順-販-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
             { word: "攤", parts: ["images-5/L4/筆順-攤-部件-1.png", "images-5/L4/筆順-攤-部件-2.png", "images-5/L4/筆順-攤-部件-3.png", "images-5/L4/筆順-攤-部件-4.png", "images-5/L4/筆順-攤-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
@@ -122,32 +121,30 @@ const allLessonsData = {
             { word: "饒", parts: ["images-5/L4/筆順-饒-部件-1.png", "images-5/L4/筆順-饒-部件-2.png", "images-5/L4/筆順-饒-部件-3.png", "images-5/L4/筆順-饒-部件-4.png", "images-5/L4/筆順-饒-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
             { word: "謀", parts: ["images-5/L4/筆順-謀-部件-1.png", "images-5/L4/筆順-謀-部件-2.png", "images-5/L4/筆順-謀-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] }
         ], 
-        level2: [], 
-        level3: [], 
-        level4: [] 
+        level2: [], level3: [], level4: [] 
     },
 
     // ================= 第五課 =================
-    "5": { title: "第五課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] },
+    "5": { title: "第五課：高明說話術", level1: [], level2: [], level3: [], level4: [] },
 
     // ================= 第六課 =================
-    "6": { title: "第六課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] },
+    "6": { title: "第六課：讀書報告-佐賀的超級阿嬤", level1: [], level2: [], level3: [], level4: [] },
 
     // ================= 第七課 =================
-    "7": { title: "第七課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] },
+    "7": { title: "第七課：魔術師爸爸", level1: [], level2: [], level3: [], level4: [] },
 
     // ================= 第八課 =================
-    "8": { title: "第八課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] },
+    "8": { title: "第八課：八歲，一個人去旅行", level1: [], level2: [], level3: [], level4: [] },
 
     // ================= 第九課 =================
-    "9": { title: "第九課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] },
+    "9": { title: "第九課：紅鼻子醫生", level1: [], level2: [], level3: [], level4: [] },
 
     // ================= 第十課 =================
-    "10": { title: "第十課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] },
+    "10": { title: "第十課：沉默動物園", level1: [], level2: [], level3: [], level4: [] },
 
     // ================= 第十一課 =================
-    "11": { title: "第十一課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] },
+    "11": { title: "第十一課：地下護衛軍", level1: [], level2: [], level3: [], level4: [] },
 
     // ================= 第十二課 =================
-    "12": { title: "第十二課：(請輸入課名)", level1: [], level2: [], level3: [], level4: [] }
+    "12": { title: "第十二課：金字塔之謎", level1: [], level2: [], level3: [], level4: [] }
 };
