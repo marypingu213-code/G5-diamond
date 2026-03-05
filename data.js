@@ -1,8 +1,46 @@
 const allLessonsData = {
     // ================= 第一課 =================
-    "1": { 
-        title: "第一課：穿越時空的味道", 
-        level1: [], level2: [], level3: [], level4: [] 
+   "1": { 
+    title: "第一課：穿越時空的味道", 
+    level1: [
+        // 廳：部件較多(7個)，座標均勻分布
+        { word: "廳", parts: ["images-5/L1/筆順-廳-部件-1.png", "images-5/L1/筆順-廳-部件-2.png", "images-5/L1/筆順-廳-部件-3.png", "images-5/L1/筆順-廳-部件-4.png", "images-5/L1/筆順-廳-部件-5.png", "images-5/L1/筆順-廳-部件-6.png", "images-5/L1/筆順-廳-部件-7.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}, {x: 250, y: 180}, {x: 290, y: 180}] },
+        // 盞
+        { word: "盞", parts: ["images-5/L1/筆順-盞-部件-1.png", "images-5/L1/筆順-盞-部件-2.png", "images-5/L1/筆順-盞-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+        // 灑
+        { word: "灑", parts: ["images-5/L1/筆順-灑-部件-1.png", "images-5/L1/筆順-灑-部件-2.png", "images-5/L1/筆順-灑-部件-3.png", "images-5/L1/筆順-灑-部件-4.png", "images-5/L1/筆順-灑-部件-5.png", "images-5/L1/筆順-灑-部件-6.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}, {x: 250, y: 180}] },
+        // 壺
+        { word: "壺", parts: ["images-5/L1/筆順-壺-部件-1.png", "images-5/L1/筆順-壺-部件-2.png", "images-5/L1/筆順-壺-部件-3.png", "images-5/L1/筆順-壺-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
+        // 菊
+        { word: "菊", parts: ["images-5/L1/筆順-菊-部件-1.png", "images-5/L1/筆順-菊-部件-2.png", "images-5/L1/筆順-菊-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+        // 閱
+        { word: "閱", parts: ["images-5/L1/筆順-閱-部件-1.png", "images-5/L1/筆順-閱-部件-2.png", "images-5/L1/筆順-閱-部件-3.png", "images-5/L1/筆順-閱-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
+        // 附
+        { word: "附", parts: ["images-5/L1/筆順-附-部件-1.png", "images-5/L1/筆順-附-部件-2.png", "images-5/L1/筆順-附-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+        // 眸
+        { word: "眸", parts: ["images-5/L1/筆順-眸-部件-1.png", "images-5/L1/筆順-眸-部件-2.png", "images-5/L1/筆順-眸-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+        // 戀
+        { word: "戀", parts: ["images-5/L1/筆順-戀-部件-1.png", "images-5/L1/筆順-戀-部件-2.png", "images-5/L1/筆順-戀-部件-3.png", "images-5/L1/筆順-戀-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
+        // 飲
+        { word: "飲", parts: ["images-5/L1/筆順-飲-部件-1.png", "images-5/L1/筆順-飲-部件-2.png", "images-5/L1/筆順-飲-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+        // 氛
+        { word: "氛", parts: ["images-5/L1/筆順-氛-部件-1.png", "images-5/L1/筆順-氛-部件-2.png", "images-5/L1/筆順-氛-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+        // 闔
+        { word: "闔", parts: ["images-5/L1/筆順-闔-部件-1.png", "images-5/L1/筆順-闔-部件-2.png", "images-5/L1/筆順-闔-部件-3.png", "images-5/L1/筆順-闔-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
+        // 籤
+        { word: "籤", parts: ["images-5/L1/筆順-籤-部件-1.png", "images-5/L1/筆順-籤-部件-2.png", "images-5/L1/筆順-籤-部件-3.png", "images-5/L1/筆順-籤-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] },
+        // 溶
+        { word: "溶", parts: ["images-5/L1/筆順-溶-部件-1.png", "images-5/L1/筆順-溶-部件-2.png", "images-5/L1/筆順-溶-部件-3.png", "images-5/L1/筆順-溶-部件-4.png", "images-5/L1/筆順-溶-部件-5.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}] },
+        // 咖
+        { word: "咖", parts: ["images-5/L1/筆順-咖-部件-1.png", "images-5/L1/筆順-咖-部件-2.png", "images-5/L1/筆順-咖-部件-3.png"], pos: [{x: 70, y: 180}, {x: 120, y: 180}, {x: 170, y: 180}] },
+        // 啡
+        { word: "啡", parts: ["images-5/L1/筆順-啡-部件-1.png", "images-5/L1/筆順-啡-部件-2.png"], pos: [{x: 100, y: 180}, {x: 170, y: 180}] },
+        // 券：部件多(7個)
+        { word: "券", parts: ["images-5/L1/筆順-券-部件-1.png", "images-5/L1/筆順-券-部件-2.png", "images-5/L1/筆順-券-部件-3.png", "images-5/L1/筆順-券-部件-4.png", "images-5/L1/筆順-券-部件-5.png", "images-5/L1/筆順-券-部件-6.png", "images-5/L1/筆順-券-部件-7.png"], pos: [{x: 50, y: 180}, {x: 90, y: 180}, {x: 130, y: 180}, {x: 170, y: 180}, {x: 210, y: 180}, {x: 250, y: 180}, {x: 290, y: 180}] },
+        // 粹
+        { word: "粹", parts: ["images-5/L1/筆順-粹-部件-1.png", "images-5/L1/筆順-粹-部件-2.png", "images-5/L1/筆順-粹-部件-3.png", "images-5/L1/筆順-粹-部件-4.png"], pos: [{x: 90, y: 130}, {x: 150, y: 130}, {x: 90, y: 180}, {x: 150, y: 180}] }
+    ], 
+    level2: [], level3: [], level4: [] 
     },
 
     // ================= 第二課 =================
