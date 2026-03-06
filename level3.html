@@ -6,7 +6,6 @@
     <style>
         :root { --primary-bg: #2c3e50; --container-bg: #34495e; --word-bg: #f1c40f; --drop-bg: rgba(255, 255, 255, 0.1); --correct-color: #2ecc71; }
         body { font-family: "Microsoft JhengHei", sans-serif; background-color: var(--primary-bg); color: white; text-align: center; margin: 0; padding: 20px; }
-        /* 寬度加寬至 1200px */
         .game-container { background-color: var(--container-bg); padding: 40px; border-radius: 30px; width: 95%; max-width: 1200px; display: inline-block; box-shadow: 0 15px 50px rgba(0,0,0,0.5); border: 4px solid #455a64; }
         h2 { font-size: 42px; color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-bottom: 30px; }
         .word-bank { background: #1a252f; padding: 25px; border-radius: 20px; margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; border: 4px dashed #f1c40f; min-height: 100px; }
@@ -40,12 +39,17 @@
     const words = ["客廳", "燈盞", "灑水", "茶壺", "菊花", "閱讀", "附近", "眼眸", "留戀"];
     const lessonId = new URLSearchParams(window.location.search).get('lesson') || "1";
     const wordBank = document.getElementById('wordBank');
-    words.sort(() => Math.random() - 0.5).forEach(w => {
+    
+    // 隨機打亂陣列順序
+    const shuffledWords = words.sort(() => Math.random() - 0.5);
+    
+    shuffledWords.forEach(w => {
         const div = document.createElement('div');
         div.className = 'word-item'; div.innerText = w; div.draggable = true; div.id = 'word-' + w;
         div.addEventListener('dragstart', e => e.dataTransfer.setData('text', w));
         wordBank.appendChild(div);
     });
+
     document.querySelectorAll('.drop-zone').forEach(zone => {
         zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
         zone.addEventListener('dragleave', () => zone.classList.remove('over'));
@@ -66,7 +70,7 @@
             else { z.style.backgroundColor = "#e74c3c"; z.style.color = "white"; }
         });
         if (correct === 9) {
-            localStorage.setItem(`level4_unlocked_lesson_${lessonId}`, 'true'); // 解鎖關鍵
+            localStorage.setItem(`level4_unlocked_lesson_${lessonId}`, 'true');
             alert("太棒了！全對！Level 4 已解鎖，鑽石變色囉！");
             location.href = 'index.html';
         } else alert("還有地方放錯了，再檢查一下紅色的格子！");
