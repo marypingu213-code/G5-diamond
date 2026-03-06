@@ -37,12 +37,17 @@
 <script>
     const words = ["飲料", "氣氛", "闔上", "標籤", "溶解", "咖啡", "獎券", "純粹"];
     const wordBank = document.getElementById('wordBank');
-    words.sort(() => Math.random() - 0.5).forEach(w => {
+    
+    // 隨機打亂陣列順序
+    const shuffledWords = words.sort(() => Math.random() - 0.5);
+
+    shuffledWords.forEach(w => {
         const div = document.createElement('div');
         div.className = 'word-item'; div.innerText = w; div.draggable = true; div.id = 'word-' + w;
         div.addEventListener('dragstart', e => e.dataTransfer.setData('text', w));
         wordBank.appendChild(div);
     });
+
     document.querySelectorAll('.drop-zone').forEach(zone => {
         zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
         zone.addEventListener('dragleave', () => zone.classList.remove('over'));
