@@ -2,78 +2,201 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>第一課：Level 3 語詞拖曳挑戰</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特教國語遊戲：Level 3 語詞挑戰</title>
     <style>
         :root { --primary-bg: #2c3e50; --container-bg: #34495e; --word-bg: #f1c40f; --drop-bg: rgba(255, 255, 255, 0.1); --correct-color: #2ecc71; }
-        body { font-family: "Microsoft JhengHei", sans-serif; background-color: var(--primary-bg); color: white; text-align: center; margin: 0; padding: 20px; }
-        .game-container { background-color: var(--container-bg); padding: 40px; border-radius: 30px; width: 95%; max-width: 1200px; display: inline-block; box-shadow: 0 15px 50px rgba(0,0,0,0.5); border: 4px solid #455a64; }
-        h2 { font-size: 42px; color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-bottom: 30px; }
+        body { font-family: "Microsoft JhengHei", sans-serif; background-color: var(--primary-bg); color: white; text-align: center; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .game-container { background-color: var(--container-bg); padding: 40px; border-radius: 30px; width: 95%; max-width: 1200px; box-shadow: 0 15px 50px rgba(0,0,0,0.5); border: 4px solid #455a64; }
+        h2 { font-size: 42px; color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-top: 0; }
         .word-bank { background: #1a252f; padding: 25px; border-radius: 20px; margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; border: 4px dashed #f1c40f; min-height: 100px; }
-        .word-item { background: var(--word-bg); color: #2c3e50; padding: 15px 30px; border-radius: 15px; font-weight: 900; font-size: 32px; cursor: grab; user-select: none; box-shadow: 0 6px 0 #d4ac0d; }
+        .word-item { background: var(--word-bg); color: #2c3e50; padding: 15px 30px; border-radius: 15px; font-weight: 900; font-size: 32px; cursor: grab; user-select: none; box-shadow: 0 6px 0 #d4ac0d; transition: 0.2s; }
+        .word-item:active { cursor: grabbing; transform: translateY(4px); box-shadow: 0 2px 0 #d4ac0d; }
         .quiz-area { text-align: left; background: rgba(0,0,0,0.1); padding: 30px; border-radius: 20px; }
-        .question { font-size: 28px; margin: 25px 0; line-height: 1.8; display: flex; align-items: center; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
-        .drop-zone { min-width: 160px; height: 60px; border: 3px dashed #f1c40f; margin: 5px 15px; display: inline-flex; align-items: center; justify-content: center; background: var(--drop-bg); border-radius: 12px; transition: 0.3s; font-size: 32px; color: #f1c40f; }
+        .question { font-size: 32px; margin: 25px 0; line-height: 1.8; display: flex; align-items: center; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .drop-zone { min-width: 160px; height: 60px; border: 3px dashed #f1c40f; margin: 5px 15px; display: inline-flex; align-items: center; justify-content: center; background: var(--drop-bg); border-radius: 12px; transition: 0.3s; font-size: 32px; color: #f1c40f; font-weight: bold; }
         .drop-zone.over { background: rgba(241, 196, 15, 0.4); transform: scale(1.1); }
         .drop-zone.filled { background: #ffffff; color: #2c3e50; border: none; border-bottom: 6px solid #bdc3c7; }
-        .check-btn { background-color: var(--correct-color); color: white; border: none; padding: 20px 60px; font-size: 32px; border-radius: 60px; cursor: pointer; margin-top: 40px; font-weight: 900; box-shadow: 0 8px 0 #27ae60; }
+        .check-btn { background-color: var(--correct-color); color: white; border: none; padding: 20px 60px; font-size: 36px; border-radius: 60px; cursor: pointer; margin-top: 40px; font-weight: 900; box-shadow: 0 8px 0 #27ae60; transition: 0.2s; }
+        .check-btn:hover { transform: scale(1.05); background-color: #2ecc71; }
+        .check-btn:active { transform: translateY(4px); box-shadow: 0 4px 0 #27ae60; }
     </style>
 </head>
 <body>
+
 <div class="game-container">
-    <h2>💎 第一課：Level 3 語詞拖曳挑戰 💎</h2>
+    <h2 id="lesson-title">💎 載入中... 💎</h2>
     <div class="word-bank" id="wordBank"></div>
-    <div class="quiz-area">
-        <div class="question">1. 晚飯後，全家人一起在<div class="drop-zone" data-ans="客廳"></div>聊天。</div>
-        <div class="question">2. 古時候沒有電燈，人們只能靠著<div class="drop-zone" data-ans="燈盞"></div>來照明。</div>
-        <div class="question">3. 園丁正在花園裡辛苦地為花草<div class="drop-zone" data-ans="灑水"></div>。</div>
-        <div class="question">4. 奶奶用漂亮的<div class="drop-zone" data-ans="茶壺"></div>泡了一壺香醇的熱茶。</div>
-        <div class="question">5. 秋天到了，公園裡的<div class="drop-zone" data-ans="菊花"></div>全都盛開了。</div>
-        <div class="question">6. 多<div class="drop-zone" data-ans="閱讀"></div>優良讀物，可以增加我們的知識。</div>
-        <div class="question">7. 我家<div class="drop-zone" data-ans="附近"></div>有一座大操場，大家常去運動。</div>
-        <div class="question">8. 妹妹睜大亮晶晶的<div class="drop-zone" data-ans="眼眸"></div>，好奇地看著櫥窗。</div>
-        <div class="question">9. 要離開相處六年的母校，心裡充滿了<div class="drop-zone" data-ans="留戀"></div>。</div>
-    </div>
+    <div class="quiz-area" id="quizArea"></div>
     <button class="check-btn" onclick="checkAll()">檢查答案 檢查看看</button>
 </div>
+
 <script>
-    const words = ["客廳", "燈盞", "灑水", "茶壺", "菊花", "閱讀", "附近", "眼眸", "留戀"];
-    const lessonId = new URLSearchParams(window.location.search).get('lesson') || "1";
+    // 所有的 Level 3 題目庫
+    const lessonData = {
+        "1": {
+            title: "第一課：語詞挑戰",
+            words: ["客廳", "燈盞", "灑水", "茶壺", "菊花", "閱讀", "附近", "眼眸", "留戀"],
+            questions: [
+                "晚飯後，全家人一起在 @ 聊天。",
+                "古時候沒有電燈，人們只能靠著 @ 來照明。",
+                "園丁正在花園裡辛苦地為花草 @ 。",
+                "奶奶用漂亮的 @ 泡了一壺香醇的熱茶。",
+                "秋天到了，公園裡的 @ 全都盛開了。",
+                "多 @ 優良的課外讀物，可以增加我們的知識。",
+                "我家 @ 有一座大操場，大家常去那裡運動。",
+                "妹妹睜大亮晶晶的 @ ，好奇地看著櫥窗。",
+                "要離開母校，大家心裡都充滿了 @ 。"
+            ]
+        },
+        "2": {
+            title: "第二課：語詞挑戰",
+            words: ["出席", "徐徐", "掌聲", "倒映", "皇冠", "軍人", "逆向", "盲人", "扇子"],
+            questions: [
+                "為了慶祝校慶，許多校友都特地回校 @ 這場盛會。",
+                "傍晚時分，微風 @ 吹來，讓人感覺非常涼爽。",
+                "表演一結束，台下立刻響起了一陣熱烈的 @ 。",
+                "清澈的湖水像一面鏡子， @ 著四周美麗的風景。",
+                "故事書裡的公主戴上閃亮的 @ ，看起來非常高貴。",
+                "勇敢的 @ 叔叔守護著國家，是大家心目中的英雄。",
+                "在單行道上 @ 行駛是非常危險的，一定要遵守規則。",
+                "導盲犬是 @ 朋友最忠實的夥伴，能指引他們行走。",
+                "古代的人在夏天沒有冷氣，常會隨身帶著 @ 乘涼。"
+            ]
+        },
+        "3": {
+            title: "第三課：語詞挑戰",
+            words: ["濃霧", "親吻", "一株", "芭樂", "紫色", "橘子", "趴下", "駐守", "巡邏"],
+            questions: [
+                "山上起了大 @ ，能見度變得很低，開車要特別小心。",
+                "睡覺前，媽媽在我的臉頰上輕輕一 @ ，祝我有個好夢。",
+                "爺爺在院子裡種了 @ 紅色的玫瑰花。",
+                "台灣的 @ 又甜又脆，是我最愛吃的水果之一。",
+                "公園裡的薰衣草開花了，遠遠看去就像一片 @ 的地毯。",
+                "過年時，剝開酸甜的 @ ，象徵著大吉大利。",
+                "午休鐘聲響起，大家趕快 @ 桌上安靜休息。",
+                "辛苦的士兵們長期 @ 在海島上，守護國家的安全。",
+                "警察叔叔定時在社區門口 @ ，保護居民平安。"
+            ]
+        },
+        "4": {
+            title: "第四課：語詞挑戰",
+            words: ["老闆", "販賣", "攤位", "盜賊", "冤枉", "枉費", "分辨", "惡作劇", "武術"],
+            questions: [
+                "這家書店的 @ 非常親切，常會推薦好書。 ",
+                "便利商店裡 @ 著各式各樣的零食和飲料。 ",
+                "園遊會當天，我們班的 @ 準備了有趣的遊戲。",
+                "警察叔叔英勇地抓住了在夜裡偷東西的 @ 。",
+                "明明不是我弄壞的，卻被老師誤會，我覺得好 @ 。",
+                "如果不努力練習，之前付出的心血就全都 @ 了。",
+                "這對雙胞胎長得太像了，大家很難 @ 誰是哥哥。",
+                "隨便對同學亂開 @ ，可能會造成別人的困擾。",
+                "哥哥在道館學習 @ ，身體變得越來越強壯。"
+            ]
+        },
+        "5": {
+            title: "第五課：語詞挑戰",
+            words: ["風俗", "善良", "寒冷", "燎原", "瓦片", "焚燒", "放鬆", "沉默", "批評"],
+            questions: [
+                "每個地方都有不同的 @ 習慣，我們應該互相尊重。",
+                "小美有一顆 @ 的心，經常主動幫助流浪動物。",
+                "冬天的夜晚氣候非常 @ ，出門一定要穿厚外套。",
+                "小小的火星如果沒處理好，可能會變成 @ 大火。",
+                "這座古老房子的屋頂是用紅色的 @ 鋪成的。",
+                "為了環境衛生，我們不應該隨便在野外 @ 垃圾。",
+                "考完試後，大家終於可以好好 @ 一下。",
+                "老師提問後，教室裡陷入一片 @ ，大家都在認真思考。",
+                "面對別人的 @ ，我們要虛心接受並努力改進。"
+            ]
+        },
+        "6": {
+            title: "第六課：語詞挑戰",
+            words: ["出版", "阿姨", "勤勞", "節儉", "繩子", "廢物", "攔住", "蔬菜", "名稱"],
+            questions: [
+                "這本有趣的童話書是由這家公司 @ 的。",
+                "週末時，住在遠方的 @ 來到我們家作客。",
+                "農夫非常 @ ，每天天還沒亮就下田工作。",
+                "奶奶過著 @ 的生活，從不隨便浪費食物。",
+                "體育課時，大家拉著長長的 @ 練習跳繩。",
+                "只要動動腦， @ 利用也能變成好用的工具。",
+                "警察叔叔在路口 @ 了那輛闖紅燈的車子。",
+                "醫生建議我們要多吃 @ ，身體才會健康成長。",
+                "這座公園的 @ 很好聽，大家都叫它月亮公園。"
+            ]
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const lessonId = urlParams.get('lesson') || "1";
+    const currentData = lessonData[lessonId];
+
+    // 初始化頁面
+    document.getElementById('lesson-title').innerText = currentData.title;
+
+    // 隨機打亂語詞並渲染
     const wordBank = document.getElementById('wordBank');
-    
-    // 隨機打亂陣列順序
-    const shuffledWords = words.sort(() => Math.random() - 0.5);
-    
-    shuffledWords.forEach(w => {
+    [...currentData.words].sort(() => Math.random() - 0.5).forEach(w => {
         const div = document.createElement('div');
-        div.className = 'word-item'; div.innerText = w; div.draggable = true; div.id = 'word-' + w;
+        div.className = 'word-item';
+        div.innerText = w;
+        div.draggable = true;
+        div.id = 'word-' + w;
         div.addEventListener('dragstart', e => e.dataTransfer.setData('text', w));
         wordBank.appendChild(div);
     });
 
+    // 渲染題目區
+    const quizArea = document.getElementById('quizArea');
+    currentData.questions.forEach((q, index) => {
+        const parts = q.split('@');
+        const qDiv = document.createElement('div');
+        qDiv.className = 'question';
+        qDiv.innerHTML = `${index + 1}. ${parts[0]} <div class="drop-zone" data-ans="${currentData.words[index]}"></div> ${parts[1]}`;
+        quizArea.appendChild(qDiv);
+    });
+
+    // 設定拖曳邏輯
     document.querySelectorAll('.drop-zone').forEach(zone => {
         zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
         zone.addEventListener('dragleave', () => zone.classList.remove('over'));
         zone.addEventListener('drop', e => {
-            e.preventDefault(); zone.classList.remove('over');
+            e.preventDefault();
+            zone.classList.remove('over');
             const word = e.dataTransfer.getData('text');
-            if (zone.innerText !== "") addBackToBank(zone.innerText);
-            zone.innerText = word; zone.classList.add('filled');
+            if (zone.innerText !== "") document.getElementById('word-' + zone.innerText).style.display = 'block';
+            zone.innerText = word;
+            zone.classList.add('filled');
             document.getElementById('word-' + word).style.display = 'none';
         });
-        zone.onclick = () => { if (zone.innerText !== "") { addBackToBank(zone.innerText); zone.innerText = ""; zone.classList.remove('filled'); } };
+        zone.onclick = () => {
+            if (zone.innerText !== "") {
+                document.getElementById('word-' + zone.innerText).style.display = 'block';
+                zone.innerText = "";
+                zone.classList.remove('filled');
+            }
+        };
     });
-    function addBackToBank(word) { document.getElementById('word-' + word).style.display = 'block'; }
+
     function checkAll() {
         let correct = 0;
-        document.querySelectorAll('.drop-zone').forEach(z => {
-            if (z.innerText === z.dataset.ans) { z.style.backgroundColor = "#2ecc71"; z.style.color = "white"; correct++; }
-            else { z.style.backgroundColor = "#e74c3c"; z.style.color = "white"; }
+        const zones = document.querySelectorAll('.drop-zone');
+        zones.forEach(z => {
+            if (z.innerText === z.dataset.ans) {
+                z.style.backgroundColor = "#2ecc71";
+                z.style.color = "white";
+                correct++;
+            } else {
+                z.style.backgroundColor = "#e74c3c";
+                z.style.color = "white";
+            }
         });
-        if (correct === 9) {
+        if (correct === zones.length) {
             localStorage.setItem(`level4_unlocked_lesson_${lessonId}`, 'true');
-            alert("太棒了！全對！Level 4 已解鎖，鑽石變色囉！");
+            alert("🎉 太棒了！全對！鑽石變色囉！");
             location.href = 'index.html';
-        } else alert("還有地方放錯了，再檢查一下紅色的格子！");
+        } else {
+            alert("還有地方不對喔，再檢查一下紅色的格子！");
+        }
     }
 </script>
 </body>
