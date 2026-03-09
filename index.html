@@ -8,7 +8,6 @@
     <style>
         body { font-family: "Microsoft JhengHei", "Heiti TC", sans-serif; background-color: #eef2f5; margin: 0; padding: 1vh 1vw; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
         
-        /* 寬度調整為 98% 充滿版面 */
         .main-container { 
             position: relative; 
             width: 98vw; 
@@ -24,17 +23,16 @@
             box-sizing: border-box; 
         }
 
-        .header-area { text-align: center; margin-bottom: 30px; display: flex; flex-direction: column; align-items: center; }
+        .header-area { text-align: center; margin-bottom: 30px; display: flex; flex-direction: column; align-items: center; width: 100%; }
         h1 { color: #5a4a42; font-size: clamp(36px, 4vw, 60px); margin: 0 0 10px 0; text-shadow: 2px 3px 5px rgba(0,0,0,0.15); }
         .subtitle { font-size: clamp(20px, 2vw, 30px); color: #7b6855; margin: 0; font-weight: bold; }
 
         .qr-box { position: absolute; top: 30px; right: 30px; background: #fff; padding: 15px; border-radius: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.1); text-align: center; border: 4px dashed #f39c12; z-index: 100; }
         .qr-box img { width: 120px; height: 120px; object-fit: contain; }
 
-        .tool-btn { background-color: #8d6e63; color: white; text-decoration: none; font-size: 20px; font-weight: bold; padding: 12px 25px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; margin-top: 10px; border: 3px solid #6d4c41; transition: 0.2s; }
-        .tool-btn:hover { transform: scale(1.05); background-color: #795548; }
+        .tool-btn { color: white; text-decoration: none; font-size: 20px; font-weight: bold; padding: 12px 25px; border-radius: 50px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 3px solid; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .tool-btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 8px 12px rgba(0,0,0,0.15); }
 
-        /* 設定為 3 欄網格 */
         .lesson-list { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -58,7 +56,7 @@
             min-height: 180px; 
             box-sizing: border-box; 
         }
-        .lesson-card:hover { transform: translateY(-8px); background-color: #eafaf1; border-color: #2ecc71; }
+        .lesson-card:hover { transform: translateY(-8px); background-color: #eafaf1; border-color: #2ecc71; box-shadow: 0 15px 25px rgba(0,0,0,0.1); }
         .lesson-title { font-size: clamp(24px, 2vw, 32px); font-weight: bold; color: #2c3e50; text-align: center; line-height: 1.4; margin-bottom: 15px; }
 
         .level-container { display: flex; gap: 12px; }
@@ -77,11 +75,8 @@
         }
         .btn-l:hover { transform: scale(1.1); }
         
-        /* 綠色鑽石（未完成/預設） */
         .btn-green { background-color: #27ae60; color: white; }
-        /* 藍色鑽石（已完成） */
         .btn-blue { background-color: #3498db; color: white; }
-        /* 鎖定按鈕 */
         .btn-locked { background-color: #95a5a6; color: #ecf0f1; cursor: not-allowed; font-size: 20px; }
 
         @media (max-width: 1200px) { .lesson-list { grid-template-columns: repeat(2, 1fr); } }
@@ -95,20 +90,22 @@
             <img id="qr-code-image" src="" alt="QR Code">
         </div>
 
-      <div class="header-area">
+        <div class="header-area">
             <h1>🏫 特教國語遊戲網 🎪</h1>
             <p class="subtitle">請選擇今天要挑戰的課程！</p>
             
-            <div style="display: flex; gap: 15px; margin-top: 15px;">
+            <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
                 <a href="https://gsyan888.blogspot.com/p/stroke.html#" target="_blank" class="tool-btn" style="background-color: #8d6e63; border-color: #6d4c41;">
                     🐻 熊熊筆順練習網
                 </a>
-                
                 <a href="https://marypingu213-code.github.io/G5-vacab/" target="_blank" class="tool-btn" style="background-color: #e74c3c; border-color: #c0392b;">
                     🎰 語詞搶答拉霸機
                 </a>
             </div>
         </div>
+        
+        <div class="lesson-list" id="lesson-container"></div>
+    </div>
 
     <script>
         function enterLevel(lessonId, levelNum) {
@@ -127,6 +124,8 @@
             document.getElementById('qr-code-image').src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(cleanUrl);
 
             const container = document.getElementById('lesson-container');
+            
+            // 檢查 data.js 有沒有成功被讀取進來
             if (typeof allLessonsData !== 'undefined') {
                 for (let lessonId in allLessonsData) {
                     const lessonInfo = allLessonsData[lessonId];
@@ -141,7 +140,6 @@
                     const lvlWrapper = document.createElement('div');
                     lvlWrapper.className = 'level-container';
 
-                    // 檢查這門課的 L3 是否已通關 (解鎖標籤)
                     const isUnlocked = localStorage.getItem(`level4_unlocked_lesson_${lessonId}`) === 'true';
 
                     [1, 2, 3, 4].forEach(num => {
@@ -149,18 +147,17 @@
                         btn.className = 'btn-l';
                         btn.innerText = "💎"; 
 
-                        // 變色與鎖定邏輯
                         if (num === 4) {
                             if (isUnlocked) {
-                                btn.classList.add('btn-blue'); // 解鎖後變藍色
+                                btn.classList.add('btn-blue');
                             } else {
                                 btn.classList.add('btn-locked');
                                 btn.innerText = "💎 🔒"; 
                             }
                         } else if (num === 3 && isUnlocked) {
-                            btn.classList.add('btn-blue'); // L3 完成也變藍色
+                            btn.classList.add('btn-blue');
                         } else {
-                            btn.classList.add('btn-green'); // 預設綠色
+                            btn.classList.add('btn-green');
                         }
 
                         btn.onclick = (e) => {
@@ -173,6 +170,9 @@
                     card.appendChild(lvlWrapper);
                     container.appendChild(card);
                 }
+            } else {
+                // 如果找不到 data.js，顯示錯誤提示，讓您一眼就能發現問題
+                container.innerHTML = '<h2 style="grid-column: 1/-1; text-align: center; color: #e74c3c;">找不到資料庫 (data.js) 喔！請確認檔案有上傳在同一個資料夾。</h2>';
             }
         };
     </script>
