@@ -6,101 +6,186 @@
     <title>特教國語遊戲網</title>
     <script src="data.js"></script>
     <style>
-        body { font-family: "Microsoft JhengHei", "Heiti TC", sans-serif; background-color: #eef2f5; margin: 0; padding: 1vh 1vw; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+        body { 
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif; 
+            background-color: #eef2f5; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; /* 改為從頂部開始排，避免內容多時置中造成截斷 */
+            min-height: 100vh; 
+            box-sizing: border-box; 
+        }
         
         .main-container { 
             position: relative; 
-            width: 98vw; 
-            max-width: 1800px; 
-            min-height: 96vh; 
+            width: 100%;
+            max-width: 1400px; 
+            min-height: 90vh; 
             background-color: #fdf5e6; 
             border-radius: 40px; 
             box-shadow: 0 20px 50px rgba(0,0,0,0.15); 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            padding: 40px 2%; 
+            padding: 60px 5%; /* 增加左右內距百分比，更具彈性 */
             box-sizing: border-box; 
+            margin-bottom: 40px;
         }
 
-        .header-area { text-align: center; margin-bottom: 30px; display: flex; flex-direction: column; align-items: center; width: 100%; }
-        h1 { color: #5a4a42; font-size: clamp(36px, 4vw, 60px); margin: 0 0 10px 0; text-shadow: 2px 3px 5px rgba(0,0,0,0.15); }
-        .subtitle { font-size: clamp(20px, 2vw, 30px); color: #7b6855; margin: 0; font-weight: bold; }
+        .header-area { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            width: 100%; 
+        }
+        
+        h1 { 
+            color: #5a4a42; 
+            font-size: clamp(32px, 5vw, 56px); 
+            margin: 0 0 10px 0; 
+            text-shadow: 2px 3px 5px rgba(0,0,0,0.1); 
+        }
 
-        .qr-box { position: absolute; top: 30px; right: 30px; background: #fff; padding: 15px; border-radius: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.1); text-align: center; border: 4px dashed #f39c12; z-index: 100; }
-        .qr-box img { width: 120px; height: 120px; object-fit: contain; }
+        /* QR Code 區塊優化 */
+        .qr-box { 
+            position: absolute; 
+            top: 25px; 
+            right: 25px; 
+            background: #fff; 
+            padding: 12px; 
+            border-radius: 20px; 
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); 
+            text-align: center; 
+            border: 3px dashed #f39c12; 
+            z-index: 100; 
+        }
+        .qr-box img { width: 100px; height: 100px; object-fit: contain; }
+        .qr-box p { margin: 0 0 5px 0; font-size: 14px; font-weight: bold; color: #d35400; }
 
-        .tool-btn { color: white; text-decoration: none; font-size: 20px; font-weight: bold; padding: 12px 25px; border-radius: 50px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 3px solid; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        /* 按鈕區塊 */
+        .button-group {
+            display: flex; 
+            gap: 15px; 
+            margin: 20px 0 40px 0; 
+            flex-wrap: wrap; 
+            justify-content: center;
+            width: 100%;
+        }
+
+        .tool-btn { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 18px; 
+            font-weight: bold; 
+            padding: 12px 24px; 
+            border-radius: 50px; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            border: 3px solid; 
+            transition: 0.2s; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
         .tool-btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 8px 12px rgba(0,0,0,0.15); }
 
+        /* 課程列表：使用 Grid 自動適應列數 */
         .lesson-list { 
             display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
             gap: 25px; 
             width: 100%; 
-            flex-grow: 1;
-            align-content: start;
+            box-sizing: border-box;
         }
 
         .lesson-card { 
             background-color: #ffffff; 
-            border-radius: 25px; 
-            box-shadow: 0 8px 15px rgba(0,0,0,0.08); 
+            border-radius: 30px; 
+            box-shadow: 0 8px 15px rgba(0,0,0,0.06); 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            justify-content: center; 
+            justify-content: space-between; 
             transition: 0.3s; 
             border: 5px solid #3498db; 
-            padding: 25px; 
-            min-height: 180px; 
+            padding: 30px 20px; 
+            min-height: 200px; 
             box-sizing: border-box; 
         }
-        .lesson-card:hover { transform: translateY(-8px); background-color: #eafaf1; border-color: #2ecc71; box-shadow: 0 15px 25px rgba(0,0,0,0.1); }
-        .lesson-title { font-size: clamp(24px, 2vw, 32px); font-weight: bold; color: #2c3e50; text-align: center; line-height: 1.4; margin-bottom: 15px; }
+        .lesson-card:hover { 
+            transform: translateY(-8px); 
+            background-color: #f0f9ff; 
+            border-color: #2ecc71; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
+        }
+        
+        .lesson-title { 
+            font-size: 26px; 
+            font-weight: bold; 
+            color: #2c3e50; 
+            text-align: center; 
+            line-height: 1.4; 
+            margin-bottom: 20px; 
+        }
 
-        .level-container { display: flex; gap: 12px; }
+        .level-container { display: flex; gap: 10px; justify-content: center; width: 100%; }
+        
         .btn-l { 
-            padding: 10px 18px; 
-            border-radius: 12px; 
+            padding: 10px; 
+            border-radius: 15px; 
             border: none; 
             font-weight: bold; 
             cursor: pointer; 
-            font-size: 24px; 
+            font-size: 22px; 
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 60px;
+            flex: 1; /* 讓四個寶石平分寬度 */
+            max-width: 70px;
             transition: 0.2s;
+            aspect-ratio: 1 / 1;
         }
-        .btn-l:hover { transform: scale(1.1); }
+        .btn-l:hover:not(.btn-locked) { transform: scale(1.15); filter: brightness(1.1); }
         
         .btn-green { background-color: #27ae60; color: white; }
         .btn-blue { background-color: #3498db; color: white; }
-        .btn-locked { background-color: #95a5a6; color: #ecf0f1; cursor: not-allowed; font-size: 20px; }
+        .btn-locked { background-color: #bdc3c7; color: #ffffff; cursor: not-allowed; opacity: 0.7; }
 
-        @media (max-width: 1200px) { .lesson-list { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .lesson-list { grid-template-columns: 1fr; } .qr-box { display: none; } }
+        /* 手機版微調 */
+        @media (max-width: 768px) { 
+            .qr-box { display: none; } /* 手機版隱藏 QR Code 避免重疊 */
+            .main-container { padding: 40px 15px; border-radius: 20px; }
+            .lesson-list { grid-template-columns: 1fr; }
+            .tool-btn { font-size: 16px; padding: 10px 18px; width: 100%; }
+        }
     </style>
 </head>
 <body>
     <div class="main-container">
         <div class="qr-box">
-            <p style="margin:0 0 5px 0; font-weight:bold;">📱 掃描進遊戲</p>
+            <p>📱 掃描進遊戲</p>
             <img id="qr-code-image" src="" alt="QR Code">
         </div>
 
-    <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
-        <a href="https://gsyan888.blogspot.com/p/stroke.html#" target="_blank" class="tool-btn" style="background-color: #8d6e63; border-color: #6d4c41;">
-            🐻 熊熊筆順練習網
-        </a>
-        <a href="https://marypingu213-code.github.io/G5-vacab/" target="_blank" class="tool-btn" style="background-color: #e74c3c; border-color: #c0392b;">
-            🎰 語詞搶答拉霸機
-        </a>
-        <a href="https://marypingu213-code.github.io/G5-argumentative-essay/" target="_blank" class="tool-btn" style="background-color: #3498db; border-color: #2980b9; color: white;">
-            🏆 小小辯論家
-        </a>
-    </div>
+        <div class="header-area">
+            <h1>特教國語遊戲網</h1>
+            <p class="subtitle">跟著老師一起闖關學語文！</p>
+        </div>
+
+        <div class="button-group">
+            <a href="https://gsyan888.blogspot.com/p/stroke.html#" target="_blank" class="tool-btn" style="background-color: #8d6e63; border-color: #6d4c41;">
+                🐻 熊熊筆順練習網
+            </a>
+            <a href="https://marypingu213-code.github.io/G5-vacab/" target="_blank" class="tool-btn" style="background-color: #e74c3c; border-color: #c0392b;">
+                🎰 語詞搶答拉霸機
+            </a>
+            <a href="https://marypingu213-code.github.io/G5-argumentative-essay/" target="_blank" class="tool-btn" style="background-color: #3498db; border-color: #2980b9;">
+                🏆 小小辯論家
+            </a>
         </div>
         
         <div class="lesson-list" id="lesson-container"></div>
@@ -119,12 +204,12 @@
         }
 
         window.onload = function() {
+            // 生成 QR Code
             let cleanUrl = window.location.href.split('#')[0].split('?')[0]; 
             document.getElementById('qr-code-image').src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(cleanUrl);
 
             const container = document.getElementById('lesson-container');
             
-            // 檢查 data.js 有沒有成功被讀取進來
             if (typeof allLessonsData !== 'undefined') {
                 for (let lessonId in allLessonsData) {
                     const lessonInfo = allLessonsData[lessonId];
@@ -144,19 +229,21 @@
                     [1, 2, 3, 4].forEach(num => {
                         const btn = document.createElement('button');
                         btn.className = 'btn-l';
-                        btn.innerText = "💎"; 
-
+                        
                         if (num === 4) {
                             if (isUnlocked) {
                                 btn.classList.add('btn-blue');
+                                btn.innerText = "💎";
                             } else {
                                 btn.classList.add('btn-locked');
-                                btn.innerText = "💎 🔒"; 
+                                btn.innerText = "🔒"; 
                             }
                         } else if (num === 3 && isUnlocked) {
                             btn.classList.add('btn-blue');
+                            btn.innerText = "💎";
                         } else {
                             btn.classList.add('btn-green');
+                            btn.innerText = "💎";
                         }
 
                         btn.onclick = (e) => {
@@ -170,7 +257,6 @@
                     container.appendChild(card);
                 }
             } else {
-                // 如果找不到 data.js，顯示錯誤提示，讓您一眼就能發現問題
                 container.innerHTML = '<h2 style="grid-column: 1/-1; text-align: center; color: #e74c3c;">找不到資料庫 (data.js) 喔！請確認檔案有上傳在同一個資料夾。</h2>';
             }
         };
