@@ -13,7 +13,7 @@
             padding: 20px; 
             display: flex; 
             justify-content: center; 
-            align-items: flex-start; /* 改為從頂部開始排，避免內容多時置中造成截斷 */
+            align-items: flex-start;
             min-height: 100vh; 
             box-sizing: border-box; 
         }
@@ -29,7 +29,7 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            padding: 60px 5%; /* 增加左右內距百分比，更具彈性 */
+            padding: 60px 5%; 
             box-sizing: border-box; 
             margin-bottom: 40px;
         }
@@ -50,7 +50,6 @@
             text-shadow: 2px 3px 5px rgba(0,0,0,0.1); 
         }
 
-        /* QR Code 區塊優化 */
         .qr-box { 
             position: absolute; 
             top: 25px; 
@@ -66,7 +65,6 @@
         .qr-box img { width: 100px; height: 100px; object-fit: contain; }
         .qr-box p { margin: 0 0 5px 0; font-size: 14px; font-weight: bold; color: #d35400; }
 
-        /* 按鈕區塊 */
         .button-group {
             display: flex; 
             gap: 15px; 
@@ -93,7 +91,6 @@
         }
         .tool-btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 8px 12px rgba(0,0,0,0.15); }
 
-        /* 課程列表：使用 Grid 自動適應列數 */
         .lesson-list { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
@@ -144,7 +141,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1; /* 讓四個寶石平分寬度 */
+            flex: 1; 
             max-width: 70px;
             transition: 0.2s;
             aspect-ratio: 1 / 1;
@@ -155,9 +152,8 @@
         .btn-blue { background-color: #3498db; color: white; }
         .btn-locked { background-color: #bdc3c7; color: #ffffff; cursor: not-allowed; opacity: 0.7; }
 
-        /* 手機版微調 */
         @media (max-width: 768px) { 
-            .qr-box { display: none; } /* 手機版隱藏 QR Code 避免重疊 */
+            .qr-box { display: none; } 
             .main-container { padding: 40px 15px; border-radius: 20px; }
             .lesson-list { grid-template-columns: 1fr; }
             .tool-btn { font-size: 16px; padding: 10px 18px; width: 100%; }
