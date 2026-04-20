@@ -123,59 +123,85 @@
                 "醫生建議我們要多吃 @ ，身體才會健康成長。",
                 "這座公園的 @ 很好聽，大家都叫它月亮公園。"
             ]
+        },
+        "7": {
+            title: "第七課：魔術師爸爸",
+            words: ["小徑", "渾身", "痱子", "魁梧", "梧桐", "睡眠", "一枚", "絢麗", "湊巧", "發癢", "任務", "如何", "大概", "偶爾"],
+            questions: [
+                "這條公園裡的森林 @ 兩旁，開滿了漂亮的小花。",
+                "剛運動完，小明覺得 @ 充滿了汗水，非常想洗澡。",
+                "夏天天氣太熱，小寶寶的背上長了許多紅紅的小 @ 。",
+                "這位籃球員的身材非常 @ ，站在球場上很有威嚴。",
+                "學校門口種了幾棵高大的 @ 樹，葉子像手掌一樣大。",
+                "每天都要保持充足的 @ ，上課時才會有好精神。",
+                "我在存錢筒裡發現 @ 閃亮的金幣，是之前留下來的。",
+                "跨年晚會的煙火非常 @ 奪目，吸引了所有人的目光。",
+                "我今天去超市時， @ 遇到了好久不見的幼稚園同學。",
+                "被蚊子叮到的地方變得好 @ ，讓人忍不住想去抓。",
+                "老師交給小華一個重要的 @ ，請他照顧新轉學來的同學。",
+                "我們應該 @ 做，才能把這件作品修改得更完美呢？",
+                "雖然這支手錶壞了，但維修師傅說 @ 幾天就能修好。",
+                "爸爸平常工作很忙，只有 @ 能在假日帶我們去海邊。"
+            ]
         }
     };
 
+    // 🌟 這裡改成 'id' 來接大廳傳來的密碼
     const urlParams = new URLSearchParams(window.location.search);
-    const lessonId = urlParams.get('lesson') || "1";
+    const lessonId = urlParams.get('id') || "1";
+    
     const currentData = lessonData[lessonId];
 
-    // 初始化頁面
-    document.getElementById('lesson-title').innerText = currentData.title;
+    if (currentData) {
+        // 初始化頁面
+        document.getElementById('lesson-title').innerText = currentData.title;
 
-    // 隨機打亂語詞並渲染
-    const wordBank = document.getElementById('wordBank');
-    [...currentData.words].sort(() => Math.random() - 0.5).forEach(w => {
-        const div = document.createElement('div');
-        div.className = 'word-item';
-        div.innerText = w;
-        div.draggable = true;
-        div.id = 'word-' + w;
-        div.addEventListener('dragstart', e => e.dataTransfer.setData('text', w));
-        wordBank.appendChild(div);
-    });
-
-    // 渲染題目區
-    const quizArea = document.getElementById('quizArea');
-    currentData.questions.forEach((q, index) => {
-        const parts = q.split('@');
-        const qDiv = document.createElement('div');
-        qDiv.className = 'question';
-        qDiv.innerHTML = `${index + 1}. ${parts[0]} <div class="drop-zone" data-ans="${currentData.words[index]}"></div> ${parts[1]}`;
-        quizArea.appendChild(qDiv);
-    });
-
-    // 設定拖曳邏輯
-    document.querySelectorAll('.drop-zone').forEach(zone => {
-        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
-        zone.addEventListener('dragleave', () => zone.classList.remove('over'));
-        zone.addEventListener('drop', e => {
-            e.preventDefault();
-            zone.classList.remove('over');
-            const word = e.dataTransfer.getData('text');
-            if (zone.innerText !== "") document.getElementById('word-' + zone.innerText).style.display = 'block';
-            zone.innerText = word;
-            zone.classList.add('filled');
-            document.getElementById('word-' + word).style.display = 'none';
+        // 隨機打亂語詞並渲染
+        const wordBank = document.getElementById('wordBank');
+        [...currentData.words].sort(() => Math.random() - 0.5).forEach(w => {
+            const div = document.createElement('div');
+            div.className = 'word-item';
+            div.innerText = w;
+            div.draggable = true;
+            div.id = 'word-' + w;
+            div.addEventListener('dragstart', e => e.dataTransfer.setData('text', w));
+            wordBank.appendChild(div);
         });
-        zone.onclick = () => {
-            if (zone.innerText !== "") {
-                document.getElementById('word-' + zone.innerText).style.display = 'block';
-                zone.innerText = "";
-                zone.classList.remove('filled');
-            }
-        };
-    });
+
+        // 渲染題目區
+        const quizArea = document.getElementById('quizArea');
+        currentData.questions.forEach((q, index) => {
+            const parts = q.split('@');
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `${index + 1}. ${parts[0]} <div class="drop-zone" data-ans="${currentData.words[index]}"></div> ${parts[1]}`;
+            quizArea.appendChild(qDiv);
+        });
+
+        // 設定拖曳邏輯
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+            zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('over');
+                const word = e.dataTransfer.getData('text');
+                if (zone.innerText !== "") document.getElementById('word-' + zone.innerText).style.display = 'block';
+                zone.innerText = word;
+                zone.classList.add('filled');
+                document.getElementById('word-' + word).style.display = 'none';
+            });
+            zone.onclick = () => {
+                if (zone.innerText !== "") {
+                    document.getElementById('word-' + zone.innerText).style.display = 'block';
+                    zone.innerText = "";
+                    zone.classList.remove('filled');
+                }
+            };
+        });
+    } else {
+        document.getElementById('lesson-title').innerText = "找不到這課的資料喔！";
+    }
 
     function checkAll() {
         let correct = 0;
@@ -190,7 +216,7 @@
                 z.style.color = "white";
             }
         });
-        if (correct === zones.length) {
+        if (correct === zones.length && zones.length > 0) {
             localStorage.setItem(`level4_unlocked_lesson_${lessonId}`, 'true');
             alert("🎉 太棒了！全對！鑽石變色囉！");
             location.href = 'index.html';
