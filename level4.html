@@ -218,7 +218,8 @@
     };
 
     const urlParams = new URLSearchParams(window.location.search);
-    const lessonId = urlParams.get('lesson') || "1";
+    // 【重要修改】將原本的 get('lesson') 改成 get('id')，或是兩種都支援
+    const lessonId = urlParams.get('id') || urlParams.get('lesson') || "1";
     const currentData = lessonData[lessonId];
 
     // 檢查解鎖狀態
