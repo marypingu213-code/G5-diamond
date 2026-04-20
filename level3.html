@@ -7,28 +7,38 @@
     <style>
         :root { --primary-bg: #2c3e50; --container-bg: #34495e; --word-bg: #f1c40f; --drop-bg: rgba(255, 255, 255, 0.1); --correct-color: #2ecc71; }
         body { font-family: "Microsoft JhengHei", sans-serif; background-color: var(--primary-bg); color: white; text-align: center; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .game-container { background-color: var(--container-bg); padding: 40px; border-radius: 30px; width: 95%; max-width: 1200px; box-shadow: 0 15px 50px rgba(0,0,0,0.5); border: 4px solid #455a64; }
-        h2 { font-size: 42px; color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-top: 0; }
+        .game-container { background-color: var(--container-bg); padding: 40px; border-radius: 30px; width: 95%; max-width: 1200px; box-shadow: 0 15px 50px rgba(0,0,0,0.5); border: 4px solid #455a64; position: relative;}
+        h2 { font-size: clamp(30px, 4vw, 42px); color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-top: 0; }
+        
+        /* 進度提示 */
+        .progress-text { font-size: 20px; color: #bdc3c7; margin-bottom: 20px; font-weight: bold;}
+
         .word-bank { background: #1a252f; padding: 25px; border-radius: 20px; margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; border: 4px dashed #f1c40f; min-height: 100px; }
-        .word-item { background: var(--word-bg); color: #2c3e50; padding: 15px 30px; border-radius: 15px; font-weight: 900; font-size: 32px; cursor: grab; user-select: none; box-shadow: 0 6px 0 #d4ac0d; transition: 0.2s; }
+        .word-item { background: var(--word-bg); color: #2c3e50; padding: 15px 30px; border-radius: 15px; font-weight: 900; font-size: clamp(24px, 3vw, 32px); cursor: grab; user-select: none; box-shadow: 0 6px 0 #d4ac0d; transition: 0.2s; }
         .word-item:active { cursor: grabbing; transform: translateY(4px); box-shadow: 0 2px 0 #d4ac0d; }
         .quiz-area { text-align: left; background: rgba(0,0,0,0.1); padding: 30px; border-radius: 20px; }
-        .question { font-size: 32px; margin: 25px 0; line-height: 1.8; display: flex; align-items: center; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
-        .drop-zone { min-width: 160px; height: 60px; border: 3px dashed #f1c40f; margin: 5px 15px; display: inline-flex; align-items: center; justify-content: center; background: var(--drop-bg); border-radius: 12px; transition: 0.3s; font-size: 32px; color: #f1c40f; font-weight: bold; }
+        .question { font-size: clamp(24px, 3vw, 32px); margin: 25px 0; line-height: 1.8; display: flex; align-items: center; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .drop-zone { min-width: 160px; height: 60px; border: 3px dashed #f1c40f; margin: 5px 15px; display: inline-flex; align-items: center; justify-content: center; background: var(--drop-bg); border-radius: 12px; transition: 0.3s; font-size: clamp(24px, 3vw, 32px); color: #f1c40f; font-weight: bold; }
         .drop-zone.over { background: rgba(241, 196, 15, 0.4); transform: scale(1.1); }
         .drop-zone.filled { background: #ffffff; color: #2c3e50; border: none; border-bottom: 6px solid #bdc3c7; }
-        .check-btn { background-color: var(--correct-color); color: white; border: none; padding: 20px 60px; font-size: 36px; border-radius: 60px; cursor: pointer; margin-top: 40px; font-weight: 900; box-shadow: 0 8px 0 #27ae60; transition: 0.2s; }
+        
+        .check-btn { background-color: var(--correct-color); color: white; border: none; padding: 20px 60px; font-size: clamp(24px, 3vw, 36px); border-radius: 60px; cursor: pointer; margin-top: 40px; font-weight: 900; box-shadow: 0 8px 0 #27ae60; transition: 0.2s; }
         .check-btn:hover { transform: scale(1.05); background-color: #2ecc71; }
         .check-btn:active { transform: translateY(4px); box-shadow: 0 4px 0 #27ae60; }
+        
+        .back-btn { position: absolute; top: 20px; left: 20px; background: #e74c3c; color: white; text-decoration: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 20px; box-shadow: 0 4px 0 #c0392b;}
+        .back-btn:active { transform: translateY(4px); box-shadow: none; }
     </style>
 </head>
 <body>
 
 <div class="game-container">
+    <a href="lesson.html" id="backLink" class="back-btn">🔙 回選單</a>
     <h2 id="lesson-title">💎 載入中... 💎</h2>
+    <div class="progress-text" id="progressText"></div>
     <div class="word-bank" id="wordBank"></div>
     <div class="quiz-area" id="quizArea"></div>
-    <button class="check-btn" onclick="checkAll()">檢查答案 檢查看看</button>
+    <button class="check-btn" id="checkBtn" onclick="checkAll()">檢查答案 檢查看看</button>
 </div>
 
 <script>
@@ -177,4 +187,224 @@
                 "我在網路上 @ 關於恐龍的資料，準備完成期末報告。",
                 "哥哥在書店裡快速地 @ 雜誌內容，尋找他感興趣的主題。",
                 "文化中心正在舉辦世界名畫 @ ，吸引了許多人去參觀。",
-                "爸爸打算
+                "爸爸打算趁著年假期間，帶著全家人去外婆家 @ 。",
+                "運動員需要經過長期的辛苦 @ ，才能在比賽中獲得好成績。",
+                "受傷後一定要接受正確的 @ ，傷口才不會惡化。",
+                "經過一個星期的靜養，小華的感冒終於完全 @ 了。",
+                "「醫生」是一份神聖的 @ ，任務是守護大家的健康。",
+                "你能提出什麼證據，來 @ 這份作業是你自己寫的嗎？",
+                "交卷前，請大家再次 @ 考卷上的姓名與座號是否正確。",
+                "迷路的時候，可以到警察局 @ 正確的方向。",
+                "老師隨時都會觀察班上同學的學習 @ 。",
+                "這種病毒引起的常見 @ 包括發燒、咳嗽和喉嚨痛。",
+                "比賽中， @ 必須保持公正，嚴格執行比賽規則。",
+                "小明因為主動打掃教室環境，得到了校長的 @ 。"
+            ]
+        },
+        "10": {
+            title: "第十課：沉默動物園",
+            words: ["柳絮", "斜坡", "傑出", "滔滔不絕", "廣場", "沙漠", "乾燥", "博物館", "編織", "歷史", "星辰", "日曆", "地址", "引擎", "小狗", "渺小", "耳膜", "佳節"],
+            questions: [
+                "春天到了，白色的 @ 隨風漫天飛舞，看起來就像下雪一樣。",
+                "球如果不小心掉到 @ 上，就會順著坡度一路往下滾。",
+                "他憑著努力和才華，成為了一名 @ 的科學家。",
+                "只要談到最喜歡的恐龍，小明總是能 @ 地說個不停。",
+                "晚餐過後，社區裡的 @ 擠滿了散步和跳舞的人群。",
+                " @ 裡到處都是黃沙，缺乏水源，生存環境非常艱苦。",
+                "冬天天氣特別 @ ，洗完臉記得擦乳液才不會不舒服。",
+                "老師帶領我們去故宮 @ 參觀，欣賞古人留下的珍貴文物。",
+                "奶奶正坐在搖椅上，細心地為我 @ 一件溫暖的毛衣。",
+                "我們可以透過閱讀課本，了解台灣這片土地過去發展的 @ 。",
+                "漆黑的夜空中，無數閃爍的 @ 像寶石般美麗。",
+                "撕下最後一頁 @ ，就代表新的一年又要來臨了。",
+                "寄信時一定要寫清楚收件人的 @ ，郵差叔叔才能送到家。",
+                "爸爸發動了汽車的 @ ，準備載我們去郊外踏青。",
+                "鄰居家的 @ 非常熱情，每次看到人都會搖尾巴打招呼。",
+                "站在巨大的神木底下，我們感覺自己變得很 @ 。",
+                "突然傳來巨大的爆炸聲響，震得我的 @ 隱隱作痛。",
+                "每逢中秋 @ ，遠方的親友都會團聚在一起吃月餅。"
+            ]
+        },
+        "11": {
+            title: "第十一課：地下護衛軍",
+            words: ["秦朝", "兵馬俑", "皇帝", "君王", "陵墓", "墳墓", "挖掘", "埋葬", "包含", "栩栩如生", "單純", "煥然一新", "難堪", "巔峰", "盛開", "震撼", "研究", "價值"],
+            questions: [
+                " @ 是中國歷史上第一個統一全國的朝代。",
+                "來到西安，一定要去參觀規模壯觀的 @ 坑。",
+                "在古代， @ 擁有至高無上的權力，統治整個國家。",
+                "一位英明的 @ 應該要愛民如子，才能得到百姓的擁戴。",
+                "考古學家在西安發現了秦始皇的 @ ，引起全世界的關注。",
+                "清明節時，爸爸會帶著全家人去郊外的 @ 前掃墓，祭拜祖先。",
+                "施工人員正在公園裡 @ 土壤，準備埋設新的水管。",
+                "考古學家在遺址中發現了許多 @ 數千年的珍貴文物。",
+                "這份精美的禮盒裡， @ 了來自各地的特色點心。",
+                "這座雕像刻畫得 @ ，連頭髮的線條都清晰可見。",
+                "小弟弟的個性非常 @ ，總是對每個人都露出燦爛的微笑。",
+                "經過大掃除後，原本髒亂的教室變得 @ ，非常整潔。",
+                "在大家面前不小心說錯話，讓小明感到十分 @ 。",
+                "經過長期的訓練，這位體操選手的體能狀態正處於 @ 。",
+                "春天到了，陽明山上的櫻花紛紛 @ ，吸引大批遊客。",
+                "這部史詩電影的戰爭場面非常壯觀，帶給觀眾強烈的視覺 @ 。",
+                "科學家們正在實驗室裡細心 @ ，希望能找出治療感冒的方法。",
+                "這件古董不僅歷史悠久，更有著極高的藝術 @ 。"
+            ]
+        },
+        "12": {
+            title: "第十二課：金字塔之謎",
+            words: ["俯瞰", "塵埃", "蘊藏", "收割", "編織", "雪橇", "滋潤", "藥劑", "按摩", "號碼", "根據", "測驗", "礫石", "妥當", "脂肪", "包裹", "諺語", "矗立"],
+            questions: [
+                "從飛機上往下 @ ，地面上的房子看起來像積木一樣小。",
+                "陽光照進窗戶，可以看到空氣中飛舞著小小的 @ 。",
+                "這片深山之中， @ 著許多珍貴的礦產。",
+                "秋天是收穫的季節，農夫們正忙著在田裡 @ 稻子。",
+                "奶奶正坐在窗邊，細心地為我 @ 一件溫暖的毛衣。",
+                "在北極地區，人們常利用狗拉 @ 作為交通工具。",
+                "這場及時雨 @ 了乾枯的大地，草木都變得有精神了。",
+                "生病時一定要依照醫生的指示服用 @ ，病才會快點好。",
+                "運動過後，適度的 @ 可以幫助肌肉放鬆，減輕痠痛。",
+                "請大家在考卷的右上角，清楚寫下自己的座號 @ 。",
+                " @ 氣象預報顯示，明天全台各地都會是晴朗的好天氣。",
+                "老師正在講台上宣布今天語文 @ 的範圍。",
+                "海邊的沙灘上布滿了各種形狀的 @ ，踩上去涼涼的。",
+                "班長做事一向很 @ ，所以老師非常信任他。",
+                "飲食要均衡，如果攝取過多的 @ ，對身體會有負擔。",
+                "郵差叔叔準時將外婆寄來的 @ 送到我們家門口。",
+                "「一寸光陰一寸金」是一句非常有名的 @ ，提醒我們要珍惜時間。",
+                "高大挺拔的神木，靜靜地 @ 在雲霧繚繞的深山森林中。"
+            ]
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const lessonId = urlParams.get('id') || "1";
+    const currentData = lessonData[lessonId];
+    
+    // 返回按鈕設定
+    document.getElementById('backLink').href = `lesson.html?id=${lessonId}`;
+
+    // 分頁設定：每頁最多 9 題
+    const ITEMS_PER_PAGE = 9;
+    let currentPage = 0;
+    let totalPages = 1;
+    let currentWords = [];
+    let currentQuestions = [];
+
+    if (currentData) {
+        document.getElementById('lesson-title').innerText = currentData.title;
+        totalPages = Math.ceil(currentData.words.length / ITEMS_PER_PAGE);
+        loadPage(0);
+    } else {
+        document.getElementById('lesson-title').innerText = "找不到這課的資料喔！";
+        document.getElementById('checkBtn').style.display = 'none';
+    }
+
+    function loadPage(pageIndex) {
+        currentPage = pageIndex;
+        
+        // 顯示進度
+        if(totalPages > 1) {
+            document.getElementById('progressText').innerText = `第 ${currentPage + 1} / ${totalPages} 關`;
+        } else {
+            document.getElementById('progressText').innerText = "";
+        }
+
+        // 裁切當頁的資料
+        const startIdx = currentPage * ITEMS_PER_PAGE;
+        const endIdx = startIdx + ITEMS_PER_PAGE;
+        currentWords = currentData.words.slice(startIdx, endIdx);
+        currentQuestions = currentData.questions.slice(startIdx, endIdx);
+
+        // 清空並重新渲染語詞庫
+        const wordBank = document.getElementById('wordBank');
+        wordBank.innerHTML = "";
+        [...currentWords].sort(() => Math.random() - 0.5).forEach(w => {
+            const div = document.createElement('div');
+            div.className = 'word-item';
+            div.innerText = w;
+            div.draggable = true;
+            div.id = 'word-' + w;
+            div.addEventListener('dragstart', e => e.dataTransfer.setData('text', w));
+            wordBank.appendChild(div);
+        });
+
+        // 清空並重新渲染題目區
+        const quizArea = document.getElementById('quizArea');
+        quizArea.innerHTML = "";
+        currentQuestions.forEach((q, index) => {
+            const parts = q.split('@');
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            // 題號會接續上一頁 (例如 10, 11, 12...)
+            const questionNum = startIdx + index + 1;
+            qDiv.innerHTML = `${questionNum}. ${parts[0]} <div class="drop-zone" data-ans="${currentWords[index]}"></div> ${parts[1]}`;
+            quizArea.appendChild(qDiv);
+        });
+
+        // 重新綁定拖曳邏輯
+        setupDragAndDrop();
+        
+        // 按鈕文字重置
+        document.getElementById('checkBtn').innerText = "檢查答案 檢查看看";
+    }
+
+    function setupDragAndDrop() {
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+            zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('over');
+                const word = e.dataTransfer.getData('text');
+                
+                // 只有從底下的語詞庫拉上來的字才能放
+                if(document.getElementById('word-' + word)) {
+                    if (zone.innerText !== "") {
+                        document.getElementById('word-' + zone.innerText).style.display = 'block';
+                    }
+                    zone.innerText = word;
+                    zone.classList.add('filled');
+                    document.getElementById('word-' + word).style.display = 'none';
+                }
+            });
+            zone.onclick = () => {
+                if (zone.innerText !== "") {
+                    document.getElementById('word-' + zone.innerText).style.display = 'block';
+                    zone.innerText = "";
+                    zone.classList.remove('filled');
+                    zone.style.backgroundColor = "rgba(255, 255, 255, 0.1)"; // 恢復原本底色
+                    zone.style.color = "#f1c40f"; // 恢復原本字色
+                }
+            };
+        });
+    }
+
+    function checkAll() {
+        let correct = 0;
+        const zones = document.querySelectorAll('.drop-zone');
+        zones.forEach(z => {
+            if (z.innerText === z.dataset.ans) {
+                z.style.backgroundColor = "#2ecc71";
+                z.style.color = "white";
+                correct++;
+            } else {
+                z.style.backgroundColor = "#e74c3c";
+                z.style.color = "white";
+            }
+        });
+
+        if (correct === zones.length && zones.length > 0) {
+            if (currentPage < totalPages - 1) {
+                alert("🎉 太棒了！這頁全對！準備進入下一關！");
+                loadPage(currentPage + 1);
+            } else {
+                localStorage.setItem(`level4_unlocked_lesson_${lessonId}`, 'true');
+                alert("🎉 太棒了！全部挑戰完成！鑽石變色囉！");
+                location.href = `lesson.html?id=${lessonId}`;
+            }
+        } else {
+            alert("還有地方不對喔，再檢查一下紅色的格子！點擊紅格子可以把字退回去喔。");
+        }
+    }
+</script>
+</body>
+</html>
