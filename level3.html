@@ -35,7 +35,7 @@
     // 所有的 Level 3 題目庫
     const lessonData = {
         "1": {
-            title: "第一課：語詞挑戰",
+            title: "第一課：穿越時空的味道",
             words: ["客廳", "燈盞", "灑水", "茶壺", "菊花", "閱讀", "附近", "眼眸", "留戀"],
             questions: [
                 "晚飯後，全家人一起在 @ 聊天。",
@@ -50,7 +50,7 @@
             ]
         },
         "2": {
-            title: "第二課：語詞挑戰",
+            title: "第二課：在黑暗中乘著音樂飛翔",
             words: ["出席", "徐徐", "掌聲", "倒映", "皇冠", "軍人", "逆向", "盲人", "扇子"],
             questions: [
                 "為了慶祝校慶，許多校友都特地回校 @ 這場盛會。",
@@ -65,7 +65,7 @@
             ]
         },
         "3": {
-            title: "第三課：語詞挑戰",
+            title: "第三課：色香味的陽光",
             words: ["濃霧", "親吻", "一株", "芭樂", "紫色", "橘子", "趴下", "駐守", "巡邏"],
             questions: [
                 "山上起了大 @ ，能見度變得很低，開車要特別小心。",
@@ -80,7 +80,7 @@
             ]
         },
         "4": {
-            title: "第四課：語詞挑戰",
+            title: "第四課：縣官審石頭",
             words: ["老闆", "販賣", "攤位", "盜賊", "冤枉", "枉費", "分辨", "惡作劇", "武術"],
             questions: [
                 "這家書店的 @ 非常親切，常會推薦好書。 ",
@@ -95,7 +95,7 @@
             ]
         },
         "5": {
-            title: "第五課：語詞挑戰",
+            title: "第五課：高明說話術",
             words: ["風俗", "善良", "寒冷", "燎原", "瓦片", "焚燒", "放鬆", "沉默", "批評"],
             questions: [
                 "每個地方都有不同的 @ 習慣，我們應該互相尊重。",
@@ -110,7 +110,7 @@
             ]
         },
         "6": {
-            title: "第六課：語詞挑戰",
+            title: "第六課：讀書報告-佐賀的超級阿嬤",
             words: ["出版", "阿姨", "勤勞", "節儉", "繩子", "廢物", "攔住", "蔬菜", "名稱"],
             questions: [
                 "這本有趣的童話書是由這家公司 @ 的。",
@@ -143,87 +143,38 @@
                 "雖然這支手錶壞了，但維修師傅說 @ 幾天就能修好。",
                 "爸爸平常工作很忙，只有 @ 能在假日帶我們去海邊。"
             ]
-        }
-    };
-
-    // 🌟 這裡改成 'id' 來接大廳傳來的密碼
-    const urlParams = new URLSearchParams(window.location.search);
-    const lessonId = urlParams.get('id') || "1";
-    
-    const currentData = lessonData[lessonId];
-
-    if (currentData) {
-        // 初始化頁面
-        document.getElementById('lesson-title').innerText = currentData.title;
-
-        // 隨機打亂語詞並渲染
-        const wordBank = document.getElementById('wordBank');
-        [...currentData.words].sort(() => Math.random() - 0.5).forEach(w => {
-            const div = document.createElement('div');
-            div.className = 'word-item';
-            div.innerText = w;
-            div.draggable = true;
-            div.id = 'word-' + w;
-            div.addEventListener('dragstart', e => e.dataTransfer.setData('text', w));
-            wordBank.appendChild(div);
-        });
-
-        // 渲染題目區
-        const quizArea = document.getElementById('quizArea');
-        currentData.questions.forEach((q, index) => {
-            const parts = q.split('@');
-            const qDiv = document.createElement('div');
-            qDiv.className = 'question';
-            qDiv.innerHTML = `${index + 1}. ${parts[0]} <div class="drop-zone" data-ans="${currentData.words[index]}"></div> ${parts[1]}`;
-            quizArea.appendChild(qDiv);
-        });
-
-        // 設定拖曳邏輯
-        document.querySelectorAll('.drop-zone').forEach(zone => {
-            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
-            zone.addEventListener('dragleave', () => zone.classList.remove('over'));
-            zone.addEventListener('drop', e => {
-                e.preventDefault();
-                zone.classList.remove('over');
-                const word = e.dataTransfer.getData('text');
-                if (zone.innerText !== "") document.getElementById('word-' + zone.innerText).style.display = 'block';
-                zone.innerText = word;
-                zone.classList.add('filled');
-                document.getElementById('word-' + word).style.display = 'none';
-            });
-            zone.onclick = () => {
-                if (zone.innerText !== "") {
-                    document.getElementById('word-' + zone.innerText).style.display = 'block';
-                    zone.innerText = "";
-                    zone.classList.remove('filled');
-                }
-            };
-        });
-    } else {
-        document.getElementById('lesson-title').innerText = "找不到這課的資料喔！";
-    }
-
-    function checkAll() {
-        let correct = 0;
-        const zones = document.querySelectorAll('.drop-zone');
-        zones.forEach(z => {
-            if (z.innerText === z.dataset.ans) {
-                z.style.backgroundColor = "#2ecc71";
-                z.style.color = "white";
-                correct++;
-            } else {
-                z.style.backgroundColor = "#e74c3c";
-                z.style.color = "white";
-            }
-        });
-        if (correct === zones.length && zones.length > 0) {
-            localStorage.setItem(`level4_unlocked_lesson_${lessonId}`, 'true');
-            alert("🎉 太棒了！全對！鑽石變色囉！");
-            location.href = 'index.html';
-        } else {
-            alert("還有地方不對喔，再檢查一下紅色的格子！");
-        }
-    }
-</script>
-</body>
-</html>
+        },
+        "8": {
+            title: "第八課：八歲，一個人去旅行",
+            words: ["盒子", "瞌睡", "乾癟", "咀嚼", "剎車", "礦泉水", "澆水", "螞蟻", "膽怯", "孫子", "遲到", "洞穴", "聰明", "孝順", "解釋", "塞車", "銅板"],
+            questions: [
+                "媽媽把漂亮的飾品收進精緻的 @ 裡。",
+                "下午的第一堂課，小明忍不住在座位上打起 @ 來到。",
+                "這顆橘子放太久了，水分都消失，變得 @ 的。",
+                "吃東西要細心 @ ，才能幫助腸胃消化。",
+                "看到紅燈時，司機立刻踩下 @ 讓車子停下來。",
+                "運動完後，喝一杯清涼的 @ 真是舒服。",
+                "每天早晨，爺爺都會到花園裡幫花草 @ 。",
+                "地上有一群黑黑的小 @ ，正在搬運餅乾屑。",
+                "第一次上台表演，他感到有些 @ ，一直發抖。",
+                "老奶奶最疼愛的 @ 剛從學校放學回家。",
+                "如果早上賴床太久，上學可能就會 @ 。",
+                "棕熊躲進深山的 @ 裡，準備度過寒冷的冬天。",
+                "老師誇獎小華是一個 @ 的孩子，反應非常快。",
+                "我們應該要做一個 @ 的孩子，體貼父母的辛苦。",
+                "對於這道數學題，老師又重新 @ 了一次。",
+                "連假期間，高速公路上到處都在 @ 。",
+                "我在口袋裡找到一個五元的 @ 。"
+            ]
+        },
+        "9": {
+            title: "第九課：紅鼻子醫生",
+            words: ["靜謐", "乍看", "困惑", "搜尋", "瀏覽", "展覽", "拜訪", "磨練", "治療", "痊癒", "職業", "證明", "核對", "詢問", "情況", "症狀", "裁判", "誇獎"],
+            questions: [
+                "深山裡的夜晚非常 @ ，只能聽到遠處傳來的蟲鳴聲。",
+                "這張圖畫 @ 之下是一隻貓，但倒過來看卻像一隻兔子。",
+                "面對這道複雜的數學題，小明的臉上露出了 @ 的表情。",
+                "我在網路上 @ 關於恐龍的資料，準備完成期末報告。",
+                "哥哥在書店裡快速地 @ 雜誌內容，尋找他感興趣的主題。",
+                "文化中心正在舉辦世界名畫 @ ，吸引了許多人去參觀。",
+                "爸爸打算
