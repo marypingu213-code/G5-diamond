@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>五年級期末語詞闖關大挑戰</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'PingFang TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            min-height: 100vh;
+            touch-action: manipulation; /* 增強平板觸控體驗 */
+        }
+
+        /* 填空題樣式 */
+        .blank-space {
+            display: inline-block;
+            min-width: 100px;
+            height: 40px;
+            margin: 0 6px;
+            vertical-align: middle;
+            border-bottom: 3px dashed #9ca3af;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #4b5563;
+            font-weight: bold;
+            border-radius: 6px;
+            padding: 0 10px;
+            background-color: #f3f4f6;
+        }
+
+        .blank-space.active {
+            border-bottom: 3px solid #3b82f6;
+            background-color: #eff6ff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+            transform: scale(1.05);
+        }
+
+        .blank-space.filled {
+            border-bottom: 3px solid #10b981;
+            background-color: #ecfdf5;
+            color: #047857;
+        }
+
+        .blank-space.error {
+            border-bottom: 3px solid #ef4444;
+            background-color: #fef2f2;
+            color: #b91c1c;
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        .blank-space.correct {
+            border-bottom: 3px solid #10b981;
+            background-color: #d1fae5;
+            color: #047857;
+        }
+
+        /* 選擇題樣式動畫 */
+        .error {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        .word-option {
+            transition: transform 0.1s;
+        }
+        
+        .word-option:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        .celebrate-animation {
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const gameData = [
+            // ================= 填空題部分 (1~4關) =================
+            {
+                type: 'fill-blank',
+                title: "第一關：語詞填空",
+                instructions: "根據語意，填入適當的語詞。(請先點擊題目空格，再點選下方對應的語詞)",
+                options: ["絢麗多姿", "七嘴八舌", "對症下藥", "學以致用", "神來之筆", "昂首挺胸"],
+                questions: [
+                    { text: "1. 學生平常在學校學到許多知識，但是卻無法[blank]，導致學生失去了學習新知的動力。", answers: ["學以致用"] },
+                    { text: "2. 每年跨年時，[blank]的煙火秀總是能夠吸引來自世界各地的觀光客到臺灣迎接新年。", answers: ["絢麗多姿"] },
+                    { text: "3. 這一部影集的結尾令人出乎意料，真是[blank]，讓所有觀眾都引頸期盼能推出續集。", answers: ["神來之筆"] },
+                    { text: "4. 經過詳細的檢查，醫生找出了我的病因並[blank]，相信能夠藥到病除，讓身體早日好起來。", answers: ["對症下藥"] },
+                    { text: "5. 小軍的父母自小教他走路要[blank]，小軍也養成了好習慣，因此看起來總是朝氣蓬勃。", answers: ["昂首挺胸"] },
+                    { text: "6. 班會時，大家[blank]的討論即將到來的跳蚤市場活動，卻一直沒有訂定具體的目標和規畫。", answers: ["七嘴八舌"] }
+                ]
+            },
+            {
+                type: 'fill-blank',
+                title: "第二關：適當語詞挑戰",
+                instructions: "從下方挑選適當的語詞填入空格中。",
+                options: ["靜謐", "疑惑", "傑作", "最佳", "編制", "包含", "妥善", "諺語"],
+                questions: [
+                    { text: "1. 爺爺喜歡每日早起閱讀，並獨自享受清晨的[blank]時光。", answers: ["靜謐"] },
+                    { text: "2. 這一幅畫是小美的得意[blank]，[blank]許多意想不到的巧思。", answers: ["傑作", "包含"] },
+                    { text: "3. 這道跟人員[blank]有關的數學難題，讓我感到相當[blank]，我決定明天早上去尋求老師的幫助。", answers: ["編制", "疑惑"] }
+                ]
+            },
+            {
+                type: 'fill-blank',
+                title: "第三關：語意情境題",
+                instructions: "依照語意，選擇最適合的成語填入。",
+                options: ["垂頭喪氣", "精神煥發", "歡欣鼓舞", "面紅耳赤"],
+                questions: [
+                    { text: "1. 班際樂樂棒球比賽結束之後，想當然爾會是幾家歡樂幾家愁。贏得比賽的班級[blank]，輸掉比賽的班級[blank]。體育老師也藉此機會教導大家「勝不驕，敗不餒」的運動家精神。", answers: ["歡欣鼓舞", "垂頭喪氣"] },
+                    { text: "2. 小虎脾氣暴躁，經常為了一點小事和人爭得[blank]，大家都不喜歡和他相處。", answers: ["面紅耳赤"] },
+                    { text: "3. 經過連續假期的充足休息後，爸爸看起來[blank]。", answers: ["精神煥發"] }
+                ]
+            },
+            {
+                type: 'fill-blank',
+                title: "第四關：綜合填空",
+                instructions: "填入適當的語詞，完成最後的挑戰！",
+                options: ["打瞌睡", "孝順", "一剎那", "膽怯", "銅板"],
+                questions: [
+                    { text: "1. 喬喬是一位[blank]的好孩子。最近爺爺生病，她擔負起照顧爺爺的責任，因此有時會疲憊得在課堂中不小心[blank]，還好班上同學熱心的將課堂筆記借給她，讓她能跟上進度。", answers: ["孝順", "打瞌睡"] },
+                    { text: "2. 阿雄的個性[blank]，每當要上臺說話總會緊張得發抖。但在同學們的鼓勵下，他的心中[blank]充滿勇氣，主動提出要代表班級參加朗讀比賽。", answers: ["膽怯", "一剎那"] },
+                    { text: "3. 為了買禮物給最好的朋友，小珍將小豬撲滿中的[blank]取出。", answers: ["銅板"] }
+                ]
+            },
+            // ================= 選擇題部分 (5~13關，每3題一關) =================
+            {
+                type: 'multiple-choice',
+                title: "第五關：選擇題挑戰 (1/9)",
+                instructions: "請點選最適合的選項。",
+                questions: [
+                    { text: "1. 下列選項中的情緒，何者兩兩相近？", options: ["驚喜／失望", "高興／難過", "生氣／憤怒", "煩悶／愉悅"], answer: 2 },
+                    { text: "2. 依據課文，下列何者敘述錯誤？", options: ["春天時爸爸變成可愛的小花", "夏天時爸爸變成魁梧的樹", "秋天時爸爸變成一枚葉子", "冬天時爸爸變成皚皚白雪"], answer: 3 },
+                    { text: "3. 依據課文，下列何者敘述錯誤？", options: ["春天時，爸爸陪著主角一起入睡", "夏天時，爸爸為主角搧風，哄她入睡", "秋天時，爸爸提醒主角天涼記得加衣", "冬天時，爸爸陪主角一起吃火鍋"], answer: 0 }
+                ]
+            },
+            {
+                type: 'multiple-choice',
+                title: "第六關：選擇題挑戰 (2/9)",
+                instructions: "請點選最適合的選項。",
+                questions: [
+                    { text: "1. 依據課文，下列何者敘述正確？", options: ["主角覺得爸爸是一名魔術師", "爸爸到世界各地表演魔術，所以暫時離開家人", "冬天時主角喜歡和奶奶一起吃火鍋", "爸爸希望孩子開心，所以不會變成眼淚"], answer: 0 },
+                    { text: "2. 下列有關字和部首的配對，何者錯誤？", options: ["癟：疒部", "怯：心部", "盒：人部", "孝：子部"], answer: 2 },
+                    { text: "3. 依據課文內的情境，推論下列哪一事件中主角的情緒配對錯誤？", options: ["主角獨自搭火車→緊張害怕", "老婆婆看著主角，凹癟的嘴不停的嚼著東西→親切", "老婆婆突然昏倒→驚慌失措", "老婆婆醒來→鬆了一口氣"], answer: 1 }
+                ]
+            },
+            {
+                type: 'multiple-choice',
+                title: "第七關：選擇題挑戰 (3/9)",
+                instructions: "請點選最適合的選項。",
+                questions: [
+                    { text: "1. 課文中，主角原本很害怕火車上的老婆婆，後來為什麼不怕了？", options: ["老婆婆身上有祖母的味道", "主角一直都很害怕", "老婆婆給他芭樂，他很高興", "老婆婆給主角很多銅板"], answer: 0 },
+                    { text: "2. 下列哪一個句子沒有運用摹寫技巧？", options: ["新聞正在播報颱風的動態", "突然下起雨，冷冷的雨滴打在我身上", "窗戶被風吹得一直吱吱作響", "颱風過後，天空又恢復了過往的湛藍"], answer: 0 },
+                    { text: "3. 依據課文內容，下列何者正確？", options: ["訪問的地點在醫院裡", "馬阿姨希望能夠為小病人帶來心靈上的幫助", "小丑醫生每個月只會表演一次，所以小病人們都很期待", "小丑醫生堅持下去的力量是受到醫護人員的鼓勵"], answer: 1 }
+                ]
+            },
+            {
+                type: 'multiple-choice',
+                title: "第八關：選擇題挑戰 (4/9)",
+                instructions: "請點選最適合的選項。",
+                questions: [
+                    { text: "1. 要成為專業的小丑醫生，不需要經過哪些考驗呢？", options: ["熟練魔術、歌唱和小丑表演", "學習了解小朋友的心理", "學習專業的醫學知識", "通過實習和考核"], answer: 2 },
+                    { text: "2. 依據課文，沉默的動物園內沒有哪一種動物？", options: ["小貓", "小狗", "猴子", "蜂鳥"], answer: 0 },
+                    { text: "3. 依據課文，下列何者敘述正確？", options: ["納斯卡線是外星人的傑作", "納斯卡線位於秘魯首都利馬，每年吸引成千上萬的遊客慕名而來", "納斯卡小城位處沙漠，所以無法發展農業", "神奇的地上畫讓作者感到不可思議"], answer: 3 }
+                ]
+            },
+            {
+                type: 'multiple-choice',
+                title: "第九關：選擇題挑戰 (5/9)",
+                instructions: "請點選最適合的選項。",
+                questions: [
+                    { text: "1. 沉默的動物園帶給了作者什麼想法？", options: ["人類是萬物之靈", "人類向自然學習，能夠創造偉大", "外星人能夠引領人類發展", "人類總是過於驕傲自滿"], answer: 1 },
+                    { text: "2. 本課使用了倒敘法，作者選擇這樣呈現的原因最可能是什麼呢？", options: ["先描寫最精彩的內容，吸引讀者目光", "按照時間順序會使文章無趣", "增加文章的嚴肅性", "作者未將時間順序安排妥當"], answer: 0 },
+                    { text: "3. 下列有關字和部首的配對，何者錯誤？", options: ["皇：玉部", "君：口部", "單：口部", "撼：手部"], answer: 0 }
+                ]
+            },
+            {
+                type: 'multiple-choice',
+                title: "第十關：選擇題挑戰 (6/9)",
+                instructions: "請點選最適合的選項。",
+                questions: [
+                    { text: "1. 下列哪一組語詞的關係和其他三組不同？", options: ["栩栩如生／維妙維肖", "精神煥發／神采奕奕", "白浪滔滔／波濤洶湧", "精神煥發／萎靡不振"], answer: 3 },
+                    { text: "2. 下列哪一個句子有語病？", options: ["參觀過金字塔的人，無不被壯觀的建築所震撼", "小昊的作業按時完成，所有人無不擔心他被老師處罰", "小辰獲得冠軍的消息傳回國內，大家無不歡欣鼓舞", "運動會即將到來，大家無不感到緊張"], answer: 1 },
+                    { text: "3. 依據課文內容，關於兵馬俑的敘述，何者正確？", options: ["兵馬俑一開始是農民耕田時無意間發現鐵器的碎片", "考古學家認定是漢代的文物", "兵馬俑坑是一個巨大的皇陵", "所有兵馬俑坑都已經挖掘出來了"], answer: 2 }
+                ]
+            },
+            {
+                type: 'multiple-choice',
+                title: "第十一關：選擇題挑戰 (7/9)",
+                instructions: "請點選最適合的選項。",
+                questions: [
+                    { text: "1. 依據課文內容，下列何者敘述錯誤？", options: ["兵馬俑的服裝、髮型風格重現秦代人物樣貌", "兵馬俑是中國古代鐵器藝術的起源", "兵馬俑對於研究古代藝術有很大的價值", "兵馬俑是人類文化的瑰寶"], answer: 1 },
+                    { text: "2. 課文中，沒有說明下列哪一個選項？", options: ["如何挑選巨石", "如何切割巨石", "如何搬移巨石", "如何堆疊巨石"], answer: 0 },
+                    { text: "3. 根據課文中的圖表，下列關於古夫金字塔的敘述，哪一個錯誤？", options: ["建造時間：西元前四千五百多年", "塔身高度：約一百四十六點五公尺", "占地面積：約五萬多平方公尺", "組成方式：由巨大石灰石堆砌而成"], answer: 0 }
+                ]
+            },
+            {
+                type: 'multiple-choice',
+                title: "第十二關：選擇題挑戰 (8/9)",
+                instructions: "請點選最適合的選項。",
+                questions: [
+                    { text: "1. 依據課文內容，下列何者正確？", options: ["古夫金字塔又稱為「小金字塔」", "古代機械技術高超，只需要少量的人力操作機械，便可以建造金字塔", "科學家至今仍無法確定古埃及人究竟是如何將巨石堆疊成金字塔", "古埃及人相信人死後不能復生，因此要建造金字塔紀念先人"], answer: 2 },
+                    { text: "2. 阿拉伯諺語：「人類怕時間，時間怕金字塔。」這句話表達了什麼意思？", options: ["金字塔會隨著時間逐漸消逝", "金字塔經過時間的考驗仍然屹立不搖", "人類和金字塔最終都會隨著時間衰亡", "人類依賴金字塔為自己帶來永生"], answer: 1 },
+                    { text: "3. 根據紅鼻子醫生一文，下列哪一個敘述錯誤？", options: ["紅鼻子醫生就是小丑醫生的代稱", "小丑醫生除了治好小病人的身體外，也能夠幫助他們獲得心靈上的慰藉", "成為小丑醫生前，要通過很多訓練和考核", "小朋友的笑容是小丑醫生的能量來源"], answer: 1 }
+                ]
+            },
+            {
+                type: 'multiple-choice',
+                title: "第十三關：選擇題挑戰 (9/9)",
+                instructions: "請點選最適合的選項。",
+                questions: [
+                    { text: "1. 根據沉默的動物園一文，下列哪一個敘述正確？", options: ["主角透過網路資料認識納斯卡線", "古代的納斯卡人居住在沙漠中，無法農耕", "納斯卡線現今仍然是歷史謎題，吸引許多人試圖解謎", "作者體會到只要足夠努力，人就有勝天的可能性"], answer: 2 },
+                    { text: "2. 「這週的訓練計畫是專門為即將比賽的選手□□□□，因此會格外辛苦。」□中應填入下列哪個語詞？", options: ["量身打造", "對症下藥", "千真萬確", "重見天日"], answer: 0 },
+                    { text: "3. 「歇後語□□著深刻的哲理。」□中不適合填入下列哪個語詞？", options: ["包含", "含糊", "包括", "蘊含"], answer: 1 }
+                ]
+            },
+            // ================= 新增：第三大題 填空題部分 (14~16關) =================
+            {
+                type: 'fill-blank',
+                title: "第十四關：字形字音辨別 (一)",
+                instructions: "根據題意，從下方挑選正確的字填入空格中。",
+                options: ["何", "河", "枚", "玫"],
+                questions: [
+                    { text: "1. 【何 河】 生意不成仁義在，[blank]必為這點小事傷了和氣呢？", answers: ["何"] },
+                    { text: "2. 【枚 玫】 (1) 小煥在桌子下發現了一[blank]錢幣。", answers: ["枚"] },
+                    { text: "　　　　　(2) 公園裡的[blank]瑰花正值花期，美麗的景象吸引了許多遊客前來拍照。", answers: ["玫"] }
+                ]
+            },
+            {
+                type: 'fill-blank',
+                title: "第十五關：感官摹寫辨識",
+                instructions: "請分辨下列句子屬於哪一種感官摹寫，並點選填入空格中。",
+                options: ["視覺", "聽覺", "嗅覺"],
+                questions: [
+                    { text: "1. 窗外傳來嘩啦啦的雨聲。 ➔ [blank]", answers: ["聽覺"] },
+                    { text: "2. 從這裡能看得見青翠的樹木。 ➔ [blank]", answers: ["視覺"] },
+                    { text: "3. 這是將苦茶油擦在頭髮上的幽香。 ➔ [blank]", answers: ["嗅覺"] }
+                ]
+            },
+            {
+                type: 'fill-blank',
+                title: "第十六關：字形字音辨別 (二)",
+                instructions: "根據題意，從下方挑選正確的字填入空格中。",
+                options: ["脂", "指", "曆", "歷", "含", "念"],
+                questions: [
+                    { text: "1. 【脂 指】 (1) 這位藝人雖然[blank]粉未施，但仍舊明豔動人。", answers: ["脂"] },
+                    { text: "　　　　　(2) 門口的[blank]示燈已經壞了，要請人來維修才行。", answers: ["指"] },
+                    { text: "2. 【曆 歷】 (1) 他的學經[blank]十分豐富，是個不可多得的人才。", answers: ["歷"] },
+                    { text: "　　　　　(2) 我放在桌上的日[blank]不知道被誰拿走了。", answers: ["曆"] },
+                    { text: "3. 【含 念】 這一道題目包[blank]了許多不同的數學觀[blank]，需要靈活應用與熟悉課程，才容易解題。", answers: ["含", "念"] }
+                ]
+            }
+        ];
+
+        const App = () => {
+            const [currentLevelIdx, setCurrentLevelIdx] = React.useState(0);
+            const [answers, setAnswers] = React.useState({}); 
+            const [activeBlankId, setActiveBlankId] = React.useState(null);
+            const [validationResults, setValidationResults] = React.useState({}); 
+            const [isLevelComplete, setIsLevelComplete] = React.useState(false);
+            const [gameFinished, setGameFinished] = React.useState(false);
+
+            const currentData = gameData[currentLevelIdx];
+            const isFillBlank = currentData.type === 'fill-blank';
+
+            // 關卡切換時初始化狀態
+            React.useEffect(() => {
+                if (!gameFinished) {
+                    setAnswers({});
+                    setValidationResults({});
+                    setIsLevelComplete(false);
+                    // 如果是填空題，自動 focus 第一個洞
+                    if (gameData[currentLevelIdx].type === 'fill-blank') {
+                        setActiveBlankId(`${currentLevelIdx}_0_0`);
+                    } else {
+                        setActiveBlankId(null);
+                    }
+                }
+            }, [currentLevelIdx, gameFinished]);
+
+            // =========== 填空題專用邏輯 ===========
+            const handleBlankClick = (blankId) => {
+                if (isLevelComplete || !isFillBlank) return;
+
+                if (answers[blankId]) {
+                    const newAnswers = { ...answers };
+                    delete newAnswers[blankId];
+                    setAnswers(newAnswers);
+                    
+                    const newValidations = { ...validationResults };
+                    delete newValidations[blankId];
+                    setValidationResults(newValidations);
+                }
+                setActiveBlankId(blankId);
+            };
+
+            const findNextEmptyBlank = (startBlankId) => {
+                const allBlankIds = [];
+                currentData.questions.forEach((q, qIdx) => {
+                    const parts = q.text.split('[blank]');
+                    for(let i=0; i<parts.length - 1; i++) {
+                        allBlankIds.push(`${currentLevelIdx}_${qIdx}_${i}`);
+                    }
+                });
+
+                let foundStart = false;
+                let nextBlank = null;
+
+                for (let i = 0; i < allBlankIds.length; i++) {
+                    if (allBlankIds[i] === startBlankId) {
+                        foundStart = true;
+                    } else if (foundStart && !answers[allBlankIds[i]]) {
+                        nextBlank = allBlankIds[i];
+                        break;
+                    }
+                }
+
+                if (!nextBlank) {
+                    for (let i = 0; i < allBlankIds.length; i++) {
+                        if (!answers[allBlankIds[i]]) {
+                            nextBlank = allBlankIds[i];
+                            break;
+                        }
+                    }
+                }
+                setActiveBlankId(nextBlank);
+            };
+
+            const handleWordOptionClick = (word) => {
+                if (isLevelComplete || !isFillBlank) return;
+                if (Object.values(answers).includes(word)) return;
+
+                if (activeBlankId) {
+                    setAnswers(prev => ({ ...prev, [activeBlankId]: word }));
+                    setValidationResults(prev => {
+                        const newV = {...prev};
+                        delete newV[activeBlankId];
+                        return newV;
+                    });
+                    setTimeout(() => findNextEmptyBlank(activeBlankId), 0);
+                }
+            };
+
+            // =========== 選擇題專用邏輯 ===========
+            const handleChoiceOptionClick = (qIdx, optIdx) => {
+                if (isLevelComplete) return;
+                
+                setAnswers(prev => ({ ...prev, [qIdx]: optIdx }));
+                setValidationResults(prev => {
+                    const newV = {...prev};
+                    delete newV[qIdx];
+                    return newV;
+                });
+            };
+
+
+            // =========== 共用邏輯 ===========
+            const checkAnswers = () => {
+                let allCorrect = true;
+                const newResults = {};
+
+                if (isFillBlank) {
+                    currentData.questions.forEach((q, qIdx) => {
+                        const parts = q.text.split('[blank]');
+                        for(let i=0; i<parts.length - 1; i++) {
+                            const blankId = `${currentLevelIdx}_${qIdx}_${i}`;
+                            const userAnswer = answers[blankId];
+                            const correctAnswer = q.answers[i];
+                            if (userAnswer === correctAnswer) {
+                                newResults[blankId] = true;
+                            } else {
+                                newResults[blankId] = false;
+                                allCorrect = false;
+                            }
+                        }
+                    });
+                } else {
+                    currentData.questions.forEach((q, qIdx) => {
+                        if (answers[qIdx] === q.answer) {
+                            newResults[qIdx] = true;
+                        } else {
+                            newResults[qIdx] = false;
+                            allCorrect = false;
+                        }
+                    });
+                }
+
+                setValidationResults(newResults);
+                if (allCorrect) setIsLevelComplete(true);
+            };
+
+            const goToNextLevel = () => {
+                if (currentLevelIdx < gameData.length - 1) {
+                    setCurrentLevelIdx(prev => prev + 1);
+                } else {
+                    setGameFinished(true);
+                }
+            };
+
+            // 計算進度
+            let totalBlanks = 0;
+            if (isFillBlank) {
+                totalBlanks = currentData?.questions.reduce((acc, q) => acc + (q.text.split('[blank]').length - 1), 0) || 0;
+            } else {
+                totalBlanks = currentData?.questions.length || 0;
+            }
+            const filledBlanksCount = Object.keys(answers).length;
+            const canSubmit = filledBlanksCount === totalBlanks && !isLevelComplete;
+
+            // 渲染填空題文字
+            const renderFillBlankText = (q, qIdx) => {
+                const parts = q.text.split('[blank]');
+                return parts.map((part, pIdx) => {
+                    if (pIdx === parts.length - 1) return <span key={pIdx}>{part}</span>;
+                    
+                    const blankId = `${currentLevelIdx}_${qIdx}_${pIdx}`;
+                    const isFilled = !!answers[blankId];
+                    const isActive = activeBlankId === blankId;
+                    const isValidated = validationResults[blankId] !== undefined;
+                    const isCorrect = validationResults[blankId] === true;
+                    const isError = validationResults[blankId] === false;
+
+                    let className = "blank-space";
+                    if (isActive && !isLevelComplete) className += " active";
+                    if (isFilled && !isValidated) className += " filled";
+                    if (isCorrect) className += " correct";
+                    if (isError) className += " error";
+
+                    return (
+                        <React.Fragment key={pIdx}>
+                            <span>{part}</span>
+                            <span 
+                                className={className} 
+                                onClick={() => handleBlankClick(blankId)}
+                            >
+                                {answers[blankId] || (isActive ? "選字..." : "")}
+                            </span>
+                        </React.Fragment>
+                    );
+                });
+            };
+
+            if (gameFinished) {
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="bg-white rounded-3xl shadow-2xl p-10 max-w-2xl w-full text-center celebrate-animation">
+                            <i className="fa-solid fa-trophy text-6xl text-yellow-400 mb-6"></i>
+                            <h1 className="text-4xl font-bold text-gray-800 mb-4">恭喜完全過關！</h1>
+                            <p className="text-xl text-gray-600 mb-8">你已經成功完成了所有的語詞和選擇題挑戰，太厲害了！</p>
+                            <button 
+                                onClick={() => { setGameFinished(false); setCurrentLevelIdx(0); }}
+                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg transition-transform transform hover:scale-105"
+                            >
+                                <i className="fa-solid fa-rotate-right mr-2"></i>再玩一次
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="max-w-5xl mx-auto p-4 md:p-6 lg:p-8 flex flex-col min-h-screen">
+                    {/* Header */}
+                    <div className="bg-white rounded-2xl shadow-sm p-4 md:p-6 mb-6 flex justify-between items-center border-l-8 border-blue-500">
+                        <div>
+                            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{currentData.title}</h1>
+                            <p className="text-gray-500 mt-1 md:text-lg"><i className="fa-solid fa-circle-info mr-2 text-blue-400"></i>{currentData.instructions}</p>
+                        </div>
+                        <div className="bg-blue-100 text-blue-800 font-bold px-4 py-2 rounded-full hidden md:block whitespace-nowrap">
+                            關卡：{currentLevelIdx + 1} / {gameData.length}
+                        </div>
+                    </div>
+
+                    {/* Questions Area */}
+                    <div className={`bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-6 ${!isFillBlank ? '' : 'flex-grow'}`}>
+                        <div className="space-y-6">
+                            
+                            {/* 渲染填空題 */}
+                            {isFillBlank && currentData.questions.map((q, qIdx) => (
+                                <div key={qIdx} className="text-xl md:text-2xl leading-relaxed text-gray-700">
+                                    {renderFillBlankText(q, qIdx)}
+                                </div>
+                            ))}
+
+                            {/* 渲染選擇題 */}
+                            {!isFillBlank && currentData.questions.map((q, qIdx) => (
+                                <div key={qIdx} className="bg-gray-50 rounded-2xl p-5 md:p-7 border border-gray-100 shadow-sm">
+                                    <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-5 leading-snug">{q.text}</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {q.options.map((opt, optIdx) => {
+                                            const isSelected = answers[qIdx] === optIdx;
+                                            const isValidated = validationResults[qIdx] !== undefined;
+                                            const isCorrect = validationResults[qIdx] === true;
+                                            const isError = validationResults[qIdx] === false;
+                                            
+                                            let btnClass = "text-left px-5 py-4 rounded-xl border-2 transition-all duration-200 text-lg md:text-xl font-medium cursor-pointer flex items-center ";
+                                            
+                                            if (isLevelComplete) {
+                                                if (optIdx === q.answer) {
+                                                    btnClass += "bg-green-100 border-green-500 text-green-800 shadow-sm";
+                                                } else if (isSelected) {
+                                                    btnClass += "bg-red-50 border-red-300 text-red-500 opacity-60";
+                                                } else {
+                                                    btnClass += "bg-white border-gray-200 text-gray-400 opacity-60";
+                                                }
+                                            } else if (isValidated && isSelected) {
+                                                if (isCorrect) {
+                                                     btnClass += "bg-green-100 border-green-500 text-green-800 shadow-sm";
+                                                } else {
+                                                     btnClass += "bg-red-50 border-red-500 text-red-700 error"; 
+                                                }
+                                            } else {
+                                                if (isSelected) {
+                                                    btnClass += "bg-blue-100 border-blue-500 text-blue-800 shadow-md transform scale-[1.02]";
+                                                } else {
+                                                    btnClass += "bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400";
+                                                }
+                                            }
+
+                                            const optionLabels = ['①', '②', '③', '④'];
+
+                                            return (
+                                                <div 
+                                                    key={optIdx}
+                                                    onClick={() => handleChoiceOptionClick(qIdx, optIdx)}
+                                                    className={btnClass}
+                                                >
+                                                    <span className="inline-block font-bold mr-3 text-2xl text-gray-400">
+                                                        {optionLabels[optIdx]}
+                                                    </span>
+                                                    <span className="flex-grow">{opt}</span>
+                                                    
+                                                    {isValidated && isSelected && isCorrect && <i className="fa-solid fa-circle-check ml-2 text-green-500 text-2xl"></i>}
+                                                    {isValidated && isSelected && isError && <i className="fa-solid fa-circle-xmark ml-2 text-red-500 text-2xl"></i>}
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Bottom Actions (Sticky for easy access) */}
+                    <div className="sticky bottom-4 z-10 bg-white/95 backdrop-blur-md rounded-2xl shadow-lg p-6 border-2 border-gray-100 mt-auto">
+                        
+                        {/* 僅填空題顯示語詞庫 */}
+                        {isFillBlank && !isLevelComplete && (
+                            <div className="mb-6">
+                                <h3 className="text-lg font-bold text-gray-600 mb-3 border-b pb-2"><i className="fa-solid fa-box-open mr-2"></i>語詞庫 (請點擊選擇)</h3>
+                                <div className="flex flex-wrap gap-3">
+                                    {currentData.options.map((option, idx) => {
+                                        const isUsed = Object.values(answers).includes(option);
+                                        return (
+                                            <button
+                                                key={idx}
+                                                disabled={isUsed}
+                                                onClick={() => handleWordOptionClick(option)}
+                                                className={`word-option px-5 py-3 rounded-xl font-bold text-xl border-2 shadow-sm
+                                                    ${isUsed 
+                                                        ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
+                                                        : 'bg-white text-blue-600 border-blue-200 hover:bg-blue-50 hover:border-blue-300'
+                                                    }`}
+                                            >
+                                                {option}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Status and Action Buttons */}
+                        <div className="flex justify-between items-center mt-2">
+                            <div className="text-lg font-medium">
+                                {!isLevelComplete && (
+                                    <span className={filledBlanksCount === totalBlanks ? "text-green-600" : "text-gray-500"}>
+                                        作答進度：{filledBlanksCount} / {totalBlanks}
+                                    </span>
+                                )}
+                            </div>
+                            
+                            <div>
+                                {canSubmit && (
+                                    <button 
+                                        onClick={checkAnswers}
+                                        className="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold py-3 px-8 rounded-full text-xl shadow-md transition-transform transform hover:scale-105"
+                                    >
+                                        <i className="fa-solid fa-paper-plane mr-2"></i>送出答案
+                                    </button>
+                                )}
+                                
+                                {isLevelComplete && (
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-green-600 font-bold text-xl hidden sm:inline-block"><i className="fa-solid fa-circle-check mr-2"></i>完全正確！</span>
+                                        <button 
+                                            onClick={goToNextLevel}
+                                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full text-xl shadow-md transition-transform transform hover:scale-105"
+                                        >
+                                            {currentLevelIdx === gameData.length - 1 ? '完成挑戰！' : '前往下一關'} <i className="fa-solid fa-arrow-right ml-2"></i>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
