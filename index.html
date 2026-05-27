@@ -288,6 +288,7 @@
             const [validationResults, setValidationResults] = React.useState({}); 
             const [isLevelComplete, setIsLevelComplete] = React.useState(false);
             const [gameFinished, setGameFinished] = React.useState(false);
+            const [showQR, setShowQR] = React.useState(false); // 新增 QR Code 彈跳視窗狀態
 
             const currentData = gameData[currentLevelIdx];
             const isFillBlank = currentData.type === 'fill-blank';
@@ -495,8 +496,18 @@
                             <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{currentData.title}</h1>
                             <p className="text-gray-500 mt-1 md:text-lg"><i className="fa-solid fa-circle-info mr-2 text-blue-400"></i>{currentData.instructions}</p>
                         </div>
-                        <div className="bg-blue-100 text-blue-800 font-bold px-4 py-2 rounded-full hidden md:block whitespace-nowrap">
-                            關卡：{currentLevelIdx + 1} / {gameData.length}
+                        <div className="flex items-center gap-3">
+                            <button 
+                                onClick={() => setShowQR(true)} 
+                                className="bg-gray-100 hover:bg-gray-200 text-gray-700 p-3 md:px-4 md:py-2 rounded-full font-bold transition-colors shadow-sm flex items-center"
+                                title="顯示 QR Code"
+                            >
+                                <i className="fa-solid fa-qrcode md:mr-2 text-xl md:text-base"></i>
+                                <span className="hidden md:inline">分享給學生</span>
+                            </button>
+                            <div className="bg-blue-100 text-blue-800 font-bold px-4 py-2 rounded-full hidden md:block whitespace-nowrap">
+                                關卡：{currentLevelIdx + 1} / {gameData.length}
+                            </div>
                         </div>
                     </div>
 
@@ -634,6 +645,28 @@
                         </div>
                     </div>
                     
+                    {/* QR Code Modal (彈跳視窗) */}
+                    {showQR && (
+                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowQR(false)}>
+                            <div className="bg-white rounded-3xl p-8 shadow-2xl text-center max-w-sm w-full relative celebrate-animation" onClick={e => e.stopPropagation()}>
+                                <button onClick={() => setShowQR(false)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-3xl">
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                                <h2 className="text-2xl font-bold text-gray-800 mb-2">掃描進入闖關</h2>
+                                <p className="text-gray-500 mb-6">讓學生用平板掃描 QR Code</p>
+                                <div className="bg-white p-2 rounded-xl border-4 border-gray-100 inline-block">
+                                    <img 
+                                        src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(window.location.href)}`} 
+                                        alt="QR Code" 
+                                        className="w-48 h-48 md:w-56 md:h-56 object-contain"
+                                    />
+                                </div>
+                                <div className="mt-6 text-xs text-gray-400 break-all px-2">
+                                    {window.location.href}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         };
