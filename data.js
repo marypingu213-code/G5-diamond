@@ -415,4 +415,153 @@ const review3Data = [
     correctAnswerIndex: 1 
   }
 ];
-const review4Data = [];
+// ================= 複習考 4 題庫區 =================
+// 詞彙填空與選詞測驗
+
+const review4Data = [
+  // --- 第一大題 (分享、發現、了解、詢問) ---
+  {
+    question: "【選詞測驗】有任何問題都可以(　　)現場工作人員。",
+    options: ["分享", "發現", "了解", "詢問"],
+    correctAnswerIndex: 3
+  },
+  {
+    question: "【選詞測驗】請(　　)詳情後再下結論。",
+    options: ["分享", "發現", "了解", "詢問"],
+    correctAnswerIndex: 2
+  },
+  {
+    question: "【選詞測驗】他在無意中(　　)了一個大秘密。",
+    options: ["分享", "發現", "了解", "詢問"],
+    correctAnswerIndex: 1
+  },
+
+  // --- 第二大題 (解釋、釋放、冰釋、釋出) ---
+  {
+    question: "【選詞測驗】她們姐妹倆之間的誤會已經(　　)。",
+    options: ["解釋", "釋放", "冰釋", "釋出"],
+    correctAnswerIndex: 2
+  },
+  {
+    question: "【選詞測驗】櫃臺的志工把流程(　　)得很清楚。",
+    options: ["解釋", "釋放", "冰釋", "釋出"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【選詞測驗】經過一番努力，戰俘獲得(　　)。",
+    options: ["解釋", "釋放", "冰釋", "釋出"],
+    correctAnswerIndex: 1
+  },
+
+  // --- 第三大題 (何止、何況、任何、何必) ---
+  {
+    question: "【選詞測驗】隊長實力高強都無法勝出了，(　　)是你？",
+    options: ["何止", "何況", "任何", "何必"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【選詞測驗】事情不明朗，(　　)可能性都是有的。",
+    options: ["何止", "何況", "任何", "何必"],
+    correctAnswerIndex: 2
+  },
+  {
+    question: "【選詞測驗】同學只是開玩笑，你(　　)這麼認真？",
+    options: ["何止", "何況", "任何", "何必"],
+    correctAnswerIndex: 3
+  },
+
+  // --- 第四大題 (故意、相信、離開、發現) ---
+  {
+    question: "【選詞測驗】曉育每天都是第一個到球場，最後一個(　　)的。",
+    options: ["故意", "相信", "離開", "發現"],
+    correctAnswerIndex: 2
+  },
+  {
+    question: "【選詞測驗】弟弟在水溝裡(　　)一隻受困的貓咪。",
+    options: ["故意", "相信", "離開", "發現"],
+    correctAnswerIndex: 3
+  },
+  {
+    question: "【選詞測驗】敵隊(　　)慢慢運球，想要拖延時間。",
+    options: ["故意", "相信", "離開", "發現"],
+    correctAnswerIndex: 0
+  },
+
+  // --- 第五大題 (解謎、織布、沙漠、氣流) ---
+  {
+    question: "【選詞測驗】(　　)是古代女子大多都會的一項技藝。",
+    options: ["解謎", "織布", "沙漠", "氣流"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【選詞測驗】受到(　　)的影響，飛機的飛行變得非常不穩定。",
+    options: ["解謎", "織布", "沙漠", "氣流"],
+    correctAnswerIndex: 3
+  },
+  {
+    question: "【選詞測驗】我打算去(　　)旅行，乘坐駱駝，體驗一下當地的炎熱。",
+    options: ["解謎", "織布", "沙漠", "氣流"],
+    correctAnswerIndex: 2
+  },
+
+  // --- 第六大題 (陪葬、埋葬 / 含意、包含) ---
+  {
+    question: "【選詞測驗】這些古文物被(　　)在地底下，成為古人的陪葬品。",
+    options: ["陪葬", "埋葬"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【選詞測驗】這些古文物被埋葬在地底下，成為古人的(　　)品，也用來彰顯當時他們的身分地位。",
+    options: ["陪葬", "埋葬"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【選詞測驗】這篇文章中(　　)了作者對時事的想法，內容含意深遠，值得大家深思。",
+    options: ["含意", "包含"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【選詞測驗】這篇文章中包含了作者對時事的想法，內容(　　)深遠，值得大家深思。",
+    options: ["含意", "包含"],
+    correctAnswerIndex: 0
+  },
+
+  // --- 第七大題 (矗立、蘊含、雄偉、推測) ---
+  {
+    question: "【選詞測驗】在城市的喧囂中，(　　)的建築靜靜矗立著。",
+    options: ["矗立", "蘊含", "雄偉", "推測"],
+    correctAnswerIndex: 2
+  },
+  {
+    question: "【選詞測驗】在城市的喧囂中，雄偉的建築靜靜(　　)著。",
+    options: ["矗立", "蘊含", "雄偉", "推測"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【選詞測驗】這座建築不僅是城市的地標，更(　　)豐富的文化寶藏。",
+    options: ["矗立", "蘊含", "雄偉", "推測"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【選詞測驗】透過它，我們或許能夠(　　)出過去的輝煌，對歷史有更深一層的了解。",
+    options: ["矗立", "蘊含", "雄偉", "推測"],
+    correctAnswerIndex: 3
+  },
+
+  // --- 第八大題 (根據、占據、收據) ---
+  {
+    question: "【選詞測驗】他(　　)店裡每個月的收據清單，仔細確認每一筆交易的金額和內容。",
+    options: ["根據", "占據", "收據"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【選詞測驗】他根據店裡每個月的(　　)清單，仔細確認每一筆交易的金額和內容。",
+    options: ["根據", "占據", "收據"],
+    correctAnswerIndex: 2
+  },
+  {
+    question: "【選詞測驗】仔細確認每筆交易，以判斷是否有員工不當(　　)公司財務的情況。",
+    options: ["根據", "占據", "收據"],
+    correctAnswerIndex: 1
+  }
+];
