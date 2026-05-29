@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特教國語遊戲網 - 總大廳</title>
+    <script src="data.js"></script>
+    <style>
+        /* 外層深灰色背景 */
+        body { 
+            font-family: "Microsoft JhengHei", sans-serif; 
+            background-color: #ecf0f1; 
+            margin: 0; padding: 2vh 2vw; 
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            min-height: 100vh; width: 100vw; box-sizing: border-box; overflow-x: hidden;
+        }
+
+        /* 內層溫暖的奶油色大看板 */
+        .main-container {
+            width: 100%; max-width: 1400px;
+            background-color: #fff9e6; 
+            border-radius: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            display: flex; flex-direction: column; align-items: center; 
+            padding: 3vh 3vw; box-sizing: border-box; position: relative;
+            margin-bottom: 2vh;
+        }
+
+        .header-area { text-align: center; margin-bottom: 3vh; flex-shrink: 0; }
+        h1 { color: #5a4a42; font-size: clamp(36px, 5vh, 60px); margin: 0 0 1vh 0; letter-spacing: 2px;}
+        .subtitle { font-size: clamp(18px, 2.5vh, 24px); color: #8d6e63; margin: 0; }
+
+        /* 課文區塊網格 */
+        .lesson-list { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            grid-template-rows: repeat(3, 1fr);
+            gap: 2vh 2vw; width: 100%; max-width: 1200px;
+            margin-bottom: 3vh; box-sizing: border-box; 
+        }
+
+        /* 複習考區塊網格 */
+        .review-list {
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 2vh 2vw; width: 100%; max-width: 1200px;
+            box-sizing: border-box; 
+            padding-top: 3vh;
+            border-top: 3px dashed #d7ccc8;
+        }
+
+        /* 共用按鈕設計，維持大面積好點擊 */
+        .card-btn { 
+            background-color: #ffffff; border-radius: 20px; text-decoration: none; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            transition: 0.2s; padding: 2vh 2vw; text-align: center; 
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05); color: #333;
+            font-size: clamp(20px, 3vh, 32px); font-weight: bold; line-height: 1.4;
+            min-height: 10vh; width: 100%; box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .card-btn:active { transform: scale(0.95); box-shadow: none; background-color: #e3f2fd;}
+
+        /* 給不同課文不同顏色的邊框 */
+        .lesson-card:nth-child(4n+1) { border: 5px solid #e74c3c; } 
+        .lesson-card:nth-child(4n+2) { border: 5px solid #f39c12; } 
+        .lesson-card:nth-child(4n+3) { border: 5px solid #2ecc71; } 
+        .lesson-card:nth-child(4n+4) { border: 5px solid #3498db; } 
+
+        /* 複習考專屬樣式：使用特殊的紫色系作區隔 */
+        .review-card { border: 5px solid #9b59b6; background-color: #faf5ff; }
+        .review-card:active { background-color: #f3e5f5; }
+        
+        .section-title {
+            width: 100%; max-width: 1200px;
+            text-align: left;
+            color: #8d6e63;
+            font-size: clamp(20px, 3vh, 28px);
+            font-weight: bold;
+            margin: 0 0 1.5vh 1vw;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header-area">
+            <h1>🏫 特教國語遊戲網 🎪</h1>
+            <p class="subtitle">請選擇今天要挑戰的課程或複習考！</p>
+        </div>
+        
+        <div class="section-title">📖 一般課文</div>
+        <div class="lesson-list" id="lesson-container"></div>
+        
+        <div class="section-title">🎯 階段複習</div>
+        <div class="review-list" id="review-container">
+            <a href="review.html?id=review1" class="card-btn review-card">複習考 1</a>
+            <a href="review.html?id=review2" class="card-btn review-card">複習考 2</a>
+            <a href="review.html?id=review3" class="card-btn review-card">複習考 3</a>
+            <a href="review.html?id=review4" class="card-btn review-card">複習考 4</a>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const container = document.getElementById('lesson-container');
+            
+            // 檢查有沒有成功讀取到 data.js
+            if (typeof allLessonsData !== 'undefined') {
+                for (let lessonId in allLessonsData) {
+                    const lessonInfo = allLessonsData[lessonId];
+                    const card = document.createElement('a');
+                    
+                    card.href = `lesson.html?id=${lessonId}`; 
+                    card.className = 'card-btn lesson-card';
+                    card.innerText = lessonInfo.title;
+                    
+                    container.appendChild(card);
+                }
+            } else {
+                container.innerHTML = '<h2 style="color:red; text-align:center; grid-column: 1/-1;">找不到資料庫 (data.js) 喔！請確認檔案有上傳。</h2>';
+            }
+        };
+    </script>
+</body>
+</html>
