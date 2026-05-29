@@ -370,5 +370,49 @@ const review2Data = [
   }
 ];
 
-const review3Data = [];
+// ================= 複習考 3 題庫區 =================
+// 詞彙選擇題
+
+const review3Data = [
+  { 
+    question: "滿山遍野開著(暗淡／絢麗)的花，讓人流連忘返。", 
+    options: ["暗淡", "絢麗"], 
+    correctAnswerIndex: 1 
+  },
+  { 
+    question: "小花對未來充滿樂觀，(相信／懷疑)只要自己全力以赴，就可以實現夢想。", 
+    options: ["相信", "懷疑"], 
+    correctAnswerIndex: 0 
+  },
+  { 
+    question: "阿瑞經常上臺領獎，還被誇讚是個(聰明／愚笨)的孩子。", 
+    options: ["聰明", "愚笨"], 
+    correctAnswerIndex: 0 
+  },
+  { 
+    question: "嫌疑犯(遲疑／堅決)否認自己的罪行，檢察官只好提出新的證據。", 
+    options: ["遲疑", "堅決"], 
+    correctAnswerIndex: 1 
+  },
+  { 
+    question: "這個被藝術界譽為曠世(傑出／傑作)的雕塑，他總共花費三年的時間才完成。", 
+    options: ["傑出", "傑作"], 
+    correctAnswerIndex: 1 
+  },
+  { 
+    question: "這裡又寒冷又(乾燥／枯燥)，使得我的皮膚都龜裂了。", 
+    options: ["乾燥", "枯燥"], 
+    correctAnswerIndex: 0 
+  },
+  { 
+    question: "藥粉中因為(隱含／包含)止痛成分，所以可以降低疼痛。", 
+    options: ["隱含", "包含"], 
+    correctAnswerIndex: 1 
+  },
+  { 
+    question: "對父母而言，禮物的(價格／價值)取決於孩子們的用心。", 
+    options: ["價格", "價值"], 
+    correctAnswerIndex: 1 
+  }
+];
 const review4Data = [];
