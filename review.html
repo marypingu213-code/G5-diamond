@@ -78,6 +78,7 @@
             cursor: pointer; transition: 0.2s;
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            padding: 10px; text-align: center;
         }
 
         .option-btn:hover { background-color: #faf5ff; border-color: #ab47bc; }
@@ -87,9 +88,9 @@
         #feedback-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             border-radius: 24px; display: none; /* 平時隱藏 */
-            align-items: center; justify-content: center;
+            align-items: center; justify-content: center; text-align: center;
             font-size: 80px; font-weight: bold; z-index: 10;
-            background-color: rgba(255,255,255,0.8);
+            background-color: rgba(255,255,255,0.85);
         }
     </style>
 </head>
@@ -110,35 +111,42 @@
     </div>
 
     <script>
+        // 1. 從網址取得現在是哪個測驗 (例如 review.html?id=review4)
         const urlParams = new URLSearchParams(window.location.search);
         const reviewId = urlParams.get('id');
 
+        // 2. 對應到 data.js 裡的變數 (這裡已經幫你把 review4 加進去了！)
         const dataMap = {
             'review1': typeof review1Data !== 'undefined' ? review1Data : [],
             'review2': typeof review2Data !== 'undefined' ? review2Data : [],
-            'review3': typeof review3Data !== 'undefined' ? review3Data : []
+            'review3': typeof review3Data !== 'undefined' ? review3Data : [],
+            'review4': typeof review4Data !== 'undefined' ? review4Data : []
         };
 
         const currentQuizData = dataMap[reviewId];
         let currentIndex = 0;
         let score = 0;
 
+        // 3. 啟動測驗
         function initQuiz() {
             if (!currentQuizData || currentQuizData.length === 0) {
-                document.getElementById('question-text').innerText = "❌ 找不到題庫資料，請檢查 data.js！";
+                document.getElementById('question-text').innerHTML = "❌ 找不到題庫資料！<br><small style='font-size:30px; color:#888'>請檢查 data.js 檔案，或者確認網址是否正確。</small>";
                 return;
             }
             loadQuestion();
         }
 
+        // 4. 載入題目與選項
         function loadQuestion() {
             const currentQ = currentQuizData[currentIndex];
             const feedback = document.getElementById('feedback-overlay');
-            feedback.style.display = "none"; 
+            feedback.style.display = "none"; // 隱藏回饋畫面
 
+            // 更新題目與進度
             document.getElementById('question-text').innerText = currentQ.question;
             document.getElementById('progress-text').innerText = `題目：${currentIndex + 1} / ${currentQuizData.length}`;
             
+            // 清空並產生選項按鈕
             const optionsBox = document.getElementById('options-box');
             optionsBox.innerHTML = "";
             
@@ -146,11 +154,16 @@
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerText = opt;
+                // 如果選項只有兩個 (像是複習考3那樣)，可以讓按鈕變寬
+                if (currentQ.options.length === 2) {
+                    btn.style.gridColumn = "span 2"; 
+                }
                 btn.onclick = () => checkAnswer(index, currentQ.correctAnswerIndex);
                 optionsBox.appendChild(btn);
             });
         }
 
+        // 5. 判斷對錯
         function checkAnswer(selectedIndex, correctIndex) {
             const feedback = document.getElementById('feedback-overlay');
             feedback.style.display = "flex";
@@ -159,9 +172,10 @@
                 score++;
                 feedback.innerHTML = "<span style='color:#2e7d32'>⭕ 正確！<br><small style='font-size:40px'>你好棒！</small></span>";
             } else {
-                feedback.innerHTML = "<span style='color:#c62828'>❌ 答錯了<br><small style='font-size:40px'>再試一次</small></span>";
+                feedback.innerHTML = "<span style='color:#c62828'>❌ 答錯了<br><small style='font-size:40px'>再接再厲！</small></span>";
             }
 
+            // 顯示 1.2 秒後換下一題
             setTimeout(() => {
                 currentIndex++;
                 if (currentIndex < currentQuizData.length) {
@@ -172,17 +186,20 @@
             }, 1200);
         }
 
+        // 6. 結算畫面
         function showResult() {
             const board = document.getElementById('question-text');
-            board.innerHTML = `🌟 測驗完成 🌟<br><span style="color:#8e24aa; font-size:1.2em">答對了 ${score} 題！</span>`;
+            board.innerHTML = `🌟 測驗完成 🌟<br><span style="color:#8e24aa; font-size:1.2em">總共答對了 ${score} 題！</span>`;
             
             const optionsBox = document.getElementById('options-box');
             optionsBox.innerHTML = `
                 <button class="option-btn" onclick="location.reload()" style="grid-column: 1 / -1; background:#e1bee7">再玩一次</button>
-                <button class="option-btn" onclick="location.href='index.html'" style="grid-column: 1 / -1; background:#ffe0b2; border-color:#ffb74d">返回大廳</button>
+                <button class="option-btn" onclick="location.href='index.html'" style="grid-column: 1 / -1; background:#ffe0b2; border-color:#ffb74d; color:#e65100;">返回大廳</button>
             `;
+            document.getElementById('progress-text').innerText = "完成！";
         }
 
+        // 網頁載入時啟動
         window.onload = initQuiz;
     </script>
 </body>
