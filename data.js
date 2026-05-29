@@ -158,11 +158,6 @@ const allLessonsData = {
     // ================= 第十二課 =================
     "12": { title: "第十二課：金字塔之謎", level1: [], level2: [], level3: [], level4: [] }
 };
-// ... (上面是你原本 1 到 11 課的資料) ...
-
-    // ================= 第十二課 =================
-    "12": { title: "第十二課：金字塔之謎", level1: [], level2: [], level3: [], level4: [] }
-}; // <-- 這是原本 allLessonsData 結束的大括號
 
 // ================= 複習考題庫區 =================
 
@@ -219,7 +214,161 @@ const review1Data = [
   }
 ];
 
-// 之後如果你有複習考 2, 3, 4，也可以依序加在下面
-const review2Data = [];
+const review2Data = [
+  // --- 第一大題：部首 (對應第一張圖) ---
+  {
+    question: "【部首測驗】請問「湊」字的部首是哪一個？",
+    options: ["目部", "疒部", "彳部", "水部"],
+    correctAnswerIndex: 3
+  },
+  {
+    question: "【部首測驗】請問「眠」字的部首是哪一個？",
+    options: ["目部", "疒部", "彳部", "水部"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【部首測驗】請問「徑」字的部首是哪一個？",
+    options: ["目部", "疒部", "彳部", "水部"],
+    correctAnswerIndex: 2
+  },
+  {
+    question: "【部首測驗】請問「痱」字的部首是哪一個？",
+    options: ["目部", "疒部", "彳部", "水部"],
+    correctAnswerIndex: 1
+  },
+
+  // --- 第二大題：部首 (對應第二張圖) ---
+  {
+    question: "【部首測驗】請問「釋」字的部首是哪一個？",
+    options: ["皿部", "口部", "釆部", "目部"],
+    correctAnswerIndex: 2
+  },
+  {
+    question: "【部首測驗】請問「盒」字的部首是哪一個？",
+    options: ["皿部", "口部", "釆部", "目部"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【部首測驗】請問「嚼」字的部首是哪一個？",
+    options: ["皿部", "口部", "釆部", "目部"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【部首測驗】請問「瞌」字的部首是哪一個？",
+    options: ["皿部", "口部", "釆部", "目部"],
+    correctAnswerIndex: 3
+  },
+
+  // --- 第三大題：讀音 (對應第三張圖) ---
+  {
+    question: "【讀音測驗】下列哪個字的讀音和 解「惑」的「惑」相同？",
+    options: ["「何」必", "甜「蜜」", "「獲」得", "「政」治"],
+    correctAnswerIndex: 2
+  },
+  {
+    question: "【讀音測驗】下列哪個字的讀音和 寧「謐」的「謐」相同？",
+    options: ["「何」必", "甜「蜜」", "「獲」得", "「政」治"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【讀音測驗】下列哪個字的讀音和 審「核」的「核」相同？",
+    options: ["「何」必", "甜「蜜」", "「獲」得", "「政」治"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【讀音測驗】下列哪個字的讀音和 「證」件的「證」相同？",
+    options: ["「何」必", "甜「蜜」", "「獲」得", "「政」治"],
+    correctAnswerIndex: 3
+  },
+
+  // --- 第四大題：部首 (對應第四張圖) ---
+  {
+    question: "【部首測驗】請問「詢」字的部首是哪一個？",
+    options: ["言部", "心部", "石部", "耳部"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【部首測驗】請問「職」字的部首是哪一個？",
+    options: ["言部", "心部", "石部", "耳部"],
+    correctAnswerIndex: 3
+  },
+  {
+    question: "【部首測驗】請問「惑」字的部首是哪一個？",
+    options: ["言部", "心部", "石部", "耳部"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【部首測驗】請問「磨」字的部首是哪一個？",
+    options: ["言部", "心部", "石部", "耳部"],
+    correctAnswerIndex: 2
+  },
+
+  // --- 第五大題：部首 (對應第五張圖) ---
+  {
+    question: "【部首測驗】請問「史」字的部首是哪一個？",
+    options: ["人部", "口部", "土部", "十部"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【部首測驗】請問「佳」字的部首是哪一個？",
+    options: ["人部", "口部", "土部", "十部"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【部首測驗】請問「博」字的部首是哪一個？",
+    options: ["人部", "口部", "土部", "十部"],
+    correctAnswerIndex: 3
+  },
+  {
+    question: "【部首測驗】請問「址」字的部首是哪一個？",
+    options: ["人部", "口部", "土部", "十部"],
+    correctAnswerIndex: 2
+  },
+
+  // --- 第六大題：部首 (對應第六張圖) ---
+  {
+    question: "【部首測驗】請問「墓」字的部首是哪一個？",
+    options: ["土部", "艸部", "木部", "禾部"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【部首測驗】請問「葬」字的部首是哪一個？",
+    options: ["土部", "艸部", "木部", "禾部"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【部首測驗】請問「秦」字的部首是哪一個？",
+    options: ["土部", "艸部", "木部", "禾部"],
+    correctAnswerIndex: 3
+  },
+  {
+    question: "【部首測驗】請問「栩」字的部首是哪一個？",
+    options: ["土部", "艸部", "木部", "禾部"],
+    correctAnswerIndex: 2
+  },
+
+  // --- 第七大題：部首 (對應第七張圖) ---
+  {
+    question: "【部首測驗】請問「號」字的部首是哪一個？",
+    options: ["女部", "隹部", "目部", "虍部"],
+    correctAnswerIndex: 3
+  },
+  {
+    question: "【部首測驗】請問「妥」字的部首是哪一個？",
+    options: ["女部", "隹部", "目部", "虍部"],
+    correctAnswerIndex: 0
+  },
+  {
+    question: "【部首測驗】請問「雄」字的部首是哪一個？",
+    options: ["女部", "隹部", "目部", "虍部"],
+    correctAnswerIndex: 1
+  },
+  {
+    question: "【部首測驗】請問「矗」字的部首是哪一個？",
+    options: ["女部", "隹部", "目部", "虍部"],
+    correctAnswerIndex: 2
+  }
+];
+
 const review3Data = [];
 const review4Data = [];
