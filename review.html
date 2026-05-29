@@ -3,99 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>階段複習考</title>
+    <title>階段複習考 - 滿版強化版</title>
     <script src="data.js"></script>
     <style>
-        /* 基礎背景與字體 */
+        /* 基礎設置：禁止捲軸，強制滿版 */
         body { 
             font-family: "Microsoft JhengHei", sans-serif; 
-            background-color: #f3e5f5; /* 搭配複習考的紫色系 */
-            margin: 0; padding: 2vh 2vw; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background-color: #f8f0fb; 
+            margin: 0; padding: 0; 
+            display: flex; align-items: center; justify-content: center;
             height: 100vh; width: 100vw; box-sizing: border-box; overflow: hidden;
         }
 
-        /* 遊戲主畫面容器 */
+        /* 主容器：撐開到螢幕 96% 寬與 94% 高 */
         .game-board {
-            width: 100%; max-width: 1000px;
+            width: 96vw; height: 94vh;
             background-color: #ffffff; 
-            border-radius: 40px;
-            border: 8px solid #9b59b6;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
-            display: flex; flex-direction: column; align-items: center; 
-            padding: 4vh 4vw; box-sizing: border-box;
-            text-align: center;
+            border-radius: 30px;
+            border: 6px solid #9b59b6;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+            display: flex; flex-direction: column; 
+            padding: 3vh 3vw; box-sizing: border-box;
+            position: relative;
         }
 
-        /* 題目區文字放大，適合大屏閱讀 */
-        #question-text {
-            font-size: clamp(28px, 4.5vh, 48px);
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 4vh;
-            line-height: 1.5;
-            min-height: 15vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* 選項按鈕區 (Click-based) */
-        .options-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 一排兩個選項 */
-            gap: 2vh 2vw;
-            width: 100%;
-        }
-
-        /* 大面積按鈕設計 */
-        .option-btn {
-            background-color: #faf5ff;
-            border: 4px solid #ce93d8;
-            border-radius: 20px;
-            padding: 3vh 2vw;
-            font-size: clamp(24px, 3.5vh, 40px);
-            font-weight: bold;
-            color: #5e35b1;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 6px 10px rgba(0,0,0,0.05);
-        }
-
-        .option-btn:active {
-            transform: scale(0.95);
-            background-color: #e1bee7;
-        }
-
-        /* 頂部進度條與返回按鈕區 */
+        /* 頂部資訊列：返回鍵與題數 */
         .top-bar {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3vh;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-shrink: 0; margin-bottom: 2vh;
         }
 
         .back-btn {
-            background-color: #ffcc80;
-            border: none; border-radius: 15px;
-            padding: 1.5vh 2vw;
-            font-size: clamp(18px, 2.5vh, 24px);
-            font-weight: bold; color: #d84315;
-            cursor: pointer; text-decoration: none;
+            background-color: #ff9800; border: none; border-radius: 15px;
+            padding: 1.5vh 2.5vw; font-size: clamp(20px, 2.5vh, 32px);
+            font-weight: bold; color: white; cursor: pointer; text-decoration: none;
+            box-shadow: 0 4px 0 #e65100;
         }
+        .back-btn:active { transform: translateY(3px); box-shadow: none; }
 
         .progress {
-            font-size: clamp(20px, 3vh, 28px);
+            font-size: clamp(24px, 3.5vh, 40px);
             font-weight: bold; color: #8e24aa;
+            background: #f3e5f5; padding: 1vh 2vw; border-radius: 50px;
         }
 
-        /* 回饋動畫字體 */
-        #feedback-msg {
-            font-size: clamp(24px, 3.5vh, 36px);
-            font-weight: bold;
-            height: 5vh;
-            margin-top: 2vh;
+        /* 題目區：佔據畫面上半部，字體超大 */
+        #question-text {
+            flex-grow: 1; /* 自動填滿剩餘空間 */
+            font-size: clamp(32px, 6vh, 65px); /* 根據螢幕高度縮放字體 */
+            color: #333; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; line-height: 1.4;
+            padding: 2vh 0;
+        }
+
+        /* 選項按鈕區：佔據畫面下半部 */
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2x2 佈局 */
+            grid-auto-rows: 1fr; /* 讓每一列高度均分 */
+            gap: 3vh 3vw;
+            width: 100%;
+            height: 45vh; /* 強制按鈕區佔據畫面的 45% 高度 */
+            flex-shrink: 0;
+        }
+
+        /* 滿版大按鈕設計 */
+        .option-btn {
+            background-color: #ffffff;
+            border: 5px solid #ce93d8;
+            border-radius: 25px;
+            font-size: clamp(28px, 4.5vh, 55px);
+            font-weight: bold; color: #4a148c;
+            cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .option-btn:hover { background-color: #faf5ff; border-color: #ab47bc; }
+        .option-btn:active { transform: scale(0.96); box-shadow: none; background-color: #f3e5f5; }
+
+        /* 答錯或答對的回饋浮層 */
+        #feedback-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 24px; display: none; /* 平時隱藏 */
+            align-items: center; justify-content: center;
+            font-size: 80px; font-weight: bold; z-index: 10;
+            background-color: rgba(255,255,255,0.8);
         }
     </style>
 </head>
@@ -103,86 +97,71 @@
 
     <div class="game-board">
         <div class="top-bar">
-            <a href="index.html" class="back-btn">🏠 回大廳</a>
+            <a href="index.html" class="back-btn">🏠 返回大廳</a>
             <div class="progress" id="progress-text">題數: 0 / 0</div>
         </div>
 
-        <div id="question-text">讀取題目中...</div>
+        <div id="question-text">載入題目中...</div>
         
         <div class="options-container" id="options-box">
             </div>
 
-        <div id="feedback-msg"></div>
+        <div id="feedback-overlay"></div>
     </div>
 
     <script>
-        // 1. 從網址取得現在是哪個測驗 (例如 review.html?id=review1)
         const urlParams = new URLSearchParams(window.location.search);
         const reviewId = urlParams.get('id');
 
-        // 2. 對應到 data.js 裡的變數
         const dataMap = {
             'review1': typeof review1Data !== 'undefined' ? review1Data : [],
             'review2': typeof review2Data !== 'undefined' ? review2Data : [],
-            'review3': typeof review3Data !== 'undefined' ? review3Data : [],
-            'review4': typeof review4Data !== 'undefined' ? review4Data : []
+            'review3': typeof review3Data !== 'undefined' ? review3Data : []
         };
 
         const currentQuizData = dataMap[reviewId];
         let currentIndex = 0;
         let score = 0;
 
-        const questionEl = document.getElementById('question-text');
-        const optionsBox = document.getElementById('options-box');
-        const progressEl = document.getElementById('progress-text');
-        const feedbackEl = document.getElementById('feedback-msg');
-
-        // 3. 啟動測驗
         function initQuiz() {
             if (!currentQuizData || currentQuizData.length === 0) {
-                questionEl.innerText = "找不到題目，請確認題庫是否有資料！";
+                document.getElementById('question-text').innerText = "❌ 找不到題庫資料，請檢查 data.js！";
                 return;
             }
             loadQuestion();
         }
 
-        // 4. 載入每一題的畫面
         function loadQuestion() {
-            feedbackEl.innerText = "";
-            feedbackEl.style.color = "transparent"; // 清空回饋文字
-
             const currentQ = currentQuizData[currentIndex];
-            questionEl.innerText = currentQ.question;
-            progressEl.innerText = `題數: ${currentIndex + 1} / ${currentQuizData.length}`;
+            const feedback = document.getElementById('feedback-overlay');
+            feedback.style.display = "none"; 
+
+            document.getElementById('question-text').innerText = currentQ.question;
+            document.getElementById('progress-text').innerText = `題目：${currentIndex + 1} / ${currentQuizData.length}`;
             
-            // 清空舊選項，產生大按鈕
+            const optionsBox = document.getElementById('options-box');
             optionsBox.innerHTML = "";
+            
             currentQ.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerText = opt;
-                // Click-based 設計，點擊即作答
                 btn.onclick = () => checkAnswer(index, currentQ.correctAnswerIndex);
                 optionsBox.appendChild(btn);
             });
         }
 
-        // 5. 判斷對錯與過場
         function checkAnswer(selectedIndex, correctIndex) {
-            // 避免學生狂點，先將所有按鈕鎖住
-            const buttons = document.querySelectorAll('.option-btn');
-            buttons.forEach(btn => btn.disabled = true);
+            const feedback = document.getElementById('feedback-overlay');
+            feedback.style.display = "flex";
 
             if (selectedIndex === correctIndex) {
                 score++;
-                feedbackEl.innerText = "✨ 兔兔說：太棒了！答對啦！ ✨";
-                feedbackEl.style.color = "#2e7d32";
+                feedback.innerHTML = "<span style='color:#2e7d32'>⭕ 正確！<br><small style='font-size:40px'>你好棒！</small></span>";
             } else {
-                feedbackEl.innerText = "💡 阿白說：哎呀，再接再厲！";
-                feedbackEl.style.color = "#c62828";
+                feedback.innerHTML = "<span style='color:#c62828'>❌ 答錯了<br><small style='font-size:40px'>再試一次</small></span>";
             }
 
-            // 等待 1.5 秒後進入下一題
             setTimeout(() => {
                 currentIndex++;
                 if (currentIndex < currentQuizData.length) {
@@ -190,23 +169,21 @@
                 } else {
                     showResult();
                 }
-            }, 1500);
+            }, 1200);
         }
 
-        // 6. 結算畫面
         function showResult() {
-            questionEl.innerHTML = `測驗結束！<br>你總共答對了 ${score} 題！🎉`;
+            const board = document.getElementById('question-text');
+            board.innerHTML = `🌟 測驗完成 🌟<br><span style="color:#8e24aa; font-size:1.2em">答對了 ${score} 題！</span>`;
+            
+            const optionsBox = document.getElementById('options-box');
             optionsBox.innerHTML = `
-                <button class="option-btn" onclick="location.reload()" style="grid-column: 1 / -1;">再來一次</button>
-                <button class="option-btn" onclick="location.href='index.html'" style="grid-column: 1 / -1; background-color:#fff3e0; border-color:#ffb74d; color:#e65100;">返回大廳</button>
+                <button class="option-btn" onclick="location.reload()" style="grid-column: 1 / -1; background:#e1bee7">再玩一次</button>
+                <button class="option-btn" onclick="location.href='index.html'" style="grid-column: 1 / -1; background:#ffe0b2; border-color:#ffb74d">返回大廳</button>
             `;
-            progressEl.innerText = "完成！";
-            feedbackEl.innerText = "";
         }
 
-        // 頁面載入後自動執行
         window.onload = initQuiz;
-
     </script>
 </body>
 </html>
