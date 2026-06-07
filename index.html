@@ -71,6 +71,10 @@
         /* 複習考專屬樣式：使用特殊的紫色系作區隔 */
         .review-card { border: 5px solid #9b59b6; background-color: #faf5ff; }
         .review-card:active { background-color: #f3e5f5; }
+
+        /* 探險測驗專屬樣式：使用充滿活力的橘黃色系 */
+        .adventure-card { border: 5px solid #f39c12; background-color: #fff8e1; }
+        .adventure-card:active { background-color: #ffecb3; }
         
         .section-title {
             width: 100%; max-width: 1200px;
@@ -121,7 +125,7 @@
     <div class="main-container">
         <div class="header-area">
             <h1>🏫 特教國語遊戲網 🎪</h1>
-            <p class="subtitle">請選擇今天要挑戰的課程或複習考！</p>
+            <p class="subtitle">請選擇今天要挑戰的課程或測驗！</p>
         </div>
         
         <div class="section-title">📖 一般課文</div>
@@ -133,6 +137,11 @@
             <a href="review.html?id=review2" class="card-btn review-card">複習考 2</a>
             <a href="review.html?id=review3" class="card-btn review-card">複習考 3</a>
             <a href="review.html?id=review4" class="card-btn review-card">複習考 4</a>
+        </div>
+
+        <div class="section-title" style="margin-top: 3vh;">🗺️ 分組探險測驗</div>
+        <div class="review-list" style="border-top-color: #ffe082; padding-top: 3vh;">
+            <a href="quiz_multi_group_full.html" class="card-btn adventure-card" style="grid-column: span 2;">語文探險之旅</a>
         </div>
     </div>
 
