@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>語文探險之旅</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f0fdfa; /* Light teal background */
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .group-btn-happy {
+            background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 100%);
+            box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.4);
+        }
+        .group-btn-joyful {
+            background: linear-gradient(135deg, #6ee7b7 0%, #10b981 100%);
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 md:p-8">
+
+    <!-- 左上角 QR Code 區塊 (固定於畫面左上角，手機版自動隱藏避免遮擋) -->
+    <div class="fixed top-4 left-4 xl:top-8 xl:left-8 z-50 hidden lg:flex flex-col items-center bg-white/95 backdrop-blur-sm shadow-xl border border-gray-200 rounded-3xl p-5 transform transition-all duration-300 hover:scale-105">
+        <p class="text-gray-700 mb-3 text-sm font-bold tracking-wide text-center leading-relaxed">手機或平板請掃描<br>QR Code 進入測驗</p>
+        <div class="p-2 bg-white border-2 border-gray-100 rounded-2xl">
+            <img alt="測驗 QR Code" class="w-28 h-28 object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://quiz-example.com">
+        </div>
+    </div>
+
+    <!-- 1. 首頁大廳 -->
+    <div id="lobby" class="max-w-5xl w-full bg-white rounded-3xl shadow-xl overflow-hidden fade-in my-8">
+        <div class="bg-teal-600 p-10 md:p-14 text-center text-white">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4 tracking-wide">語文探險之旅</h1>
+            <p class="text-teal-100 text-xl md:text-2xl">歡迎來到語文挑戰，請選擇你的探險隊伍！</p>
+        </div>
+        
+        <div class="p-8 md:p-16 flex flex-col items-center">
+            <div class="flex flex-col md:flex-row gap-8 md:gap-12 justify-center w-full mb-12">
+                <!-- 快樂組按鈕 -->
+                <button onclick="showSectionLobby('happy')" class="group-btn-happy flex-1 text-white rounded-[2rem] p-10 md:p-12 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-yellow-300 flex flex-col items-center justify-center min-h-[250px]">
+                    <span class="text-6xl md:text-7xl mb-6 drop-shadow-md">☀️</span>
+                    <span class="text-3xl md:text-4xl font-bold mb-2">快樂探險隊</span>
+                    <span class="text-lg md:text-xl mt-2 text-yellow-900 opacity-80 font-medium">充滿陽光與活力的挑戰</span>
+                </button>
+
+                <!-- 開心組按鈕 -->
+                <button onclick="showSectionLobby('joyful')" class="group-btn-joyful flex-1 text-white rounded-[2rem] p-10 md:p-12 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-emerald-300 flex flex-col items-center justify-center min-h-[250px]">
+                    <span class="text-6xl md:text-7xl mb-6 drop-shadow-md">🍀</span>
+                    <span class="text-3xl md:text-4xl font-bold mb-2">開心尋寶隊</span>
+                    <span class="text-lg md:text-xl mt-2 text-emerald-900 opacity-80 font-medium">充滿驚喜與歡笑的旅程</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 大題關卡選擇區塊 -->
+    <div id="section-lobby" class="max-w-5xl w-full bg-white rounded-3xl shadow-xl overflow-hidden hidden fade-in my-8">
+        <div class="bg-teal-600 p-8 flex justify-between items-center text-white">
+            <button onclick="returnToLobby()" class="text-white hover:text-teal-200 transition flex items-center gap-2 font-medium focus:outline-none">
+                <span class="text-xl">&larr;</span> <span>回隊伍選擇</span>
+            </button>
+            <h2 id="section-lobby-title" class="text-xl md:text-2xl font-bold">請選擇挑戰關卡</h2>
+            <div class="w-24"></div> <!-- 佔位平衡排版 -->
+        </div>
+        
+        <div class="p-8 md:p-12">
+            <h3 class="text-center text-gray-600 mb-8 text-lg font-medium">準備好挑戰了嗎？請選擇你想進行的大題：</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 第一大題按鈕 -->
+                <button onclick="startSection('第一大題：文意選擇')" class="bg-blue-50 border-2 border-blue-200 hover:bg-blue-100 hover:border-blue-400 text-blue-800 rounded-2xl p-6 shadow-sm transition transform hover:-translate-y-1 flex flex-col items-center text-center focus:outline-none focus:ring-4 focus:ring-blue-200">
+                    <div class="text-4xl mb-3">📖</div>
+                    <div class="text-xl font-bold mb-1">第一大題</div>
+                    <div class="text-sm font-medium">文意選擇</div>
+                </button>
+                
+                <!-- 第二大題按鈕 -->
+                <button onclick="startSection('第二大題：字音字形')" class="bg-purple-50 border-2 border-purple-200 hover:bg-purple-100 hover:border-purple-400 text-purple-800 rounded-2xl p-6 shadow-sm transition transform hover:-translate-y-1 flex flex-col items-center text-center focus:outline-none focus:ring-4 focus:ring-purple-200">
+                    <div class="text-4xl mb-3">✍️</div>
+                    <div class="text-xl font-bold mb-1">第二大題</div>
+                    <div class="text-sm font-medium">字音字形</div>
+                </button>
+                
+                <!-- 第三大題按鈕 -->
+                <button onclick="startSection('第三大題：詞語辨正')" class="bg-orange-50 border-2 border-orange-200 hover:bg-orange-100 hover:border-orange-400 text-orange-800 rounded-2xl p-6 shadow-sm transition transform hover:-translate-y-1 flex flex-col items-center text-center focus:outline-none focus:ring-4 focus:ring-orange-200">
+                    <div class="text-4xl mb-3">🧠</div>
+                    <div class="text-xl font-bold mb-1">第三大題</div>
+                    <div class="text-sm font-medium">詞語辨正</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 測驗進行區塊 -->
+    <div id="quiz-container" class="max-w-4xl w-full bg-white rounded-3xl shadow-xl overflow-hidden hidden fade-in my-8">
+        <div class="bg-teal-600 p-6 flex justify-between items-center text-white">
+            <button onclick="confirmReturnToSectionLobby()" class="text-white hover:text-teal-200 transition flex items-center gap-2 font-medium focus:outline-none">
+                <span class="text-xl">&larr;</span> <span>回關卡選擇</span>
+            </button>
+            <h2 id="quiz-title" class="text-xl md:text-2xl font-bold hidden md:block">測驗進行中</h2>
+            <span id="question-progress" class="bg-teal-800 px-4 py-1 rounded-full text-sm font-medium">1 / 8</span>
+        </div>
+
+        <div class="p-6 md:p-10">
+            <!-- 題目與選項 -->
+            <div class="mb-8">
+                <div id="section-title" class="inline-block bg-teal-100 text-teal-800 px-3 py-1 rounded-md text-sm font-bold mb-4">載入中...</div>
+                <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-6 leading-relaxed" id="question-text">載入中...</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="options-container">
+                    <!-- 選項按鈕會透過 JS 自動產生在這裡 -->
+                </div>
+            </div>
+
+            <!-- 底部導覽按鈕 -->
+            <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-100">
+                <button id="prev-btn" onclick="prevQuestion()" class="hidden px-6 py-2 rounded-lg border-2 border-teal-600 text-teal-600 font-medium hover:bg-teal-50 transition focus:outline-none">上一題</button>
+                <div class="flex-1"></div>
+                <button id="next-btn" onclick="nextQuestion()" class="px-6 py-2 rounded-lg bg-teal-600 text-white font-medium hover:bg-teal-700 transition shadow-md focus:outline-none">下一題</button>
+                <button id="submit-btn" onclick="submitQuiz()" class="hidden px-6 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition shadow-md focus:outline-none">完成交卷</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 結果區塊 -->
+    <div id="result-container" class="max-w-2xl w-full bg-white rounded-3xl shadow-xl overflow-hidden hidden fade-in text-center p-12 my-8">
+        <div class="text-6xl mb-4">🏆</div>
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">挑戰完成！</h2>
+        <p class="text-lg text-gray-600 mb-8">恭喜你完成了這個大題的探險！</p>
+        <div class="bg-gray-50 rounded-xl p-6 mb-8 inline-block">
+            <span class="text-gray-500 block mb-1">本大題得分</span>
+            <span id="final-score" class="text-5xl font-bold text-teal-600">0</span>
+            <span class="text-gray-500">/ 100</span>
+        </div>
+        <br>
+        <button onclick="returnToSectionLobby()" class="px-8 py-3 rounded-xl border-2 border-teal-600 text-teal-600 font-bold hover:bg-teal-50 transition focus:outline-none">回關卡選擇</button>
+    </div>
+
+    <script>
+        // ==========================================
+        // 題庫資料區
+        // ==========================================
+
+        // --- 題庫資料 (快樂探險隊 - 高分組) ---
+        const happyGroupQuestions = [
+            // 第一大題：文意選擇
+            { section: "第一大題：文意選擇", text: "根據《魔術師爸爸》的課文內容，在什麼季節時，爸爸會變成葉子，飄落在主角頭髮上，提醒她要多加一件衣服？", options: ["春天", "夏天", "秋天", "冬天"], correctAnswer: 2 },
+            { section: "第一大題：文意選擇", text: "在《八歲，一個人去旅行》一文中，老婆婆和作者中，是誰先下車？", options: ["老婆婆", "一起下車", "作者", "文中沒有提到"], correctAnswer: 0 },
+            { section: "第一大題：文意選擇", text: "在《八歲，一個人去旅行》一文中，作者為什麼不用買票？", options: ["身高不夠", "老婆婆把自己的票給他了", "因為有學生的優惠", "爸爸已經買好了"], correctAnswer: 3 },
+            { section: "第一大題：文意選擇", text: "在《紅鼻子醫生》一文中，馬阿姨是在哪裡學習小丑表演？", options: ["法國", "英國", "美國", "臺灣"], correctAnswer: 0 },
+            { section: "第一大題：文意選擇", text: "在《紅鼻子醫生》一文中，小丑醫生除了要熟練魔術、歌唱以及小丑表演，還要學習什麼？", options: ["專業的醫學知識", "實用的醫療技巧", "了解小朋友的心理", "使用新的科技產品"], correctAnswer: 2 },
+            { section: "第一大題：文意選擇", text: "在《沉默的動物園》一文中，作者用什麼方式觀賞納斯卡線？", options: ["駕駛汽車", "划獨木舟", "搭乘雙層巴士", "乘坐飛機"], correctAnswer: 3 },
+            { section: "第一大題：文意選擇", text: "在《沉默的動物園》一文中，當作者從空中看到納斯卡線時，心裡可能會有什麼樣的感受？", options: ["很驚嘆", "很無趣", "很擔心", "很厭惡"], correctAnswer: 0 },
+            { section: "第一大題：文意選擇", text: "在《地下護衛軍》一文中，農民在做什麼事時，發現了陶器的碎片？", options: ["鋪馬路", "插秧苗", "割稻米", "挖水井"], correctAnswer: 3 },
+
+            // 第二大題：字音字形
+            { section: "第二大題：字音字形", text: "「他是一位『ㄧㄢˊ』究秦代歷史的學者。」『ㄧㄢˊ』寫成國字後，是下列哪一個字？", options: ["邢", "刑", "妍", "研"], correctAnswer: 3 },
+            { section: "第二大題：字音字形", text: "下列哪一個字，與「煥」的部首相同？", options: ["奮", "何", "煩", "喊"], correctAnswer: 2 },
+            { section: "第二大題：字音字形", text: "「我打算帶孩子們去餅乾工廠觀『ㄇㄛˊ』、學習。」『ㄇㄛˊ』寫成國字後，是下列哪一個字？", options: ["蘑", "魔", "磨", "摩"], correctAnswer: 3 },
+            { section: "第二大題：字音字形", text: "「下節課，我們將進行體適能『ㄘㄜˋ』驗。」寫成國字後，是下列哪一個字？", options: ["側", "測", "則", "惻"], correctAnswer: 1 },
+            { section: "第二大題：字音字形", text: "下列「」中的注音寫成國字後，何者正確？", options: ["忠「ㄍㄠˋ」：考", "「ㄕˋ」出：擇", "軟木「ㄙㄞ」：塞", "「ㄊㄨㄥˊ」牌：銅"], correctAnswer: 2 },
+            { section: "第二大題：字音字形", text: "下列「」中的注音寫成國字後，何者錯誤？", options: ["「ㄐㄧㄠ」花：澆", "「ㄧˋ」那：毅", "兒「ㄙㄨㄣ」：孫", "洞「ㄒㄩㄝˋ」：穴"], correctAnswer: 1 },
+            { section: "第二大題：字音字形", text: "「他的□心感動了大家，讓大家紛紛捐款救助他們。」□中應填入哪個字？", options: ["者", "老", "考", "孝"], correctAnswer: 3 },
+            { section: "第二大題：字音字形", text: "「爸爸最愛的一件事，是在早晨時，喝上一杯現□的手沖咖啡。」□中應填入哪個字？", options: ["麼", "磨", "摩", "魔"], correctAnswer: 1 },
+            { section: "第二大題：字音字形", text: "「乾□」、「□音」、「急□」□中應分別填入哪些字？", options: ["躁／噪／燥", "噪／躁／燥", "燥／噪／躁", "躁／燥／噪"], correctAnswer: 2 },
+
+            // 第三大題：詞語辨正
+            { section: "第三大題：詞語辨正", text: "臺東的長濱(地址／遺址)是臺灣舊石器時代的重要代表。", options: ["地址", "遺址"], correctAnswer: 1 },
+            { section: "第三大題：詞語辨正", text: "她的興趣很(廣漠／廣泛)，從琴棋書畫到排球、籃球，她都有涉略。", options: ["廣漠", "廣泛"], correctAnswer: 1 },
+            { section: "第三大題：詞語辨正", text: "我睡飽了，精神(渙散／煥發)的面對工作的考驗。", options: ["渙散", "煥發"], correctAnswer: 1 },
+            { section: "第三大題：詞語辨正", text: "爸爸的髮型很(普通／獨特)，遠遠一看就知道是他了。", options: ["普通", "獨特"], correctAnswer: 1 },
+            { section: "第三大題：詞語辨正", text: "活動會場(盛大／渺小)的規模，讓賓客們都感受到主辦方對活動的重視。", options: ["盛大", "渺小"], correctAnswer: 0 },
+            { section: "第三大題：詞語辨正", text: "這扇老舊的門打開時會發出怪聲音，可能需要(潤滑／潤飾)一下。", options: ["潤滑", "潤飾"], correctAnswer: 0 },
+            { section: "第三大題：詞語辨正", text: "(根據／占據)民眾舉報，這裡常有不法行為發生，警方將加強巡邏，以維護安全。", options: ["根據", "占據"], correctAnswer: 0 }
+        ];
+
+        // --- 題庫資料 (開心尋寶隊 - 低分組) ---
+        const joyfulGroupQuestions = [
+            // 第一大題：文意選擇
+            { section: "第一大題：文意選擇", text: "在《金字塔之謎》一文中，金字塔是誰的陵墓？", options: ["奴隸", "法老王", "將軍", "一般百姓"], correctAnswer: 1 },
+            { section: "第一大題：文意選擇", text: "在《金字塔之謎》一文中，拆除坡道時，需要同時做哪件事情？", options: ["搬運巨石", "修平斜面", "澆水或油", "堆疊巨石"], correctAnswer: 1 },
+            { section: "第一大題：文意選擇", text: "在《金字塔之謎》一文中，金字塔散落在埃及哪一條河的西岸？", options: ["東山河", "淡水河", "尼羅河", "基隆河"], correctAnswer: 2 },
+            { section: "第一大題：文意選擇", text: "在《地下護衛軍》一文中，「地下護衛軍」指的是什麼？", options: ["礦坑裡的工人", "暗地守護國界的士兵", "在農田耕種的農民", "被埋葬的兵馬俑"], correctAnswer: 3 },
+            { section: "第一大題：文意選擇", text: "在《八歲，一個人去旅行》一文中，老婆婆和作者中，是誰先下車？", options: ["老婆婆", "一起下車", "作者", "文中沒有提到"], correctAnswer: 0 },
+            
+            // 第二大題：字音字形 (新增內容)
+            { section: "第二大題：字音字形", text: "「這個語詞放在不同的句子裡時，會有不同的解『ㄕˋ』。」『ㄕˋ』寫成國字後，是下列哪一個字？", options: ["釋", "譯", "鐸", "驛"], correctAnswer: 0 },
+            { section: "第二大題：字音字形", text: "「阿綜正在公車上打『ㄎㄜ』睡。」『ㄎㄜ』寫成國字後，是下列哪一個字？", options: ["蓋", "瞌", "嗑", "闔"], correctAnswer: 1 },
+            { section: "第二大題：字音字形", text: "「他打算在腿傷痊『ㄩˋ』後，去參加健行活動。」『ㄩˋ』寫成國字後，是下列哪一個字？", options: ["愈", "癒", "逾", "喻"], correctAnswer: 1 },
+            { section: "第二大題：字音字形", text: "「這種藥物□效很好，副作用又少，因而成為了許多醫生的用藥首選。」□中應填入哪個字？", options: ["寮", "燎", "療", "嘹"], correctAnswer: 2 },
+            { section: "第二大題：字音字形", text: "「因為□據薄弱，所以我們還無法斷定他就是犯人。」□中應填入哪個字？", options: ["鄧", "澄", "燈", "證"], correctAnswer: 3 },
+            { section: "第二大題：字音字形", text: "「□然降下的大雨，讓許多行人因為措手不及而淋成了落湯雞。」□中應填入哪個字？", options: ["乍", "昨", "炸", "作"], correctAnswer: 0 },
+            { section: "第二大題：字音字形", text: "「請在信封上寫下自己和收件人的地□。」□中應填入哪個字？", options: ["址", "芷", "趾", "祉"], correctAnswer: 0 },
+            { section: "第二大題：字音字形", text: "「這段山路的『ㄆㄛ』度很大，走上去十分費力。」『ㄆㄛ』寫成國字後，是下列哪一個字？", options: ["科", "料", "抖", "坡"], correctAnswer: 3 },
+            { section: "第二大題：字音字形", text: "「導演打算請知『名』演員來扮演劇中的『君』王。」『 』中字的讀音分別是什麼？", options: ["ㄇㄧㄥˊ／ㄐㄩㄣ", "ㄇㄧㄥˇ／ㄐㄩㄣ", "ㄇㄧㄥˊ／ㄐㄩㄣˋ", "ㄇㄧㄥˇ／ㄐㄩㄣˋ"], correctAnswer: 0 },
+
+            // 第三大題：詞語辨正
+            { section: "第三大題：詞語辨正", text: "在考古學家的(挖掘／掘取)下，終於找到地下的遺跡了。", options: ["挖掘", "掘取"], correctAnswer: 0 },
+            { section: "第三大題：詞語辨正", text: "民眾對著神像虔誠的(膜拜／穿梭)，希望戰爭能早日結束。", options: ["膜拜", "穿梭"], correctAnswer: 0 },
+            { section: "第三大題：詞語辨正", text: "你看！夜空中的點點(時辰／星辰)好像在對我們眨眼睛。", options: ["時辰", "星辰"], correctAnswer: 1 },
+            { section: "第三大題：詞語辨正", text: "這個被藝術界譽為曠世(傑出／傑作)的雕塑，他總共花費三年的時間才完成。", options: ["傑出", "傑作"], correctAnswer: 1 },
+            { section: "第三大題：詞語辨正", text: "先別急著轉臺，節目結束之後還有精彩的幕後(花絮／雲絮)呢！", options: ["花絮", "雲絮"], correctAnswer: 0 },
+            { section: "第三大題：詞語辨正", text: "如果不能(放棄／堅持)到底，就無法實現夢想。", options: ["放棄", "堅持"], correctAnswer: 1 },
+            { section: "第三大題：詞語辨正", text: "妹妹(好奇／分享)心很重，看到什麼不懂的都想問個明白。", options: ["好奇", "分享"], correctAnswer: 0 },
+            { section: "第三大題：詞語辨正", text: "他的表演相當精采，在觀眾的心中留下(深刻／淺薄)的印象。", options: ["深刻", "淺薄"], correctAnswer: 0 }
+        ];
+
+        // --- 狀態變數 ---
+        let currentGroup = ''; 
+        let activeQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+
+        // --- DOM 元素 ---
+        const lobbyEl = document.getElementById('lobby');
+        const sectionLobbyEl = document.getElementById('section-lobby'); 
+        const sectionLobbyTitleEl = document.getElementById('section-lobby-title'); 
+        const quizContainerEl = document.getElementById('quiz-container');
+        const resultContainerEl = document.getElementById('result-container');
+        
+        const quizTitleEl = document.getElementById('quiz-title');
+        const sectionTitleEl = document.getElementById('section-title');
+        const questionProgressEl = document.getElementById('question-progress');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // --- 功能函數 ---
+
+        // 1. 顯示大題選擇畫面
+        function showSectionLobby(group) {
+            currentGroup = group;
+            lobbyEl.classList.add('hidden');
+            sectionLobbyEl.classList.remove('hidden');
+            
+            // 根據選擇更新標題
+            if (group === 'happy') {
+                sectionLobbyTitleEl.innerText = '☀️ 快樂探險隊 - 選擇關卡';
+            } else if (group === 'joyful') {
+                sectionLobbyTitleEl.innerText = '🍀 開心尋寶隊 - 選擇關卡';
+            }
+        }
+
+        // 2. 開始特定大題測驗
+        function startSection(sectionName) {
+            // 根據選擇的隊伍取得對應題庫
+            const fullQuestions = currentGroup === 'happy' ? happyGroupQuestions : joyfulGroupQuestions;
+            
+            // 過濾出屬於該大題的題目
+            activeQuestions = fullQuestions.filter(q => q.section === sectionName);
+
+            if (activeQuestions.length === 0) {
+                alert('這個大題目前還沒有設定題目喔！請選擇其他大題。');
+                return;
+            }
+
+            quizTitleEl.innerText = `${currentGroup === 'happy' ? '☀️ 快樂探險隊' : '🍀 開心尋寶隊'}`;
+            sectionTitleEl.innerText = sectionName;
+            
+            currentQuestionIndex = 0;
+            userAnswers = new Array(activeQuestions.length).fill(null);
+
+            sectionLobbyEl.classList.add('hidden');
+            quizContainerEl.classList.remove('hidden');
+            
+            renderQuestion();
+        }
+
+        // 3. 渲染題目與選項
+        function renderQuestion() {
+            const q = activeQuestions[currentQuestionIndex];
+            questionProgressEl.innerText = `${currentQuestionIndex + 1} / ${activeQuestions.length}`;
+            questionTextEl.innerText = `${currentQuestionIndex + 1}. ${q.text}`;
+            
+            optionsContainerEl.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const isSelected = userAnswers[currentQuestionIndex] === index;
+                const optionBtn = document.createElement('button');
+                
+                // 設定選項樣式
+                optionBtn.className = `w-full text-left p-4 rounded-xl border-2 transition-all duration-200 focus:outline-none flex items-center gap-3
+                    ${isSelected 
+                        ? 'border-teal-500 bg-teal-50 text-teal-800 shadow-sm' 
+                        : 'border-gray-200 hover:border-teal-300 hover:bg-gray-50 text-gray-700'
+                    }`;
+                
+                optionBtn.onclick = () => selectOption(index);
+
+                // 數字圈圈
+                const numberCircle = document.createElement('span');
+                numberCircle.className = `w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full text-sm font-bold
+                    ${isSelected ? 'bg-teal-500 text-white' : 'bg-gray-200 text-gray-600'}`;
+                numberCircle.innerText = index + 1;
+
+                // 選項文字
+                const textSpan = document.createElement('span');
+                textSpan.className = 'flex-1 text-lg';
+                textSpan.innerText = opt;
+
+                optionBtn.appendChild(numberCircle);
+                optionBtn.appendChild(textSpan);
+                optionsContainerEl.appendChild(optionBtn);
+            });
+
+            updateNavButtons();
+        }
+
+        // 4. 選擇選項
+        function selectOption(index) {
+            userAnswers[currentQuestionIndex] = index;
+            renderQuestion(); // 重新渲染以更新 UI 狀態
+        }
+
+        // 5. 確認返回大題選擇的函數
+        function confirmReturnToSectionLobby() {
+            if (window.confirm('確定要離開測驗返回關卡選擇嗎？目前的作答紀錄將會遺失。')) {
+                quizContainerEl.classList.add('hidden');
+                sectionLobbyEl.classList.remove('hidden');
+            }
+        }
+
+        // 6. 更新底部上一題/下一題/交卷按鈕狀態
+        function updateNavButtons() {
+            prevBtn.classList.toggle('hidden', currentQuestionIndex === 0);
+            
+            if (currentQuestionIndex === activeQuestions.length - 1) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < activeQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        }
+
+        // 7. 交卷與計分
+        function submitQuiz() {
+            // 檢查是否全作答
+            const unansweredCount = userAnswers.filter(a => a === null).length;
+            if (unansweredCount > 0) {
+                const confirmSubmit = window.confirm(`你還有 ${unansweredCount} 題未作答，確定要交卷嗎？`);
+                if (!confirmSubmit) return;
+            }
+
+            let correctCount = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer === activeQuestions[index].correctAnswer) {
+                    correctCount++;
+                }
+            });
+            
+            // 計算百分比分數
+            const scorePerQuestion = 100 / activeQuestions.length;
+            const totalScore = Math.round(correctCount * scorePerQuestion);
+            
+            quizContainerEl.classList.add('hidden');
+            resultContainerEl.classList.remove('hidden');
+            
+            // 跑分動畫
+            animateValue("final-score", 0, totalScore, 1000);
+        }
+
+        // 跑分動畫函數
+        function animateValue(id, start, end, duration) {
+            if (start === end) { document.getElementById(id).innerHTML = end; return; }
+            const obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const easeProgress = progress * (2 - progress); // ease-out
+                obj.innerHTML = Math.floor(easeProgress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    obj.innerHTML = end;
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // 8. 返回最外層隊伍選擇大廳
+        function returnToLobby() {
+            sectionLobbyEl.classList.add('hidden');
+            lobbyEl.classList.remove('hidden');
+            currentGroup = '';
+        }
+
+        // 9. 從結果頁返回大題選擇大廳
+        function returnToSectionLobby() {
+            resultContainerEl.classList.add('hidden');
+            sectionLobbyEl.classList.remove('hidden');
+            // 重置作答狀態
+            userAnswers = [];
+            currentQuestionIndex = 0;
+        }
+    </script>
+</body>
+</html>
